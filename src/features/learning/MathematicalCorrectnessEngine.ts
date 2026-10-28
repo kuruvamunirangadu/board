@@ -243,30 +243,47 @@ export class MathematicalCorrectnessEngine {
       if (parts.length !== 2) return null;
       const [lhs, rhs] = parts;
 
-      // Pattern: x + C = D or x - C = D
-      const matchPlus = lhs.match(/^([a-zA-Z])([+-])(\d+(?:\.\d+)?)$/);
+      // Pattern: Ax + C = D or Ax - C = D (A optional, default 1)
+      const matchCoeffPlus = lhs.match(/^([-+]?\d*(?:\.\d+)?)([a-zA-Z])([+-])(\d+(?:\.\d+)?)$/);
       const rhsNum = parseFloat(rhs);
-      if (matchPlus && !isNaN(rhsNum)) {
-        const v = matchPlus[1];
-        const sign = matchPlus[2];
-        const constVal = parseFloat(matchPlus[3]);
-        const sol = sign === '+' ? rhsNum - constVal : rhsNum + constVal;
-        return { variable: v, solution: Number(sol.toFixed(6)) };
+      if (matchCoeffPlus && !isNaN(rhsNum)) {
+        const coeffStr = matchCoeffPlus[1];
+        const a = coeffStr === '' || coeffStr === '+' ? 1 : coeffStr === '-' ? -1 : parseFloat(coeffStr);
+        const v = matchCoeffPlus[2];
+        const sign = matchCoeffPlus[3];
+        const constVal = parseFloat(matchCoeffPlus[4]);
+        if (a !== 0) {
+          const sol = sign === '+' ? (rhsNum - constVal) / a : (rhsNum + constVal) / a;
+          return { variable: v, solution: Number(sol.toFixed(6)) };
+        }
       }
 
-      // Pattern: x = D - C or x = D + C
-      const matchRhsArith = rhs.match(/^(\d+(?:\.\d+)?)([+-])(\d+(?:\.\d+)?)$/);
-      if (/^[a-zA-Z]$/.test(lhs) && matchRhsArith) {
+      // Pattern: Ax = D - C or Ax = D + C
+      const matchLhsCoeff = lhs.match(/^([-+]?\d*(?:\.\d+)?)([a-zA-Z])$/);
+      const matchRhsArith = rhs.match(/^([-+]?\d+(?:\.\d+)?)([+-])(\d+(?:\.\d+)?)$/);
+      if (matchLhsCoeff && matchRhsArith) {
+        const coeffStr = matchLhsCoeff[1];
+        const a = coeffStr === '' || coeffStr === '+' ? 1 : coeffStr === '-' ? -1 : parseFloat(coeffStr);
+        const v = matchLhsCoeff[2];
         const d = parseFloat(matchRhsArith[1]);
         const sign = matchRhsArith[2];
         const c = parseFloat(matchRhsArith[3]);
-        const sol = sign === '+' ? d + c : d - c;
-        return { variable: lhs, solution: Number(sol.toFixed(6)) };
+        if (a !== 0) {
+          const rhsVal = sign === '+' ? d + c : d - c;
+          const sol = rhsVal / a;
+          return { variable: v, solution: Number(sol.toFixed(6)) };
+        }
       }
 
-      // Pattern: x = D (solved)
-      if (/^[a-zA-Z]$/.test(lhs) && !isNaN(parseFloat(rhs))) {
-        return { variable: lhs, solution: Number(parseFloat(rhs).toFixed(6)) };
+      // Pattern: Ax = D (e.g. 2x = 8, x = 4)
+      if (matchLhsCoeff && !isNaN(parseFloat(rhs))) {
+        const coeffStr = matchLhsCoeff[1];
+        const a = coeffStr === '' || coeffStr === '+' ? 1 : coeffStr === '-' ? -1 : parseFloat(coeffStr);
+        const v = matchLhsCoeff[2];
+        if (a !== 0) {
+          const sol = parseFloat(rhs) / a;
+          return { variable: v, solution: Number(sol.toFixed(6)) };
+        }
       }
 
       return null;

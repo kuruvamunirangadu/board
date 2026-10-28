@@ -161,3 +161,4 @@ export class KnowledgeModel {
 }
 
 export const defaultKnowledgeModel = new KnowledgeModel();
+

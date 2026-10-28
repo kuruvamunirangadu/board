@@ -106,3 +106,4 @@ export interface AdaptivePath {
   gapConcepts: string[];
   summary: string;
 }
+

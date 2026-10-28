@@ -67,3 +67,4 @@ export class InteractionAnalyzer {
     return interaction;
   }
 }
+

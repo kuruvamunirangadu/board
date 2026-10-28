@@ -42,3 +42,4 @@ export class DifficultyController {
       mastery.identifiedMisconceptions.length > 0;
   }
 }
+
