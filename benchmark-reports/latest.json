@@ -1,99 +1,99 @@
 {
-  "runId": "bench_1793110610800_niit9",
+  "runId": "bench_1793193570025_mf7em",
   "datasetVersion": "1.0.0",
-  "timestamp": 1793110610800,
-  "mode": "full",
-  "totalCases": 35,
+  "timestamp": 1793193570025,
+  "mode": "quick",
+  "totalCases": 13,
   "overallSummary": {
-    "total": 35,
-    "passed": 27,
-    "failed": 8,
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
     "inconclusive": 0,
     "skipped": 0,
-    "passRatePercent": 77.1,
-    "averageLatencyMs": 4
+    "passRatePercent": 100,
+    "averageLatencyMs": 128
   },
   "dimensionMetrics": {
     "classification": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "routing": {
-      "total": 35,
-      "passed": 29,
-      "failed": 6,
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
-      "passRatePercent": 82.9,
-      "averageLatencyMs": 4
+      "passRatePercent": 100,
+      "averageLatencyMs": 128
     },
     "rendererCompatibility": {
-      "total": 35,
-      "passed": 33,
-      "failed": 2,
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
-      "passRatePercent": 94.3,
-      "averageLatencyMs": 4
+      "passRatePercent": 100,
+      "averageLatencyMs": 128
     },
     "deterministicCorrectness": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "conceptCoverage": {
-      "total": 35,
-      "passed": 27,
-      "failed": 8,
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
-      "passRatePercent": 77.1,
-      "averageLatencyMs": 4
+      "passRatePercent": 100,
+      "averageLatencyMs": 128
     },
     "relevance": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "groundingAttribution": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "uncertaintyHandling": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "reliability": {
-      "total": 35,
-      "passed": 35,
+      "total": 13,
+      "passed": 13,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 128
     },
     "regressionRate": {
       "totalCompared": 13,
@@ -103,76 +103,58 @@
   },
   "domainMetrics": {
     "mathematics": {
-      "total": 6,
-      "passed": 6,
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 3
+    },
+    "physics": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "computer_science": {
+      "total": 2,
+      "passed": 2,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
       "averageLatencyMs": 2
     },
-    "physics": {
-      "total": 7,
-      "passed": 7,
+    "biology": {
+      "total": 1,
+      "passed": 1,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 0
-    },
-    "computer_science": {
-      "total": 8,
-      "passed": 7,
-      "failed": 1,
-      "inconclusive": 0,
-      "skipped": 0,
-      "passRatePercent": 87.5,
-      "averageLatencyMs": 0
-    },
-    "biology": {
-      "total": 3,
-      "passed": 0,
-      "failed": 3,
-      "inconclusive": 0,
-      "skipped": 0,
-      "passRatePercent": 0,
-      "averageLatencyMs": 29
-    },
-    "chemistry": {
-      "total": 2,
-      "passed": 1,
-      "failed": 1,
-      "inconclusive": 0,
-      "skipped": 0,
-      "passRatePercent": 50,
-      "averageLatencyMs": 4
+      "averageLatencyMs": 806
     },
     "general_knowledge": {
-      "total": 2,
-      "passed": 0,
-      "failed": 2,
-      "inconclusive": 0,
-      "skipped": 0,
-      "passRatePercent": 0,
-      "averageLatencyMs": 11
-    },
-    "history": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
-      "inconclusive": 0,
-      "skipped": 0,
-      "passRatePercent": 0,
-      "averageLatencyMs": 9
-    },
-    "other": {
-      "total": 6,
-      "passed": 6,
+      "passed": 1,
       "failed": 0,
       "inconclusive": 0,
       "skipped": 0,
       "passRatePercent": 100,
-      "averageLatencyMs": 0
+      "averageLatencyMs": 838
+    },
+    "other": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
     }
   },
   "caseResults": [
@@ -244,90 +226,14 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "5ms"
+          "actual": "7ms"
         }
       },
-      "executionTimeMs": 5,
+      "executionTimeMs": 7,
       "routeTaken": "math_engine",
       "selectedRenderer": "formula_geometric_dissection",
       "errorDetails": null,
-      "timestamp": 1793110610836
-    },
-    {
-      "caseId": "math_binomial_cube_diff",
-      "input": "(a - b)^3",
-      "domain": "mathematics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: mathematics, engine: math, intent: derivation",
-          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.99)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with mathematics)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "(5 - 2)^3 = 27",
-          "actual": "Calculated = 27"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 4 required concepts: [a^3, 3a^2b, 3ab^2, b^3]",
-          "actual": "Covered 4/4 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"binomial\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "1ms"
-        }
-      },
-      "executionTimeMs": 1,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610837
+      "timestamp": 1793193570530
     },
     {
       "caseId": "math_law_of_cosines",
@@ -403,7 +309,7 @@
       "routeTaken": "math_engine",
       "selectedRenderer": "geometric_triangle_construction",
       "errorDetails": null,
-      "timestamp": 1793110610838
+      "timestamp": 1793193570532
     },
     {
       "caseId": "math_pythagoras",
@@ -437,7 +343,7 @@
           "status": "PASS",
           "score": 1,
           "expected": ">= 2 derivation steps",
-          "actual": "3 steps"
+          "actual": "5 steps"
         },
         "conceptCoverage": {
           "dimension": "concept_coverage",
@@ -479,159 +385,7 @@
       "routeTaken": "math_engine",
       "selectedRenderer": "geometric_triangle_construction",
       "errorDetails": null,
-      "timestamp": 1793110610839
-    },
-    {
-      "caseId": "math_quadratic_formula",
-      "input": "quadratic formula",
-      "domain": "mathematics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: mathematics, engine: math, intent: formula_explanation",
-          "actual": "domain: mathematics, engine: math, intent: formula_explanation (conf: 0.98)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with mathematics)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": ">= 3 derivation steps",
-          "actual": "3 steps"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 3 required concepts: [quadratic, discriminant, roots]",
-          "actual": "Covered 3/3 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"quadratic\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610839
-    },
-    {
-      "caseId": "math_trig_sine_curve",
-      "input": "sin(x)",
-      "domain": "mathematics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: mathematics, engine: math, intent: formula_explanation",
-          "actual": "domain: mathematics, engine: math, intent: formula_explanation (conf: 0.98)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "function_coordinate_plotter (domain-compatible with mathematics)",
-          "actual": "function_coordinate_plotter (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 4 required concepts: [sine, wave, amplitude, periodic]",
-          "actual": "Covered 4/4 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"sin(x)\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "1ms"
-        }
-      },
-      "executionTimeMs": 1,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "function_coordinate_plotter",
-      "errorDetails": null,
-      "timestamp": 1793110610840
+      "timestamp": 1793193570533
     },
     {
       "caseId": "phys_newton_second_law",
@@ -700,14 +454,14 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "0ms"
+          "actual": "1ms"
         }
       },
-      "executionTimeMs": 0,
+      "executionTimeMs": 1,
       "routeTaken": "math_engine",
       "selectedRenderer": "physics_vector_simulator",
       "errorDetails": null,
-      "timestamp": 1793110610840
+      "timestamp": 1793193570535
     },
     {
       "caseId": "phys_projectile_motion",
@@ -783,7 +537,7 @@
       "routeTaken": "simulation_engine",
       "selectedRenderer": "svg_schematic_fallback",
       "errorDetails": null,
-      "timestamp": 1793110610841
+      "timestamp": 1793193570535
     },
     {
       "caseId": "phys_harmonic_pendulum",
@@ -852,243 +606,14 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "0ms"
+          "actual": "1ms"
         }
       },
-      "executionTimeMs": 0,
+      "executionTimeMs": 1,
       "routeTaken": "simulation_engine",
       "selectedRenderer": "pendulum_simulation",
       "errorDetails": null,
-      "timestamp": 1793110610841
-    },
-    {
-      "caseId": "phys_kinematics_uniform",
-      "input": "v = u + at",
-      "domain": "physics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: physics, engine: math, intent: formula_explanation",
-          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.97)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "function_coordinate_plotter (domain-compatible with physics)",
-          "actual": "function_coordinate_plotter (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 3 required concepts: [velocity, acceleration, time]",
-          "actual": "Covered 3/3 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"v = u + at\" with 0 forbidden claims",
-          "actual": "Matched 0/0 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "function_coordinate_plotter",
-      "errorDetails": null,
-      "timestamp": 1793110610842
-    },
-    {
-      "caseId": "phys_density_law",
-      "input": "density = mass / volume",
-      "domain": "physics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: physics, engine: math, intent: formula_explanation",
-          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.96)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with physics)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 0.75,
-          "expected": "Cover 4 required concepts: [density, mass, volume, kg/m^3]",
-          "actual": "Covered 3/4 (75%)",
-          "details": "Missing concepts: [kg/m^3]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"density\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610842
-    },
-    {
-      "caseId": "phys_newton_vector_cart",
-      "input": "Newton's second law",
-      "domain": "physics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: physics, engine: math, intent: formula_explanation",
-          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "physics_vector_simulator (domain-compatible with physics)",
-          "actual": "physics_vector_simulator (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 4 required concepts: [force, mass, acceleration, newton]",
-          "actual": "Covered 4/4 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"newton's second\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "physics_vector_simulator",
-      "errorDetails": null,
-      "timestamp": 1793110610842
+      "timestamp": 1793193570536
     },
     {
       "caseId": "cs_binary_search",
@@ -1165,7 +690,7 @@
       "routeTaken": "algorithm_engine",
       "selectedRenderer": "algorithm_array_tracer",
       "errorDetails": null,
-      "timestamp": 1793110610843
+      "timestamp": 1793193570537
     },
     {
       "caseId": "cs_data_structures_general",
@@ -1234,404 +759,20 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "1ms"
+          "actual": "2ms"
         }
       },
-      "executionTimeMs": 1,
+      "executionTimeMs": 2,
       "routeTaken": "algorithm_engine",
       "selectedRenderer": "algorithm_array_tracer",
       "errorDetails": null,
-      "timestamp": 1793110610844
-    },
-    {
-      "caseId": "cs_stack_dsa",
-      "input": "stack",
-      "domain": "computer_science",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "algorithm_array_tracer (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 0.8,
-          "expected": "Cover 5 required concepts: [LIFO, push, pop, top, last in first out]",
-          "actual": "Covered 4/5 (80%)",
-          "details": "Missing concepts: [last in first out]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"stack\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "algorithm_array_tracer",
-      "errorDetails": null,
-      "timestamp": 1793110610844
-    },
-    {
-      "caseId": "cs_queue_dsa",
-      "input": "queue",
-      "domain": "computer_science",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "algorithm_array_tracer (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 5 required concepts: [FIFO, enqueue, dequeue, front, rear]",
-          "actual": "Covered 5/5 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"queue\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "algorithm_array_tracer",
-      "errorDetails": null,
-      "timestamp": 1793110610845
-    },
-    {
-      "caseId": "cs_linked_list_dsa",
-      "input": "linked list",
-      "domain": "computer_science",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "algorithm_array_tracer (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 0.8,
-          "expected": "Cover 5 required concepts: [node, pointer, head, next, non-contiguous memory]",
-          "actual": "Covered 4/5 (80%)",
-          "details": "Missing concepts: [non-contiguous memory]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"linked list\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "algorithm_array_tracer",
-      "errorDetails": null,
-      "timestamp": 1793110610845
-    },
-    {
-      "caseId": "cs_hash_table_dsa",
-      "input": "hash table",
-      "domain": "computer_science",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "algorithm_array_tracer (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 5 required concepts: [hash function, key-value, buckets, collision, O(1)]",
-          "actual": "Covered 5/5 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"hash table\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "algorithm_array_tracer",
-      "errorDetails": null,
-      "timestamp": 1793110610845
-    },
-    {
-      "caseId": "cs_graph_traversal",
-      "input": "bfs graph",
-      "domain": "computer_science",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: algorithm_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: algorithm_learning (conf: 0.96)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "svg_schematic_fallback (interactive: false)",
-          "details": "Renderer mismatch or domain incompatibility (matchesExpected=false, isDomainAllowed=true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.4,
-          "expected": "Cover 5 required concepts: [graph, traversal, bfs, dfs, queue]",
-          "actual": "Covered 2/5 (40%)",
-          "details": "Missing concepts: [traversal, dfs, queue]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"bfs\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610845
+      "timestamp": 1793193570539
     },
     {
       "caseId": "bio_photosynthesis",
       "input": "photosynthesis",
       "domain": "biology",
-      "overallStatus": "FAIL",
+      "overallStatus": "PASS",
       "dimensions": {
         "classification": {
           "dimension": "classification",
@@ -1642,11 +783,10 @@
         },
         "routing": {
           "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
+          "status": "PASS",
+          "score": 1,
           "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
+          "actual": "wikipedia_and_ai"
         },
         "rendererCompatibility": {
           "dimension": "renderer_compatibility",
@@ -1664,11 +804,10 @@
         },
         "conceptCoverage": {
           "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.5,
+          "status": "PASS",
+          "score": 1,
           "expected": "Cover 4 required concepts: [light, energy, oxygen, plants]",
-          "actual": "Covered 2/4 (50%)",
-          "details": "Missing concepts: [oxygen, plants]"
+          "actual": "Covered 4/4 (100%)"
         },
         "relevance": {
           "dimension": "relevance",
@@ -1696,182 +835,27 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "60ms"
+          "actual": "806ms"
         }
       },
-      "executionTimeMs": 60,
-      "routeTaken": "local_ai_synthesizer",
+      "executionTimeMs": 806,
+      "routeTaken": "wikipedia_and_ai",
       "selectedRenderer": "svg_schematic_fallback",
       "errorDetails": null,
-      "timestamp": 1793110610905
+      "timestamp": 1793193571347
     },
     {
-      "caseId": "bio_heart_anatomy",
-      "input": "human heart anatomy",
-      "domain": "biology",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: biology, engine: knowledge, intent: concept_learning",
-          "actual": "domain: biology, engine: knowledge, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "svg_schematic_fallback (domain-compatible with biology)",
-          "actual": "model3d_viewer (interactive: true)",
-          "details": "Renderer mismatch or domain incompatibility (matchesExpected=false, isDomainAllowed=true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.2,
-          "expected": "Cover 5 required concepts: [heart, chambers, blood, pulmonary, arteries]",
-          "actual": "Covered 1/5 (20%)",
-          "details": "Missing concepts: [chambers, blood, pulmonary, arteries]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"heart\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "12ms"
-        }
-      },
-      "executionTimeMs": 12,
-      "routeTaken": "local_ai_synthesizer",
-      "selectedRenderer": "model3d_viewer",
-      "errorDetails": null,
-      "timestamp": 1793110610917
-    },
-    {
-      "caseId": "chem_ideal_gas_law",
-      "input": "PV = nRT",
-      "domain": "chemistry",
+      "caseId": "hist_alan_turing",
+      "input": "Alan Turing",
+      "domain": "general_knowledge",
       "overallStatus": "PASS",
       "dimensions": {
         "classification": {
           "dimension": "classification",
           "status": "PASS",
           "score": 1,
-          "expected": "domain: chemistry, engine: math, intent: formula_explanation",
-          "actual": "domain: chemistry, engine: math, intent: formula_explanation (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with chemistry)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 5 required concepts: [pressure, volume, temperature, moles, gas constant]",
-          "actual": "Covered 5/5 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"pv = nrt\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610917
-    },
-    {
-      "caseId": "chem_chemical_bonding",
-      "input": "chemical bonding",
-      "domain": "chemistry",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: chemistry, engine: knowledge, intent: concept_learning",
-          "actual": "domain: chemistry, engine: knowledge, intent: concept_learning (conf: 0.95)"
+          "expected": "domain: general_knowledge, engine: knowledge, intent: factual_lookup",
+          "actual": "domain: general_knowledge, engine: knowledge, intent: factual_lookup (conf: 0.94)"
         },
         "routing": {
           "dimension": "routing",
@@ -1884,84 +868,6 @@
           "dimension": "renderer_compatibility",
           "status": "PASS",
           "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with chemistry)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.4,
-          "expected": "Cover 5 required concepts: [covalent, ionic, electrons, atoms, valence]",
-          "actual": "Covered 2/5 (40%)",
-          "details": "Missing concepts: [electrons, atoms, valence]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"chemical bond\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "8ms"
-        }
-      },
-      "executionTimeMs": 8,
-      "routeTaken": "wikipedia_and_ai",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610925
-    },
-    {
-      "caseId": "hist_alan_turing",
-      "input": "Alan Turing",
-      "domain": "general_knowledge",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: general_knowledge, engine: knowledge, intent: factual_lookup",
-          "actual": "domain: general_knowledge, engine: knowledge, intent: factual_lookup (conf: 0.94)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
           "expected": "svg_schematic_fallback (domain-compatible with general_knowledge)",
           "actual": "svg_schematic_fallback (interactive: false)"
         },
@@ -1974,11 +880,10 @@
         },
         "conceptCoverage": {
           "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0,
+          "status": "PASS",
+          "score": 1,
           "expected": "Cover 4 required concepts: [turing machine, computer science, cryptanalysis, enigma]",
-          "actual": "Covered 0/4 (0%)",
-          "details": "Missing concepts: [turing machine, computer science, cryptanalysis, enigma]"
+          "actual": "Covered 4/4 (100%)"
         },
         "relevance": {
           "dimension": "relevance",
@@ -1990,9 +895,9 @@
         "groundingAttribution": {
           "dimension": "grounding_attribution",
           "status": "PASS",
-          "score": 0.8,
-          "expected": "Source attribution or honest AI synthesis notice",
-          "actual": "Handled via local_ai_synthesizer"
+          "score": 1,
+          "expected": "Verified factual source citation",
+          "actual": "Attributed to Wikipedia (Wikimedia Foundation) (\"Alan Turing\")"
         },
         "uncertaintyHandling": {
           "dimension": "uncertainty_handling",
@@ -2006,170 +911,14 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "12ms"
+          "actual": "838ms"
         }
       },
-      "executionTimeMs": 12,
-      "routeTaken": "local_ai_synthesizer",
+      "executionTimeMs": 838,
+      "routeTaken": "wikipedia_and_ai",
       "selectedRenderer": "svg_schematic_fallback",
       "errorDetails": null,
-      "timestamp": 1793110610937
-    },
-    {
-      "caseId": "hist_ada_lovelace",
-      "input": "Ada Lovelace",
-      "domain": "general_knowledge",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: general_knowledge, engine: knowledge, intent: factual_lookup",
-          "actual": "domain: general_knowledge, engine: knowledge, intent: factual_lookup (conf: 0.94)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with general_knowledge)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.25,
-          "expected": "Cover 4 required concepts: [analytical engine, charles babbage, algorithm, computing]",
-          "actual": "Covered 1/4 (25%)",
-          "details": "Missing concepts: [analytical engine, charles babbage, algorithm]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"ada lovelace\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 0.8,
-          "expected": "Source attribution or honest AI synthesis notice",
-          "actual": "Handled via local_ai_synthesizer"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "10ms"
-        }
-      },
-      "executionTimeMs": 10,
-      "routeTaken": "local_ai_synthesizer",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610947
-    },
-    {
-      "caseId": "hist_computing_overview",
-      "input": "history of computing",
-      "domain": "history",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: history, engine: knowledge, intent: factual_lookup",
-          "actual": "domain: history, engine: knowledge, intent: factual_lookup (conf: 0.94)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with history)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.5,
-          "expected": "Cover 4 required concepts: [history, computing, hardware, technology]",
-          "actual": "Covered 2/4 (50%)",
-          "details": "Missing concepts: [hardware, technology]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"history of computing\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 0.8,
-          "expected": "Source attribution or honest AI synthesis notice",
-          "actual": "Handled via local_ai_synthesizer"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "9ms"
-        }
-      },
-      "executionTimeMs": 9,
-      "routeTaken": "local_ai_synthesizer",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610956
+      "timestamp": 1793193572186
     },
     {
       "caseId": "fail_empty_input",
@@ -2245,83 +994,7 @@
       "routeTaken": "unsupported_input",
       "selectedRenderer": "svg_schematic_fallback",
       "errorDetails": null,
-      "timestamp": 1793110610956
-    },
-    {
-      "caseId": "fail_whitespace_only",
-      "input": "     \t\n   ",
-      "domain": "other",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
-          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "unsupported_input",
-          "actual": "unsupported_input"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with other)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "No mandatory concepts required",
-          "actual": "Pass"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Handle empty topic safely",
-          "actual": "Handled safely"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "honest uncertainty state",
-          "actual": "Uncertainty acknowledged via unsupported_input"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "unsupported_input",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610956
+      "timestamp": 1793193572186
     },
     {
       "caseId": "fail_ambiguous_single_letter_e",
@@ -2398,84 +1071,7 @@
       "selectedRenderer": "svg_schematic_fallback",
       "isUncertain": true,
       "errorDetails": null,
-      "timestamp": 1793110610957
-    },
-    {
-      "caseId": "fail_ambiguous_single_letter_f",
-      "input": "F",
-      "domain": "other",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
-          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.35)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "honest_uncertainty",
-          "actual": "honest_uncertainty"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with other)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 2 required concepts: [Newton, Hooke]",
-          "actual": "Covered 2/2 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"F\" with 0 forbidden claims",
-          "actual": "Matched 0/0 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "honest uncertainty state",
-          "actual": "Uncertainty acknowledged via honest_uncertainty"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "honest_uncertainty",
-      "selectedRenderer": "svg_schematic_fallback",
-      "isUncertain": true,
-      "errorDetails": null,
-      "timestamp": 1793110610957
+      "timestamp": 1793193572187
     },
     {
       "caseId": "fail_incomplete_unrecognized_equation",
@@ -2544,337 +1140,43 @@
           "status": "PASS",
           "score": 1,
           "expected": "safe, bounded execution",
-          "actual": "0ms"
+          "actual": "1ms"
         }
       },
-      "executionTimeMs": 0,
+      "executionTimeMs": 1,
       "routeTaken": "honest_uncertainty",
       "selectedRenderer": "svg_schematic_fallback",
       "isUncertain": true,
       "errorDetails": null,
-      "timestamp": 1793110610957
-    },
-    {
-      "caseId": "fail_arbitrary_unestablished_theorem",
-      "input": "alpha + beta = omega ?",
-      "domain": "other",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
-          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.3)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "honest_uncertainty",
-          "actual": "honest_uncertainty"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with other)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "No mandatory concepts required",
-          "actual": "Pass"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"alpha + beta\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "honest uncertainty state",
-          "actual": "Uncertainty acknowledged via honest_uncertainty"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "honest_uncertainty",
-      "selectedRenderer": "svg_schematic_fallback",
-      "isUncertain": true,
-      "errorDetails": null,
-      "timestamp": 1793110610957
-    },
-    {
-      "caseId": "fail_misspelled_photosynthesis",
-      "input": "photosynthesiss",
-      "domain": "biology",
-      "overallStatus": "FAIL",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: biology, engine: knowledge, intent: concept_learning",
-          "actual": "domain: biology, engine: knowledge, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "FAIL",
-          "score": 0,
-          "expected": "wikipedia_and_ai",
-          "actual": "local_ai_synthesizer",
-          "details": "Expected route \"wikipedia_and_ai\" but orchestrator took \"local_ai_synthesizer\""
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "svg_schematic_fallback (domain-compatible with biology)",
-          "actual": "svg_schematic_fallback (interactive: false)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "FAIL",
-          "score": 0.5,
-          "expected": "Cover 4 required concepts: [light, energy, oxygen, plants]",
-          "actual": "Covered 2/4 (50%)",
-          "details": "Missing concepts: [oxygen, plants]"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"photosynthesis\" with 0 forbidden claims",
-          "actual": "Matched 1/1 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "16ms"
-        }
-      },
-      "executionTimeMs": 16,
-      "routeTaken": "local_ai_synthesizer",
-      "selectedRenderer": "svg_schematic_fallback",
-      "errorDetails": null,
-      "timestamp": 1793110610973
-    },
-    {
-      "caseId": "fail_misspelled_data_structure",
-      "input": "data strcture",
-      "domain": "computer_science",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
-          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_engine",
-          "actual": "algorithm_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
-          "actual": "algorithm_array_tracer (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 3 required concepts: [memory, arrays, pointers]",
-          "actual": "Covered 3/3 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"data structure\" with 0 forbidden claims",
-          "actual": "Matched 2/2 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "algorithm_engine",
-      "selectedRenderer": "algorithm_array_tracer",
-      "errorDetails": null,
-      "timestamp": 1793110610973
-    },
-    {
-      "caseId": "fail_oversized_input_bounded",
-      "input": "F = ma very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding ",
-      "domain": "physics",
-      "overallStatus": "PASS",
-      "dimensions": {
-        "classification": {
-          "dimension": "classification",
-          "status": "PASS",
-          "score": 1,
-          "expected": "domain: physics, engine: math, intent: formula_explanation",
-          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
-        },
-        "routing": {
-          "dimension": "routing",
-          "status": "PASS",
-          "score": 1,
-          "expected": "math_engine",
-          "actual": "math_engine"
-        },
-        "rendererCompatibility": {
-          "dimension": "renderer_compatibility",
-          "status": "PASS",
-          "score": 1,
-          "expected": "physics_vector_simulator (domain-compatible with physics)",
-          "actual": "physics_vector_simulator (interactive: true)"
-        },
-        "deterministicCorrectness": {
-          "dimension": "deterministic_correctness",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Valid structural deterministic plan",
-          "actual": "Plan verified"
-        },
-        "conceptCoverage": {
-          "dimension": "concept_coverage",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Cover 3 required concepts: [force, mass, acceleration]",
-          "actual": "Covered 3/3 (100%)"
-        },
-        "relevance": {
-          "dimension": "relevance",
-          "status": "PASS",
-          "score": 1,
-          "expected": "Relevant to \"f = ma\" with 0 forbidden claims",
-          "actual": "Matched 0/0 topic keywords"
-        },
-        "groundingAttribution": {
-          "dimension": "grounding_attribution",
-          "status": "PASS",
-          "score": 1,
-          "expected": "First-principles / axiomatic derivation (no web citation needed)",
-          "actual": "Axiomatic STEM domain"
-        },
-        "uncertaintyHandling": {
-          "dimension": "uncertainty_handling",
-          "status": "PASS",
-          "score": 1,
-          "expected": "confident resolution",
-          "actual": "resolved confidently"
-        },
-        "reliability": {
-          "dimension": "reliability",
-          "status": "PASS",
-          "score": 1,
-          "expected": "safe, bounded execution",
-          "actual": "0ms"
-        }
-      },
-      "executionTimeMs": 0,
-      "routeTaken": "math_engine",
-      "selectedRenderer": "physics_vector_simulator",
-      "errorDetails": null,
-      "timestamp": 1793110610974
+      "timestamp": 1793193572188
     }
   ],
   "baselineComparison": {
-    "baselineTimestamp": 1793109966741,
-    "baselineRunId": "bench_1793109966741_wpln3",
+    "baselineTimestamp": 1793193361163,
+    "baselineRunId": "bench_1793193361163_wz4hx",
     "totalChange": 13,
-    "passRateDeltaPercent": -7.5,
+    "passRateDeltaPercent": 15.4,
     "newRegressions": [],
-    "newFixes": []
+    "newFixes": [
+      {
+        "caseId": "bio_photosynthesis",
+        "input": "photosynthesis",
+        "previousStatus": "FAIL",
+        "currentStatus": "PASS"
+      },
+      {
+        "caseId": "hist_alan_turing",
+        "input": "Alan Turing",
+        "previousStatus": "FAIL",
+        "currentStatus": "PASS"
+      }
+    ]
   },
   "environment": {
     "nodeVersion": "v24.19.0",
     "platform": "win32",
-    "isAiConnected": false,
-    "aiProvider": "Deterministic Pedagogical Engine (Reliable Fallback)"
+    "isAiConnected": true,
+    "aiProvider": "Ollama Local Daemon"
   },
   "knownLimitations": [
     "External Wikipedia knowledge retrieval requires internet connectivity; falls back to local AI / deterministic synthesis when offline.",

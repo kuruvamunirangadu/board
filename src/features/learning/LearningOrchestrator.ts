@@ -25,7 +25,7 @@ import { TopicClassifier } from './TopicClassifier';
 import { DomainKnowledgeEngine } from './DomainKnowledgeEngine';
 import { UniversalProblemSolver } from './UniversalProblemSolver';
 import { BinomialExpansionEngine } from './BinomialExpansionEngine';
-import { KnowledgeApiResult } from '@/features/knowledge/knowledge-client';
+import { KnowledgeApiResult } from '../knowledge/knowledge-client';
 import { LearningPlanValidator } from './LearningPlanValidator';
 import { VisualizationRegistry } from './VisualizationRegistry';
 import { SubjectRegistry } from './SubjectRegistry';
@@ -337,7 +337,7 @@ export class LearningOrchestrator {
     // Direct backend fallback in Node / test environment if loopback fetch was unavailable
     if (!knowledgeData && typeof window === 'undefined') {
       try {
-        const { handleKnowledgeQuery } = await import('@/features/knowledge/knowledge-client');
+        const { handleKnowledgeQuery } = await import('../knowledge/knowledge-client');
         knowledgeData = await handleKnowledgeQuery(boundedInput);
       } catch {
         // Proceed to local AI fallback

@@ -247,7 +247,7 @@ export async function runMilestoneHCorrectnessTests(): Promise<boolean> {
     title: 'Newton Second Law',
     category: 'physics',
     subject: 'Physics',
-    capabilityLevel: 'fundamental',
+    capabilityLevel: 'verified_and_tested',
     disclosures: [],
     overview: 'F = m · a',
     motivation: 'Foundations of dynamics',
@@ -270,6 +270,9 @@ export async function runMilestoneHCorrectnessTests(): Promise<boolean> {
     prerequisites: ['Kinematics'],
     applications: ['Automotive braking'],
     assumptions: ['Non-relativistic'],
+    limitations: [],
+    practiceQuestions: [],
+    recommendedNextConcepts: [],
     defaultExperimentState: {
       parameters: { m: 2, a: 3 },
       calculatedOutputs: { F: 6 },
