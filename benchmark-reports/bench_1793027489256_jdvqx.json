@@ -1,0 +1,593 @@
+{
+  "runId": "bench_1793027489256_jdvqx",
+  "datasetVersion": "1.0.0",
+  "timestamp": 1793027489256,
+  "mode": "full",
+  "totalCases": 6,
+  "overallSummary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "inconclusive": 0,
+    "skipped": 0,
+    "passRatePercent": 100,
+    "averageLatencyMs": 1
+  },
+  "dimensionMetrics": {
+    "classification": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "routing": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "rendererCompatibility": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "deterministicCorrectness": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "conceptCoverage": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "relevance": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "groundingAttribution": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "uncertaintyHandling": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "reliability": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "regressionRate": {
+      "totalCompared": 0,
+      "regressionsCount": 0,
+      "regressionRatePercent": 0
+    }
+  },
+  "domainMetrics": {
+    "mathematics": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    }
+  },
+  "caseResults": [
+    {
+      "caseId": "math_binomial_square",
+      "input": "square of sum (a + b)^2",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.99)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "formula_geometric_dissection (domain-compatible with mathematics)",
+          "actual": "formula_geometric_dissection (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "(3 + 4)^2 = 49",
+          "actual": "Calculated = 49"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 0.67,
+          "expected": "Cover 6 required concepts: [a^2, 2ab, b^2, geometric, area, expansion]",
+          "actual": "Covered 4/6 (67%)",
+          "details": "Missing concepts: [a^2, b^2]"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"binomial\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "5ms"
+        }
+      },
+      "executionTimeMs": 5,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "formula_geometric_dissection",
+      "errorDetails": null,
+      "timestamp": 1793027489295
+    },
+    {
+      "caseId": "math_binomial_cube_diff",
+      "input": "(a - b)^3",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.99)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with mathematics)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "(5 - 2)^3 = 27",
+          "actual": "Calculated = 27"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [a^3, 3a^2b, 3ab^2, b^3]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"binomial\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027489296
+    },
+    {
+      "caseId": "math_law_of_cosines",
+      "input": "Law of Cosines",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "geometric_triangle_construction (domain-compatible with mathematics)",
+          "actual": "geometric_triangle_construction (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "c = 6.245 ± 0.05",
+          "actual": "Oracle c = 6.245 (delta: 0.0000)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [triangle, cosine, side, angle]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"law of cosines\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "geometric_triangle_construction",
+      "errorDetails": null,
+      "timestamp": 1793027489297
+    },
+    {
+      "caseId": "math_pythagoras",
+      "input": "Pythagorean theorem a^2 + b^2 = c^2",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "geometric_triangle_construction (domain-compatible with mathematics)",
+          "actual": "geometric_triangle_construction (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": ">= 2 derivation steps",
+          "actual": "3 steps"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [right triangle, hypotenuse, square, legs]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"pythagor\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "geometric_triangle_construction",
+      "errorDetails": null,
+      "timestamp": 1793027489298
+    },
+    {
+      "caseId": "math_quadratic_formula",
+      "input": "quadratic formula",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: formula_explanation",
+          "actual": "domain: mathematics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with mathematics)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": ">= 3 derivation steps",
+          "actual": "3 steps"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [quadratic, discriminant, roots]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"quadratic\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027489298
+    },
+    {
+      "caseId": "math_trig_sine_curve",
+      "input": "sin(x)",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: formula_explanation",
+          "actual": "domain: mathematics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "function_coordinate_plotter (domain-compatible with mathematics)",
+          "actual": "function_coordinate_plotter (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [sine, wave, amplitude, periodic]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"sin(x)\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "function_coordinate_plotter",
+      "errorDetails": null,
+      "timestamp": 1793027489298
+    }
+  ],
+  "baselineComparison": {
+    "baselineTimestamp": 1793027466105,
+    "baselineRunId": "bench_1793027466105_jweut",
+    "totalChange": 0,
+    "passRateDeltaPercent": 0,
+    "newRegressions": [],
+    "newFixes": []
+  },
+  "environment": {
+    "nodeVersion": "v24.19.0",
+    "platform": "win32",
+    "isAiConnected": false,
+    "aiProvider": "Deterministic Pedagogical Engine (Reliable Fallback)"
+  },
+  "knownLimitations": [
+    "External Wikipedia knowledge retrieval requires internet connectivity; falls back to local AI / deterministic synthesis when offline.",
+    "High-dimensional non-linear physics simulations beyond 1D/2D kinematics use conceptual schematic diagrams.",
+    "Semantic AI judge judgments are advisory and recorded independently from deterministic ground truth."
+  ]
+}

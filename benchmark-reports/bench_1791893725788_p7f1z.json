@@ -1,0 +1,1173 @@
+{
+  "runId": "bench_1791893725788_p7f1z",
+  "datasetVersion": "1.0.0",
+  "timestamp": 1791893725788,
+  "mode": "quick",
+  "totalCases": 13,
+  "overallSummary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "inconclusive": 0,
+    "skipped": 0,
+    "passRatePercent": 100,
+    "averageLatencyMs": 74
+  },
+  "dimensionMetrics": {
+    "classification": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "routing": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "rendererCompatibility": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "deterministicCorrectness": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "conceptCoverage": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "relevance": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "groundingAttribution": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "uncertaintyHandling": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "reliability": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 74
+    },
+    "regressionRate": {
+      "totalCompared": 13,
+      "regressionsCount": 0,
+      "regressionRatePercent": 0
+    }
+  },
+  "domainMetrics": {
+    "mathematics": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 3
+    },
+    "physics": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "computer_science": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 2
+    },
+    "biology": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 170
+    },
+    "general_knowledge": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 773
+    },
+    "other": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    }
+  },
+  "caseResults": [
+    {
+      "caseId": "math_binomial_square",
+      "input": "square of sum (a + b)^2",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.99)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "formula_geometric_dissection (domain-compatible with mathematics)",
+          "actual": "formula_geometric_dissection (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "(3 + 4)^2 = 49",
+          "actual": "Calculated = 49"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 0.67,
+          "expected": "Cover 6 required concepts: [a^2, 2ab, b^2, geometric, area, expansion]",
+          "actual": "Covered 4/6 (67%)",
+          "details": "Missing concepts: [a^2, b^2]"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"binomial\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "8ms"
+        }
+      },
+      "executionTimeMs": 8,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "formula_geometric_dissection",
+      "errorDetails": null,
+      "timestamp": 1791893725933
+    },
+    {
+      "caseId": "math_law_of_cosines",
+      "input": "Law of Cosines",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "geometric_triangle_construction (domain-compatible with mathematics)",
+          "actual": "geometric_triangle_construction (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "c = 6.245 ± 0.05",
+          "actual": "Oracle c = 6.245 (delta: 0.0000)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [triangle, cosine, side, angle]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"law of cosines\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "geometric_triangle_construction",
+      "errorDetails": null,
+      "timestamp": 1791893725935
+    },
+    {
+      "caseId": "math_pythagoras",
+      "input": "Pythagorean theorem a^2 + b^2 = c^2",
+      "domain": "mathematics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: mathematics, engine: math, intent: derivation",
+          "actual": "domain: mathematics, engine: math, intent: derivation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "geometric_triangle_construction (domain-compatible with mathematics)",
+          "actual": "geometric_triangle_construction (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": ">= 2 derivation steps",
+          "actual": "3 steps"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [right triangle, hypotenuse, square, legs]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"pythagor\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "geometric_triangle_construction",
+      "errorDetails": null,
+      "timestamp": 1791893725935
+    },
+    {
+      "caseId": "phys_newton_second_law",
+      "input": "F = ma",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "physics_vector_simulator (domain-compatible with physics)",
+          "actual": "physics_vector_simulator (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "a = F / m = 10 m/s²",
+          "actual": "Target a = 10 m/s²"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 5 required concepts: [force, mass, acceleration, newton, vector]",
+          "actual": "Covered 5/5 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"f = ma\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "physics_vector_simulator",
+      "errorDetails": null,
+      "timestamp": 1791893725937
+    },
+    {
+      "caseId": "phys_projectile_motion",
+      "input": "projectile motion",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: simulation, intent: interactive_simulation",
+          "actual": "domain: physics, engine: simulation, intent: interactive_simulation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "simulation_engine",
+          "actual": "simulation_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with physics)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "R = 40.77 m ± 0.1",
+          "actual": "Oracle R = 40.77 m (delta: 0.005)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [projectile, motion, physics]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"projectile\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "simulation_engine",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1791893725937
+    },
+    {
+      "caseId": "phys_harmonic_pendulum",
+      "input": "simulate a pendulum",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: simulation, intent: interactive_simulation",
+          "actual": "domain: physics, engine: simulation, intent: interactive_simulation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "simulation_engine",
+          "actual": "simulation_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "pendulum_simulation (domain-compatible with physics)",
+          "actual": "pendulum_simulation (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "T = 2.01 s ± 0.05",
+          "actual": "Oracle T = 2.01 s (delta: 0.004)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [period, pendulum, oscillation, energy]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"pendulum\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "simulation_engine",
+      "selectedRenderer": "pendulum_simulation",
+      "errorDetails": null,
+      "timestamp": 1791893725938
+    },
+    {
+      "caseId": "cs_binary_search",
+      "input": "binary search",
+      "domain": "computer_science",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: computer_science, engine: algorithm, intent: algorithm_learning",
+          "actual": "domain: computer_science, engine: algorithm, intent: algorithm_learning (conf: 0.96)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "algorithm_engine",
+          "actual": "algorithm_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
+          "actual": "algorithm_array_tracer (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "targetIndex=5, found=true",
+          "actual": "Oracle foundIndex=5"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 0.83,
+          "expected": "Cover 6 required concepts: [divide and conquer, sorted array, O(log n), midpoint, low, high]",
+          "actual": "Covered 5/6 (83%)",
+          "details": "Missing concepts: [divide and conquer]"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"binary search\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "algorithm_engine",
+      "selectedRenderer": "algorithm_array_tracer",
+      "errorDetails": null,
+      "timestamp": 1791893725939
+    },
+    {
+      "caseId": "cs_data_structures_general",
+      "input": "data structures",
+      "domain": "computer_science",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: computer_science, engine: algorithm, intent: concept_learning",
+          "actual": "domain: computer_science, engine: algorithm, intent: concept_learning (conf: 0.95)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "algorithm_engine",
+          "actual": "algorithm_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "algorithm_array_tracer (domain-compatible with computer_science)",
+          "actual": "algorithm_array_tracer (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 6 required concepts: [memory, arrays, pointer, nodes, contiguous, complexity]",
+          "actual": "Covered 6/6 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"data structures\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "2ms"
+        }
+      },
+      "executionTimeMs": 2,
+      "routeTaken": "algorithm_engine",
+      "selectedRenderer": "algorithm_array_tracer",
+      "errorDetails": null,
+      "timestamp": 1791893725942
+    },
+    {
+      "caseId": "bio_photosynthesis",
+      "input": "photosynthesis",
+      "domain": "biology",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: biology, engine: knowledge, intent: concept_learning",
+          "actual": "domain: biology, engine: knowledge, intent: concept_learning (conf: 0.95)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "wikipedia_and_ai",
+          "actual": "wikipedia_and_ai"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with biology)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [light, energy, oxygen, plants]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"photosynthesis\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "170ms"
+        }
+      },
+      "executionTimeMs": 170,
+      "routeTaken": "wikipedia_and_ai",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1791893726113
+    },
+    {
+      "caseId": "hist_alan_turing",
+      "input": "Alan Turing",
+      "domain": "general_knowledge",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: general_knowledge, engine: knowledge, intent: factual_lookup",
+          "actual": "domain: general_knowledge, engine: knowledge, intent: factual_lookup (conf: 0.94)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "wikipedia_and_ai",
+          "actual": "wikipedia_and_ai"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with general_knowledge)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [turing machine, computer science, cryptanalysis, enigma]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"alan turing\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Verified factual source citation",
+          "actual": "Attributed to Wikipedia (Wikimedia Foundation) (\"Alan Turing\")"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "773ms"
+        }
+      },
+      "executionTimeMs": 773,
+      "routeTaken": "wikipedia_and_ai",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1791893726886
+    },
+    {
+      "caseId": "fail_empty_input",
+      "input": "",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "unsupported_input",
+          "actual": "unsupported_input"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "No mandatory concepts required",
+          "actual": "Pass"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Handle empty topic safely",
+          "actual": "Handled safely"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via unsupported_input"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "unsupported_input",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1791893726886
+    },
+    {
+      "caseId": "fail_ambiguous_single_letter_e",
+      "input": "E",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.35)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [ambiguous, planck, energy]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"E\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1791893726887
+    },
+    {
+      "caseId": "fail_incomplete_unrecognized_equation",
+      "input": "xyz = ?",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.3)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 2 required concepts: [not recognized, specify]",
+          "actual": "Covered 2/2 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"xyz = ?\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1791893726888
+    }
+  ],
+  "baselineComparison": {
+    "baselineTimestamp": 1791891570289,
+    "baselineRunId": "bench_1791891570289_3x5od",
+    "totalChange": 13,
+    "passRateDeltaPercent": 0,
+    "newRegressions": [],
+    "newFixes": []
+  },
+  "environment": {
+    "nodeVersion": "v24.19.0",
+    "platform": "win32",
+    "isAiConnected": false,
+    "aiProvider": "Deterministic Pedagogical Engine (Reliable Fallback)"
+  },
+  "knownLimitations": [
+    "External Wikipedia knowledge retrieval requires internet connectivity; falls back to local AI / deterministic synthesis when offline.",
+    "High-dimensional non-linear physics simulations beyond 1D/2D kinematics use conceptual schematic diagrams.",
+    "Semantic AI judge judgments are advisory and recorded independently from deterministic ground truth."
+  ]
+}

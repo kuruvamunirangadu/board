@@ -1,0 +1,596 @@
+{
+  "runId": "bench_1793027532615_7ueuu",
+  "datasetVersion": "1.0.0",
+  "timestamp": 1793027532615,
+  "mode": "full",
+  "totalCases": 6,
+  "overallSummary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "inconclusive": 0,
+    "skipped": 0,
+    "passRatePercent": 100,
+    "averageLatencyMs": 1
+  },
+  "dimensionMetrics": {
+    "classification": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "routing": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "rendererCompatibility": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "deterministicCorrectness": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "conceptCoverage": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "relevance": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "groundingAttribution": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "uncertaintyHandling": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "reliability": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "regressionRate": {
+      "totalCompared": 0,
+      "regressionsCount": 0,
+      "regressionRatePercent": 0
+    }
+  },
+  "domainMetrics": {
+    "other": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    }
+  },
+  "caseResults": [
+    {
+      "caseId": "fail_empty_input",
+      "input": "",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "unsupported_input",
+          "actual": "unsupported_input"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "No mandatory concepts required",
+          "actual": "Pass"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Handle empty topic safely",
+          "actual": "Handled safely"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via unsupported_input"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "4ms"
+        }
+      },
+      "executionTimeMs": 4,
+      "routeTaken": "unsupported_input",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027532651
+    },
+    {
+      "caseId": "fail_whitespace_only",
+      "input": "     \t\n   ",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "unsupported_input",
+          "actual": "unsupported_input"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "No mandatory concepts required",
+          "actual": "Pass"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Handle empty topic safely",
+          "actual": "Handled safely"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via unsupported_input"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "unsupported_input",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027532651
+    },
+    {
+      "caseId": "fail_ambiguous_single_letter_e",
+      "input": "E",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.35)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [ambiguous, planck, energy]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"E\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "2ms"
+        }
+      },
+      "executionTimeMs": 2,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1793027532653
+    },
+    {
+      "caseId": "fail_ambiguous_single_letter_f",
+      "input": "F",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.35)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 2 required concepts: [Newton, Hooke]",
+          "actual": "Covered 2/2 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"F\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1793027532653
+    },
+    {
+      "caseId": "fail_incomplete_unrecognized_equation",
+      "input": "xyz = ?",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.3)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 2 required concepts: [not recognized, specify]",
+          "actual": "Covered 2/2 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"xyz = ?\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1793027532654
+    },
+    {
+      "caseId": "fail_arbitrary_unestablished_theorem",
+      "input": "alpha + beta = omega ?",
+      "domain": "other",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: other, engine: clarification, intent: ambiguous_query",
+          "actual": "domain: other, engine: clarification, intent: ambiguous_query (conf: 0.3)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest_uncertainty",
+          "actual": "honest_uncertainty"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with other)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "No mandatory concepts required",
+          "actual": "Pass"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"alpha + beta\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "honest uncertainty state",
+          "actual": "Uncertainty acknowledged via honest_uncertainty"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "honest_uncertainty",
+      "selectedRenderer": "svg_schematic_fallback",
+      "isUncertain": true,
+      "errorDetails": null,
+      "timestamp": 1793027532654
+    }
+  ],
+  "baselineComparison": {
+    "baselineTimestamp": 1793027512189,
+    "baselineRunId": "bench_1793027512189_sto1s",
+    "totalChange": 0,
+    "passRateDeltaPercent": 12.5,
+    "newRegressions": [],
+    "newFixes": []
+  },
+  "environment": {
+    "nodeVersion": "v24.19.0",
+    "platform": "win32",
+    "isAiConnected": false,
+    "aiProvider": "Deterministic Pedagogical Engine (Reliable Fallback)"
+  },
+  "knownLimitations": [
+    "External Wikipedia knowledge retrieval requires internet connectivity; falls back to local AI / deterministic synthesis when offline.",
+    "High-dimensional non-linear physics simulations beyond 1D/2D kinematics use conceptual schematic diagrams.",
+    "Semantic AI judge judgments are advisory and recorded independently from deterministic ground truth."
+  ]
+}

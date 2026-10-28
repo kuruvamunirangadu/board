@@ -1,0 +1,669 @@
+{
+  "runId": "bench_1793027466105_jweut",
+  "datasetVersion": "1.0.0",
+  "timestamp": 1793027466105,
+  "mode": "full",
+  "totalCases": 7,
+  "overallSummary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "inconclusive": 0,
+    "skipped": 0,
+    "passRatePercent": 100,
+    "averageLatencyMs": 1
+  },
+  "dimensionMetrics": {
+    "classification": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "routing": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "rendererCompatibility": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "deterministicCorrectness": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "conceptCoverage": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "relevance": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "groundingAttribution": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "uncertaintyHandling": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "reliability": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    },
+    "regressionRate": {
+      "totalCompared": 3,
+      "regressionsCount": 0,
+      "regressionRatePercent": 0
+    }
+  },
+  "domainMetrics": {
+    "physics": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "inconclusive": 0,
+      "skipped": 0,
+      "passRatePercent": 100,
+      "averageLatencyMs": 1
+    }
+  },
+  "caseResults": [
+    {
+      "caseId": "phys_newton_second_law",
+      "input": "F = ma",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "physics_vector_simulator (domain-compatible with physics)",
+          "actual": "physics_vector_simulator (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "a = F / m = 10 m/s²",
+          "actual": "Target a = 10 m/s²"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 5 required concepts: [force, mass, acceleration, newton, vector]",
+          "actual": "Covered 5/5 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"f = ma\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "6ms"
+        }
+      },
+      "executionTimeMs": 6,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "physics_vector_simulator",
+      "errorDetails": null,
+      "timestamp": 1793027466152
+    },
+    {
+      "caseId": "phys_projectile_motion",
+      "input": "projectile motion",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: simulation, intent: interactive_simulation",
+          "actual": "domain: physics, engine: simulation, intent: interactive_simulation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "simulation_engine",
+          "actual": "simulation_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with physics)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "R = 40.77 m ± 0.1",
+          "actual": "Oracle R = 40.77 m (delta: 0.005)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [projectile, motion, physics]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"projectile\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "simulation_engine",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027466153
+    },
+    {
+      "caseId": "phys_harmonic_pendulum",
+      "input": "simulate a pendulum",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: simulation, intent: interactive_simulation",
+          "actual": "domain: physics, engine: simulation, intent: interactive_simulation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "simulation_engine",
+          "actual": "simulation_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "pendulum_simulation (domain-compatible with physics)",
+          "actual": "pendulum_simulation (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "T = 2.01 s ± 0.05",
+          "actual": "Oracle T = 2.01 s (delta: 0.004)"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [period, pendulum, oscillation, energy]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"pendulum\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "simulation_engine",
+      "selectedRenderer": "pendulum_simulation",
+      "errorDetails": null,
+      "timestamp": 1793027466153
+    },
+    {
+      "caseId": "phys_kinematics_uniform",
+      "input": "v = u + at",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.97)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "function_coordinate_plotter (domain-compatible with physics)",
+          "actual": "function_coordinate_plotter (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [velocity, acceleration, time]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"v = u + at\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "function_coordinate_plotter",
+      "errorDetails": null,
+      "timestamp": 1793027466154
+    },
+    {
+      "caseId": "phys_density_law",
+      "input": "density = mass / volume",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.96)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "svg_schematic_fallback (domain-compatible with physics)",
+          "actual": "svg_schematic_fallback (interactive: false)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 0.75,
+          "expected": "Cover 4 required concepts: [density, mass, volume, kg/m^3]",
+          "actual": "Covered 3/4 (75%)",
+          "details": "Missing concepts: [kg/m^3]"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"density\" with 0 forbidden claims",
+          "actual": "Matched 1/1 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "1ms"
+        }
+      },
+      "executionTimeMs": 1,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "svg_schematic_fallback",
+      "errorDetails": null,
+      "timestamp": 1793027466155
+    },
+    {
+      "caseId": "phys_newton_vector_cart",
+      "input": "Newton's second law",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "physics_vector_simulator (domain-compatible with physics)",
+          "actual": "physics_vector_simulator (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 4 required concepts: [force, mass, acceleration, newton]",
+          "actual": "Covered 4/4 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"newton's second\" with 0 forbidden claims",
+          "actual": "Matched 2/2 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "physics_vector_simulator",
+      "errorDetails": null,
+      "timestamp": 1793027466156
+    },
+    {
+      "caseId": "fail_oversized_input_bounded",
+      "input": "F = ma very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding very long unnecessary repetitive text padding ",
+      "domain": "physics",
+      "overallStatus": "PASS",
+      "dimensions": {
+        "classification": {
+          "dimension": "classification",
+          "status": "PASS",
+          "score": 1,
+          "expected": "domain: physics, engine: math, intent: formula_explanation",
+          "actual": "domain: physics, engine: math, intent: formula_explanation (conf: 0.98)"
+        },
+        "routing": {
+          "dimension": "routing",
+          "status": "PASS",
+          "score": 1,
+          "expected": "math_engine",
+          "actual": "math_engine"
+        },
+        "rendererCompatibility": {
+          "dimension": "renderer_compatibility",
+          "status": "PASS",
+          "score": 1,
+          "expected": "physics_vector_simulator (domain-compatible with physics)",
+          "actual": "physics_vector_simulator (interactive: true)"
+        },
+        "deterministicCorrectness": {
+          "dimension": "deterministic_correctness",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Valid structural deterministic plan",
+          "actual": "Plan verified"
+        },
+        "conceptCoverage": {
+          "dimension": "concept_coverage",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Cover 3 required concepts: [force, mass, acceleration]",
+          "actual": "Covered 3/3 (100%)"
+        },
+        "relevance": {
+          "dimension": "relevance",
+          "status": "PASS",
+          "score": 1,
+          "expected": "Relevant to \"f = ma\" with 0 forbidden claims",
+          "actual": "Matched 0/0 topic keywords"
+        },
+        "groundingAttribution": {
+          "dimension": "grounding_attribution",
+          "status": "PASS",
+          "score": 1,
+          "expected": "First-principles / axiomatic derivation (no web citation needed)",
+          "actual": "Axiomatic STEM domain"
+        },
+        "uncertaintyHandling": {
+          "dimension": "uncertainty_handling",
+          "status": "PASS",
+          "score": 1,
+          "expected": "confident resolution",
+          "actual": "resolved confidently"
+        },
+        "reliability": {
+          "dimension": "reliability",
+          "status": "PASS",
+          "score": 1,
+          "expected": "safe, bounded execution",
+          "actual": "0ms"
+        }
+      },
+      "executionTimeMs": 0,
+      "routeTaken": "math_engine",
+      "selectedRenderer": "physics_vector_simulator",
+      "errorDetails": null,
+      "timestamp": 1793027466156
+    }
+  ],
+  "baselineComparison": {
+    "baselineTimestamp": 1793027442246,
+    "baselineRunId": "bench_1793027442246_lq4xs",
+    "totalChange": 3,
+    "passRateDeltaPercent": 15.4,
+    "newRegressions": [],
+    "newFixes": []
+  },
+  "environment": {
+    "nodeVersion": "v24.19.0",
+    "platform": "win32",
+    "isAiConnected": false,
+    "aiProvider": "Deterministic Pedagogical Engine (Reliable Fallback)"
+  },
+  "knownLimitations": [
+    "External Wikipedia knowledge retrieval requires internet connectivity; falls back to local AI / deterministic synthesis when offline.",
+    "High-dimensional non-linear physics simulations beyond 1D/2D kinematics use conceptual schematic diagrams.",
+    "Semantic AI judge judgments are advisory and recorded independently from deterministic ground truth."
+  ]
+}

@@ -1,0 +1,308 @@
+/**
+ * VisiOS Milestone 19 — Targeted Misconception Catalog
+ * Curated, scientifically validated diagnostic items with explicit distractor-to-misconception mappings.
+ */
+
+import { DiagnosticQuestion, MisconceptionDefinition } from '@/types/research';
+
+export const VALIDATED_MISCONCEPTIONS: Record<string, MisconceptionDefinition> = {
+  'misconception-mass-period': {
+    id: 'misconception-mass-period',
+    conceptId: 'phys-pendulum-period',
+    name: 'Mass-Period Dependency Fallacy',
+    description: 'Learner believes heavier pendulum bobs swing faster or slower due to gravitational mass in T = 2π√(L/g).',
+    remedialIntervention: 'guided_simulation',
+    remedialResourceKey: 'phys-sim-mass-invariance',
+    remedialExplanation: 'In gravitational oscillation, inertial mass cancels gravitational mass (F = mg, a = g sin θ), making small-angle period T purely a function of length L and g, completely independent of bob mass m.',
+    authoritativeSource: 'Halliday, Resnick, Walker — Fundamentals of Physics (11th Ed., Ch. 15)',
+  },
+  'misconception-amplitude-invariance': {
+    id: 'misconception-amplitude-invariance',
+    conceptId: 'phys-pendulum-nonlinear',
+    name: 'Universal Small-Angle Extrapolation',
+    description: 'Learner assumes the linear harmonic approximation T = 2π√(L/g) holds exactly for large angular displacements (e.g., θ = 80°).',
+    remedialIntervention: 'interactive_3d_model',
+    remedialResourceKey: 'phys-sim-nonlinear-phase',
+    remedialExplanation: 'The restoring torque is proportional to sin(θ), not θ. For θ > 30°, sin(θ) < θ, reducing restoring torque and systematically elongating the period via elliptic integrals: T ≈ T₀(1 + θ₀²/16).',
+    authoritativeSource: 'Taylor — Classical Mechanics (Ch. 12: Nonlinear Oscillations)',
+  },
+  'misconception-damping-frequency': {
+    id: 'misconception-damping-frequency',
+    conceptId: 'phys-pendulum-damping',
+    name: 'Damping Neglect in Oscillatory Dynamics',
+    description: 'Learner believes damping only reduces amplitude without recognizing mechanical energy dissipation or phase space spiral convergence.',
+    remedialIntervention: 'labeled_2d_diagram',
+    remedialResourceKey: 'phys-diag-phase-portrait',
+    remedialExplanation: 'Damping introduces non-conservative velocity-proportional resistive force F_d = -γ v, causing the phase space trajectory (θ vs ω) to spiral inward toward the stable fixed point attractor (0,0).',
+    authoritativeSource: 'Strogatz — Nonlinear Dynamics and Chaos',
+  },
+  'misconception-bst-heap': {
+    id: 'misconception-bst-heap',
+    conceptId: 'cs-bst-invariants',
+    name: 'BST vs Binary Heap Invariant Confusion',
+    description: 'Learner confuses the Binary Search Tree ordering invariant (Left < Parent < Right) with the Binary Heap property (Parent > Children or Parent < Children).',
+    remedialIntervention: 'worked_example',
+    remedialResourceKey: 'cs-worked-bst-traversal',
+    remedialExplanation: 'In a BST, all nodes in the left subtree must be strictly less than the root, and all in the right subtree strictly greater. A Heap enforces only parent-child dominance without left-to-right sorting.',
+    authoritativeSource: 'Cormen, Leiserson, Rivest, Stein — Introduction to Algorithms (CLRS 3rd Ed., Ch. 12)',
+  },
+  'misconception-unbalanced-lookup': {
+    id: 'misconception-unbalanced-lookup',
+    conceptId: 'cs-bst-complexity',
+    name: 'Unconditional O(log n) BST Lookup Fallacy',
+    description: 'Learner assumes binary search tree lookups are always O(log n) regardless of tree shape or insertion ordering.',
+    remedialIntervention: 'labeled_2d_diagram',
+    remedialResourceKey: 'cs-diag-degenerate-bst',
+    remedialExplanation: 'If elements are inserted in sorted order into an un-balanced BST, the tree degenerates into a linear linked list of height n, degrading search time to O(n). Self-balancing (AVL / Red-Black) is required for guaranteed O(log n).',
+    authoritativeSource: 'Sedgewick & Wayne — Algorithms (4th Ed., Ch. 3.2)',
+  },
+  'misconception-resonance-resistance': {
+    id: 'misconception-resonance-resistance',
+    conceptId: 'elec-rlc-resonance',
+    name: 'Resonant Frequency Resistance Coupling Fallacy',
+    description: 'Learner believes increasing series resistance R changes the natural undamped resonant frequency ω₀ = 1/√(LC).',
+    remedialIntervention: 'guided_simulation',
+    remedialResourceKey: 'elec-sim-rlc-tuning',
+    remedialExplanation: 'The undamped natural resonant frequency ω₀ = 1/√(LC) is determined exclusively by inductance L and capacitance C where inductive and capacitive reactances cancel (X_L = X_C). Series resistance R controls bandwidth Δω and peak damping, not ω₀.',
+    authoritativeSource: 'Alexander & Sadiku — Fundamentals of Electric Circuits (6th Ed., Ch. 14)',
+  },
+  'misconception-q-factor-bandwidth': {
+    id: 'misconception-q-factor-bandwidth',
+    conceptId: 'elec-rlc-quality',
+    name: 'Quality Factor Bandwidth Inversion',
+    description: 'Learner believes high Q-factor circuits have broader frequency passbands rather than narrower, sharper selectivity.',
+    remedialIntervention: 'worked_example',
+    remedialResourceKey: 'elec-worked-q-bandwidth',
+    remedialExplanation: 'Quality factor is inversely proportional to fractional bandwidth: Q = ω₀ / Δω = (1/R)√(L/C). Higher Q yields higher selectivity and a narrower frequency bandwidth Δω.',
+    authoritativeSource: 'Hayt, Kemmerly, Durbin — Engineering Circuit Analysis (8th Ed., Ch. 16)',
+  },
+  'misconception-dot-product-vector': {
+    id: 'misconception-dot-product-vector',
+    conceptId: 'math-vector-dot',
+    name: 'Dot Product Dimension Categorization Error',
+    description: 'Learner believes the dot (scalar) product of two vectors yields a vector quantity.',
+    remedialIntervention: 'simpler_text',
+    remedialResourceKey: 'math-text-scalar-projection',
+    remedialExplanation: 'The dot product u · v = |u||v|cos(θ) = u_x v_x + u_y v_y is strictly a real scalar number representing directional projection, not a vector. The cross product produces a vector.',
+    authoritativeSource: 'Strang — Linear Algebra and Its Applications (4th Ed., Ch. 1)',
+  },
+};
+
+export const DIAGNOSTIC_QUESTION_BANK: DiagnosticQuestion[] = [
+  // Physics: Nonlinear Pendulum
+  {
+    id: 'diag-phys-01',
+    conceptId: 'phys-pendulum-period',
+    learningObjective: 'Identify the physical parameters that determine pendulum oscillation period',
+    difficulty: 'beginner',
+    question: 'If you double the bob mass (m -> 2m) of an ideal simple pendulum while keeping length L and initial angle θ = 5° constant, how does the period T change?',
+    options: [
+      'The period increases by √2 (about 41% slower)',
+      'The period remains completely unchanged',
+      'The period decreases by 50% (twice as fast)',
+      'The period doubles (2×)',
+    ],
+    correctIndex: 1,
+    distractorMisconceptions: {
+      0: 'misconception-mass-period',
+      2: 'misconception-mass-period',
+      3: 'misconception-mass-period',
+    },
+    explanations: [
+      'Incorrect. Gravitational acceleration is independent of mass; mass cancels out of the equation of motion.',
+      'Correct! T = 2π√(L/g) is completely independent of mass m.',
+      'Incorrect. Doubling mass does not increase speed; inertial and gravitational mass cancel identically.',
+      'Incorrect. Period depends only on length L and gravitational field g.',
+    ],
+    author: 'VisiOS Research Physics Group',
+    version: '1.0.0',
+  },
+  {
+    id: 'diag-phys-02',
+    conceptId: 'phys-pendulum-nonlinear',
+    learningObjective: 'Evaluate breakdown of small-angle approximation at large amplitudes',
+    difficulty: 'intermediate',
+    question: 'A pendulum is released from θ₀ = 85° versus θ₀ = 5°. How does the measured period T compare to the linear prediction T₀ = 2π√(L/g)?',
+    options: [
+      'The actual period at 85° is measurably longer than 2π√(L/g)',
+      'The actual period remains exactly 2π√(L/g) at all angles',
+      'The actual period at 85° is shorter because gravity pulls stronger',
+      'The period drops to zero because restoring force exceeds critical tension',
+    ],
+    correctIndex: 0,
+    distractorMisconceptions: {
+      1: 'misconception-amplitude-invariance',
+      2: 'misconception-amplitude-invariance',
+    },
+    explanations: [
+      'Correct! Because sin(θ) < θ at large angles, restoring torque is weaker, increasing the period by ~15% at 85°.',
+      'Incorrect. T = 2π√(L/g) is only an approximation valid for sin(θ) ≈ θ (small angles < 15°).',
+      'Incorrect. Restoring torque is proportional to sin(θ), which grows slower than θ, lengthening the period.',
+      'Incorrect. The pendulum continues periodic oscillation with an elliptic integral period.',
+    ],
+    author: 'VisiOS Research Physics Group',
+    version: '1.0.0',
+  },
+  {
+    id: 'diag-phys-03',
+    conceptId: 'phys-pendulum-damping',
+    learningObjective: 'Interpret phase space trajectory evolution in damped mechanical systems',
+    difficulty: 'advanced',
+    question: 'In a damped pendulum with damping coefficient γ > 0, what topological shape does the phase space trajectory (θ, dθ/dt) trace over time?',
+    options: [
+      'An invariant closed circular orbit',
+      'An inward spiral converging asymptotically to the origin (0, 0)',
+      'An expanding outward spiral approaching infinity',
+      'A static single point at (π/2, 0)',
+    ],
+    correctIndex: 1,
+    distractorMisconceptions: {
+      0: 'misconception-damping-frequency',
+    },
+    explanations: [
+      'Incorrect. Closed orbits only occur in un-damped conservative systems where energy is strictly constant.',
+      'Correct! Non-conservative damping continuously dissipates mechanical energy, spiraling the dynamical state to equilibrium.',
+      'Incorrect. Outward spirals represent active energy injection or unstable equilibrium.',
+      'Incorrect. The origin (0,0) is the stable fixed point for downward resting equilibrium.',
+    ],
+    author: 'VisiOS Research Physics Group',
+    version: '1.0.0',
+  },
+
+  // CS: Binary Search Trees
+  {
+    id: 'diag-cs-01',
+    conceptId: 'cs-bst-invariants',
+    learningObjective: 'Differentiate Binary Search Tree invariants from Heap properties',
+    difficulty: 'beginner',
+    question: 'In a valid Binary Search Tree (BST), if node X has key 50, which statement is guaranteed to be true?',
+    options: [
+      'All keys in X’s left subtree are < 50, and all keys in X’s right subtree are > 50',
+      'X’s left child is smaller than 50, but grandchildren can be any value',
+      'X is greater than both its left and right child, with no left-versus-right ordering',
+      'Every level of the tree must be completely filled from left to right',
+    ],
+    correctIndex: 0,
+    distractorMisconceptions: {
+      2: 'misconception-bst-heap',
+      3: 'misconception-bst-heap',
+    },
+    explanations: [
+      'Correct! The BST invariant holds globally across the entire left and right subtrees.',
+      'Incorrect. The BST invariant applies recursively to all descendants in the subtree, not just immediate children.',
+      'Incorrect. That describes a Max-Heap property, not a Binary Search Tree.',
+      'Incorrect. Complete level filling describes a complete binary tree / heap structure, not a general BST.',
+    ],
+    author: 'VisiOS Research CS Group',
+    version: '1.0.0',
+  },
+  {
+    id: 'diag-cs-02',
+    conceptId: 'cs-bst-complexity',
+    learningObjective: 'Analyze worst-case search complexity in unbalanced BSTs',
+    difficulty: 'intermediate',
+    question: 'If you insert numbers [10, 20, 30, 40, 50] sequentially into an un-balanced BST, what is the worst-case search time complexity for lookup?',
+    options: [
+      'O(log n) because binary trees always divide search space in half',
+      'O(n) because the tree degenerates into a single linear chain of height 5',
+      'O(1) because elements are indexed by hash values',
+      'O(n log n) due to comparison overhead',
+    ],
+    correctIndex: 1,
+    distractorMisconceptions: {
+      0: 'misconception-unbalanced-lookup',
+    },
+    explanations: [
+      'Incorrect. O(log n) requires balanced height; sorted insertion creates a degenerate tree of height n.',
+      'Correct! Sorted insertion into a simple BST creates a right-skewed list with height O(n) and lookup O(n).',
+      'Incorrect. BST nodes are linked pointers, not array hash indices.',
+      'Incorrect. Searching a list of n nodes takes O(n) comparisons, not O(n log n).',
+    ],
+    author: 'VisiOS Research CS Group',
+    version: '1.0.0',
+  },
+
+  // Electronics: RLC Resonance
+  {
+    id: 'diag-elec-01',
+    conceptId: 'elec-rlc-resonance',
+    learningObjective: 'Analyze resonant frequency parameter dependencies in series RLC circuits',
+    difficulty: 'beginner',
+    question: 'In a series RLC circuit with L = 10 mH, C = 100 nF, and R = 50 Ω, how is the undamped resonant frequency ω₀ calculated?',
+    options: [
+      'ω₀ = 1 / √(LC), completely independent of resistance R',
+      'ω₀ = R / √(LC), directly proportional to resistance R',
+      'ω₀ = 1 / (R · C), controlled by RC time constant',
+      'ω₀ = √(L / C) · R',
+    ],
+    correctIndex: 0,
+    distractorMisconceptions: {
+      1: 'misconception-resonance-resistance',
+      2: 'misconception-resonance-resistance',
+    },
+    explanations: [
+      'Correct! Resonance occurs where reactive impedances cancel (ωL = 1/ωC => ω₀ = 1/√(LC)), regardless of R.',
+      'Incorrect. Resistance R affects damping and bandwidth, but not the natural undamped resonant frequency ω₀.',
+      'Incorrect. 1/(RC) is the cutoff frequency for first-order RC filters, not second-order RLC resonance.',
+      'Incorrect. √(L/C) is characteristic impedance (in Ohms), not resonant angular frequency.',
+    ],
+    author: 'VisiOS Research Electronics Group',
+    version: '1.0.0',
+  },
+  {
+    id: 'diag-elec-02',
+    conceptId: 'elec-rlc-quality',
+    learningObjective: 'Evaluate relationship between Q-factor and frequency selectivity',
+    difficulty: 'intermediate',
+    question: 'If you reduce series resistance R in a series RLC circuit, what happens to the Quality Factor Q and resonance bandwidth Δω?',
+    options: [
+      'Q increases, producing a sharper and narrower resonance bandwidth Δω',
+      'Q decreases, broadening the frequency response across all frequencies',
+      'Q and bandwidth remain constant because L and C did not change',
+      'Bandwidth increases while Q increases simultaneously',
+    ],
+    correctIndex: 0,
+    distractorMisconceptions: {
+      1: 'misconception-q-factor-bandwidth',
+      3: 'misconception-q-factor-bandwidth',
+    },
+    explanations: [
+      'Correct! Q = (1/R)√(L/C) and Δω = ω₀/Q. Lower R increases Q, narrowing bandwidth for higher frequency selectivity.',
+      'Incorrect. In a series RLC circuit, Q is inversely proportional to R, so lower R increases Q.',
+      'Incorrect. Bandwidth Δω = R/L is directly proportional to R.',
+      'Incorrect. Q and bandwidth are inversely related: high Q means narrow bandwidth.',
+    ],
+    author: 'VisiOS Research Electronics Group',
+    version: '1.0.0',
+  },
+
+  // Math: Vector Dot Product
+  {
+    id: 'diag-math-01',
+    conceptId: 'math-vector-dot',
+    learningObjective: 'Distinguish scalar dot products from vector operations',
+    difficulty: 'beginner',
+    question: 'Given vectors u = (3, 4) and v = (2, 0), what is the mathematical type and value of the dot product u · v?',
+    options: [
+      'A scalar real number: 6',
+      'A 2D vector: (6, 0)',
+      'A 2D vector: (5, 4)',
+      'A 3D perpendicular normal vector',
+    ],
+    correctIndex: 0,
+    distractorMisconceptions: {
+      1: 'misconception-dot-product-vector',
+      2: 'misconception-dot-product-vector',
+      3: 'misconception-dot-product-vector',
+    },
+    explanations: [
+      'Correct! u · v = 3(2) + 4(0) = 6, which is a single scalar real quantity.',
+      'Incorrect. Dot product produces a scalar sum of products, not a component-wise vector.',
+      'Incorrect. That is vector addition u + v = (5, 4), not the dot product.',
+      'Incorrect. Perpendicular vector generation is produced by the cross product in 3D, not the scalar dot product.',
+    ],
+    author: 'VisiOS Research Math Group',
+    version: '1.0.0',
+  },
+];
+
