@@ -92,6 +92,8 @@ export interface LearningRequestPreferences {
   preferredVisualization?: string;
   detailLevel?: 'concise' | 'standard' | 'detailed';
   enable3d?: boolean;
+  preferredDifficulty?: 'beginner' | 'intermediate' | 'advanced';
+  includeScaffolding?: boolean;
 }
 
 export interface LearningRequest {
