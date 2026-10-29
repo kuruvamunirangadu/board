@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { analyticsService } from '@/features/analytics/analytics-service';
-import { analyticsStore } from '@/features/analytics/analytics-store';
+import {
+  analyticsService,
+  analyticsStore,
+  defaultEventProcessor,
+  LearningMetricsService,
+  TopicProgressService,
+  LearningInsightsService,
+} from '@/features/analytics';
 import { AssessmentAttemptRecord, RetakePolicy } from '@/types/analytics';
 
 export async function GET(request: NextRequest) {
@@ -54,6 +60,28 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: true, report });
     }
 
+    if (action === 'topic_progress') {
+      const attempts = analyticsStore.getAttempts({ learnerId });
+      const progress = TopicProgressService.computeTopicProgress(attempts, subjectId);
+      return NextResponse.json({ success: true, progress });
+    }
+
+    if (action === 'detailed_metrics') {
+      const events = defaultEventProcessor.getLearnerEvents(learnerId);
+      const attempts = analyticsStore.getAttempts({ learnerId });
+      const metrics = LearningMetricsService.computeMetrics(learnerId, events, attempts);
+      return NextResponse.json({ success: true, metrics });
+    }
+
+    if (action === 'learning_insights') {
+      const events = defaultEventProcessor.getLearnerEvents(learnerId);
+      const attempts = analyticsStore.getAttempts({ learnerId });
+      const metrics = LearningMetricsService.computeMetrics(learnerId, events, attempts);
+      const progress = TopicProgressService.computeTopicProgress(attempts, subjectId);
+      const insights = LearningInsightsService.generateInsights(metrics, progress);
+      return NextResponse.json({ success: true, insights, metrics, progress });
+    }
+
     return NextResponse.json({ success: false, error: `Unknown action: ${action}` }, { status: 400 });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message || 'Internal analytics error' }, { status: 500 });
@@ -63,7 +91,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, attempt } = body;
+    const { action, attempt, event } = body;
 
     if (action === 'record_attempt') {
       if (!attempt || !attempt.id || !attempt.learnerId || !attempt.conceptId) {
@@ -79,6 +107,30 @@ export async function POST(request: NextRequest) {
         isDuplicate: result.isDuplicate,
         attempt: result.attempt,
       });
+    }
+
+    if (action === 'ingest_event') {
+      if (!event) {
+        return NextResponse.json({ success: false, error: 'Missing event payload' }, { status: 400 });
+      }
+
+      const result = defaultEventProcessor.ingest(event);
+      if (result.isDuplicate) {
+        return NextResponse.json({
+          success: false,
+          isDuplicate: true,
+          error: result.error,
+        }, { status: 409 });
+      }
+
+      if (!result.accepted) {
+        return NextResponse.json(
+          { success: false, error: result.error },
+          { status: 400 }
+        );
+      }
+
+      return NextResponse.json({ success: true, event: result.event });
     }
 
     return NextResponse.json({ success: false, error: `Unknown action: ${action}` }, { status: 400 });
