@@ -43,14 +43,14 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
 
   return (
     <aside
-      className={`fixed right-4 top-20 bottom-6 z-40 w-84 sm:w-96 rounded-2xl flex flex-col shadow-2xl transition-all duration-300 overflow-hidden ${
+      className={`fixed right-3 top-16 bottom-16 z-40 w-[340px] sm:w-[400px] md:w-[440px] max-w-[calc(100vw-1.5rem)] rounded-2xl flex flex-col shadow-2xl transition-all duration-300 overflow-hidden ${
         isImmersive
           ? 'bg-slate-900/90 backdrop-blur-xl border border-cyan-500/30 text-slate-100 shadow-cyan-950/50'
           : 'bg-slate-900/95 backdrop-blur-md border border-slate-700/80 text-slate-200'
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-800 shrink-0">
         <div className="flex items-center space-x-2">
           {activeTab === 'guide' ? (
             <Sparkles className={`w-4 h-4 ${isImmersive ? 'text-cyan-400 animate-pulse' : 'text-cyan-400'}`} />
@@ -76,10 +76,10 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center border-b border-slate-800 p-1 bg-slate-950/40 text-xs gap-0.5 overflow-x-auto">
+      <div className="flex items-center border-b border-slate-800 px-2 py-1 bg-slate-950/60 text-xs gap-1 overflow-x-auto shrink-0 scrollbar-none">
         <button
           onClick={() => setActiveTab('guide')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 text-[11px] ${
             activeTab === 'guide'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-cyan-300 font-semibold'
               : 'text-slate-400 hover:text-slate-200'
@@ -90,7 +90,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('portals')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 text-[11px] ${
             activeTab === 'portals'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-cyan-300 font-semibold'
               : 'text-slate-400 hover:text-slate-200'
@@ -100,7 +100,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('continuity')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center space-x-1 shrink-0 text-[11px] ${
             activeTab === 'continuity'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-cyan-300 font-semibold'
               : 'text-slate-400 hover:text-slate-200'
@@ -111,7 +111,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('properties')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all shrink-0 text-[11px] ${
             activeTab === 'properties'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-white'
               : 'text-slate-400 hover:text-slate-200'
@@ -121,7 +121,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('outline')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all shrink-0 text-[11px] ${
             activeTab === 'outline'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-white'
               : 'text-slate-400 hover:text-slate-200'
@@ -131,7 +131,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('spatial')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all shrink-0 text-[11px] ${
             activeTab === 'spatial'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-white'
               : 'text-slate-400 hover:text-slate-200'
@@ -141,7 +141,7 @@ export const ContextualSidebar: React.FC<ContextualSidebarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('telemetry')}
-          className={`py-1.5 px-2 rounded-lg font-medium transition-all shrink-0 ${
+          className={`py-1 px-2 rounded-lg font-medium transition-all shrink-0 text-[11px] ${
             activeTab === 'telemetry'
               ? isImmersive ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'bg-slate-800 text-white'
               : 'text-slate-400 hover:text-slate-200'

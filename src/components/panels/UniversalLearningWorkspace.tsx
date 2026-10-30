@@ -283,6 +283,49 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
   const stampedCardShapeIdsRef = useRef<string[]>([]);
   const requestIdRef = useRef(0);
 
+  // Step 8: Evidence-grounded mastery status evaluation
+  const getTopicMasteryEvaluation = () => {
+    const hasVisitedAllSteps = completedSteps.length >= 7;
+    const hasAssessment = isAnswerSubmitted && practiceFeedback !== null;
+    const score = practiceFeedback?.score ?? 0;
+    const isAssessmentPassed = hasAssessment && practiceFeedback?.isCorrect && score >= 70;
+    const isAssessmentFailed = hasAssessment && (!practiceFeedback?.isCorrect || score < 70);
+
+    if (isAssessmentPassed) {
+      return {
+        status: 'mastered' as const,
+        badgeLabel: '✓ Mastered',
+        badgeClass: 'text-emerald-300 bg-emerald-950/70 border-emerald-500/40',
+        message: `Verified understanding through practice assessment (Score: ${score}%). Core principles, derivations, and practice self-check mastered.`,
+      };
+    }
+
+    if (isAssessmentFailed) {
+      return {
+        status: 'needs_practice' as const,
+        badgeLabel: '⚠ Needs Practice',
+        badgeClass: 'text-amber-300 bg-amber-950/70 border-amber-500/40',
+        message: 'Practice assessment indicates misconceptions. Review the worked example and retry the practice quiz in Step 7 before advancing.',
+      };
+    }
+
+    if (hasVisitedAllSteps) {
+      return {
+        status: 'assessment_pending' as const,
+        badgeLabel: '⏳ Assessment Pending',
+        badgeClass: 'text-cyan-300 bg-cyan-950/70 border-cyan-500/40',
+        message: 'All lesson steps explored! Complete the Step 7 practice exercise to evaluate your understanding and unlock verified mastery.',
+      };
+    }
+
+    return {
+      status: 'in_progress' as const,
+      badgeLabel: '📚 In Progress',
+      badgeClass: 'text-indigo-300 bg-indigo-950/70 border-indigo-500/40',
+      message: `Progress: ${completedSteps.length} of 8 steps visited. Complete remaining guided steps to build foundations.`,
+    };
+  };
+
   // Step 1 & 4: VisiOS Experiment Lab & What-If Scenario Engine state
   const [experimentViewMode, setExperimentViewMode] = useState<'whatif' | 'lab' | 'sliders'>('whatif');
   const [experimentLabState, setExperimentLabState] = useState<ExperimentSessionState | null>(null);
@@ -472,6 +515,8 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
 
       // Step 6: Check for saved session to resume
       const savedSession = await LearningSessionPersistenceService.restoreSession(topic);
+      // Discard stale responses if a newer request was dispatched while restoring
+      if (requestIdRef.current !== currentRequestId) return;
       if (savedSession) {
         if (savedSession.currentLessonStep) {
           setGuidedStep(savedSession.currentLessonStep);
@@ -794,6 +839,36 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
           Explore
         </button>
       </form>
+
+      {/* Whiteboard Synchronization Status Indicator */}
+      {(() => {
+        if (!editor) return null;
+        const allPageShapes = editor.getCurrentPageShapes();
+        const stampedCard = allPageShapes.find((s) => s.type === 'learning-card');
+        if (!stampedCard) return null;
+        const boardCardTitle = ((stampedCard.props as any).title as string)?.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim();
+        const activeLessonTitle = plan.title.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim();
+        const cleanA = boardCardTitle?.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanB = activeLessonTitle?.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const isMatch = cleanA && cleanB && (cleanA.includes(cleanB.slice(0, 8)) || cleanB.includes(cleanA.slice(0, 8)));
+        if (isMatch) return null;
+
+        return (
+          <div className="p-2 rounded-xl bg-indigo-950/60 border border-indigo-500/40 text-[11px] text-indigo-200 flex items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-1.5 truncate">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="truncate">Board shows: <strong>"{boardCardTitle}"</strong></span>
+            </div>
+            <button
+              onClick={handleStampToCanvas}
+              className="px-2 py-0.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-[10px] shrink-0 transition-colors shadow-sm"
+              title="Update whiteboard cards to match active lesson"
+            >
+              Sync to Board
+            </button>
+          </div>
+        );
+      })()}
 
       {/* Validation / Processing Error Notice */}
       {errorMessage && (
@@ -2632,40 +2707,62 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                 {guidedStep === 'practice_exercise' && renderPracticeContent()}
 
                 {/* Step 8: Concise Recap */}
-                {guidedStep === 'recap' && (
-                  <div className="space-y-2.5">
-                    <div className="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800 space-y-2">
-                      <div className="flex items-center space-x-1.5 text-cyan-400 font-semibold text-xs">
-                        <Award className="w-3.5 h-3.5" />
-                        <span>Concise Lesson Recap</span>
+                {guidedStep === 'recap' && (() => {
+                  const masteryEval = getTopicMasteryEvaluation();
+                  return (
+                    <div className="space-y-2.5">
+                      <div className="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800 space-y-2">
+                        <div className="flex items-center space-x-1.5 text-cyan-400 font-semibold text-xs">
+                          <Award className="w-3.5 h-3.5" />
+                          <span>Concise Lesson Recap</span>
+                        </div>
+                        <p className="text-xs text-slate-300 leading-relaxed">{plan.overview}</p>
+                        <div className={`p-2.5 rounded-lg border text-[11px] space-y-1.5 ${masteryEval.badgeClass}`}>
+                          <div className="font-bold flex items-center justify-between">
+                            <span>{masteryEval.badgeLabel}</span>
+                            {masteryEval.status === 'assessment_pending' && (
+                              <button
+                                onClick={() => setGuidedStep('practice_exercise')}
+                                className="px-2 py-0.5 rounded bg-cyan-800 hover:bg-cyan-700 text-white text-[10px] font-semibold transition-colors shadow-sm"
+                              >
+                                Take Step 7 Quiz ▶
+                              </button>
+                            )}
+                            {masteryEval.status === 'needs_practice' && (
+                              <button
+                                onClick={() => setGuidedStep('practice_exercise')}
+                                className="px-2 py-0.5 rounded bg-amber-700 hover:bg-amber-600 text-white text-[10px] font-semibold transition-colors shadow-sm"
+                              >
+                                Retry Step 7 Quiz ▶
+                              </button>
+                            )}
+                          </div>
+                          <p className="text-[10.5px] opacity-90 leading-relaxed">{masteryEval.message}</p>
+                        </div>
                       </div>
-                      <p className="text-xs text-slate-300 leading-relaxed">{plan.overview}</p>
-                      <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[11px] text-emerald-300">
-                        ✓ Mastered: Core principles, derivations, live simulation, and practice self-check.
-                      </div>
-                    </div>
 
-                    {plan.recommendedNextConcepts.length > 0 && (
-                      <div className="p-3 rounded-xl border bg-slate-900/60 border-slate-800 space-y-1.5">
-                        <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                          Ready for Next Topics
+                      {plan.recommendedNextConcepts.length > 0 && (
+                        <div className="p-3 rounded-xl border bg-slate-900/60 border-slate-800 space-y-1.5">
+                          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                            Ready for Next Topics
+                          </div>
+                          <div className="space-y-1">
+                            {plan.recommendedNextConcepts.map((c, i) => (
+                              <button
+                                key={i}
+                                onClick={() => handleQuickTopic(c)}
+                                className="w-full text-left p-1.5 rounded-lg bg-slate-950/60 border border-slate-800 hover:border-cyan-500/40 text-[11px] text-slate-300 flex items-center justify-between transition-colors"
+                              >
+                                <span className="line-clamp-1">{c}</span>
+                                <ArrowRight className="w-3 h-3 text-cyan-400 shrink-0 ml-1" />
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                        <div className="space-y-1">
-                          {plan.recommendedNextConcepts.map((c, i) => (
-                            <button
-                              key={i}
-                              onClick={() => handleQuickTopic(c)}
-                              className="w-full text-left p-1.5 rounded-lg bg-slate-950/60 border border-slate-800 hover:border-cyan-500/40 text-[11px] text-slate-300 flex items-center justify-between transition-colors"
-                            >
-                              <span className="line-clamp-1">{c}</span>
-                              <ArrowRight className="w-3 h-3 text-cyan-400 shrink-0 ml-1" />
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             );
           }

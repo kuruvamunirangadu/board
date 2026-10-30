@@ -61,6 +61,25 @@ export class LearningOrchestrator {
   private static readonly MAX_INPUT_LENGTH = 300;
 
   /**
+   * Helper to strip conversational prefixes and suffixes from student prompts
+   * (e.g. "Explain isolation levels in database transactions with an example." -> "isolation levels in database transactions")
+   */
+  public static extractCoreTopic(raw: string): string {
+    let cleaned = (raw || '').trim();
+    // Do not alter concise mathematical formulas or physical expressions
+    if (/[=+\-*/^]/.test(cleaned) && cleaned.length < 35 && !/\b(explain|teach|what|how|show)\b/i.test(cleaned)) {
+      return cleaned;
+    }
+    // Strip common conversational prefixes
+    cleaned = cleaned.replace(/^(can\s+you\s+)?(please\s+)?(explain|teach\s+me|tell\s+me\s+about|what\s+is|what\s+are|how\s+does|how\s+do|show\s+me|demonstrate|visualize|describe)\s+/i, '');
+    // Strip common conversational suffixes
+    cleaned = cleaned.replace(/\s+(with\s+(an?\s+)?example|from\s+the\s+basics|in\s+detail|step\s+by\s+step|visually|please)[.?!]?$/i, '');
+    // Clean trailing punctuation
+    cleaned = cleaned.replace(/[.?!]+$/, '').trim();
+    return cleaned || raw.trim();
+  }
+
+  /**
    * Phase 1: Unified Canonical Learning Pipeline
    * Takes a structured LearningRequest, verifies genuine engine capabilities,
    * executes domain calculations and models deterministically, validates outputs,
@@ -210,12 +229,23 @@ export class LearningOrchestrator {
         ? trimmed.slice(0, this.MAX_INPUT_LENGTH)
         : trimmed;
 
+    const coreTopic = this.extractCoreTopic(boundedInput);
+
     // 2. Intelligent Topic Classification & Subject Registry Resolution
-    const classification = TopicClassifier.classify(boundedInput);
+    // Try classifying coreTopic first, fallback to raw input if needed
+    let classification = TopicClassifier.classify(coreTopic);
+    if (classification.domain === 'other' || classification.requiresClarification) {
+      const rawClassification = TopicClassifier.classify(boundedInput);
+      if (!rawClassification.requiresClarification) {
+        classification = rawClassification;
+      }
+    }
     const subjectDef = SubjectRegistry.resolveSubjectForDomain(classification.domain);
 
     // ROUTE 0: Check whether an applicable approved published authored lesson exists
-    const publishedLesson = await LessonLibraryService.findMatchingPublishedLesson(boundedInput);
+    const publishedLesson =
+      (await LessonLibraryService.findMatchingPublishedLesson(coreTopic)) ||
+      (await LessonLibraryService.findMatchingPublishedLesson(boundedInput));
     if (publishedLesson) {
       const authoredPlan = LessonLibraryService.toLearningPlan(publishedLesson);
       const authoredClassification: TopicClassificationResult = {
@@ -317,11 +347,12 @@ export class LearningOrchestrator {
 
     // ROUTE E: Factual Knowledge Layer: Real-World Entity / Concept (Wikipedia)
     let knowledgeData: KnowledgeApiResult | null = null;
+    const queryTarget = coreTopic || boundedInput;
     try {
       const isBrowser = typeof window !== 'undefined';
       const knowledgeEndpoint = isBrowser
-        ? `/api/knowledge?q=${encodeURIComponent(boundedInput)}`
-        : `http://127.0.0.1:3000/api/knowledge?q=${encodeURIComponent(boundedInput)}`;
+        ? `/api/knowledge?q=${encodeURIComponent(queryTarget)}`
+        : `http://127.0.0.1:3000/api/knowledge?q=${encodeURIComponent(queryTarget)}`;
 
       const res = await fetch(knowledgeEndpoint, {
         signal: AbortSignal.timeout(6000),
@@ -338,13 +369,13 @@ export class LearningOrchestrator {
     if (!knowledgeData && typeof window === 'undefined') {
       try {
         const { handleKnowledgeQuery } = await import('../knowledge/knowledge-client');
-        knowledgeData = await handleKnowledgeQuery(boundedInput);
+        knowledgeData = (await handleKnowledgeQuery(queryTarget)) || (await handleKnowledgeQuery(boundedInput));
       } catch {
         // Proceed to local AI fallback
       }
     }
 
-    const interp = UniversalInputInterpreter.interpret(boundedInput);
+    const interp = UniversalInputInterpreter.interpret(coreTopic || boundedInput);
 
     // Formulate Plan with Factual Knowledge & Local AI
     if (knowledgeData && knowledgeData.found && knowledgeData.bestMatch) {

@@ -115,6 +115,38 @@ export function buildObjectContext(
       };
     }
 
+    // 1C-2. Stamped Learning Card Shape
+    if (shape.type === 'learning-card') {
+      const cardTitle = (props.title as string)?.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim() || 'Learning Concept';
+      return {
+        id: shape.id,
+        type: 'formula',
+        title: cardTitle,
+        recognizedFormula: {
+          rawText: props.formula || cardTitle,
+          normalizedFormula: props.formula || cardTitle,
+          topic: (props.category as any) || 'algebra',
+          title: cardTitle,
+          solvedResult: props.takeaway || props.content || '',
+          studyGuide: {
+            intuition: props.content || '',
+            prerequisites: props.steps || [],
+            realWorldApplication: props.takeaway || '',
+          },
+          algebraicSteps: props.steps || [],
+          geometricProofSummary: props.content || '',
+          hasInteractiveAnimation: false,
+        },
+        metadata: {
+          title: cardTitle,
+          formula: props.formula || cardTitle,
+          category: props.category,
+          badge: props.badge,
+          content: props.content,
+        },
+      };
+    }
+
     // 1D. Hand-drawn ink strokes (e.g. handwritten formula or diagram)
     if (shape.type === 'draw') {
       const formulaMatch =
@@ -250,6 +282,40 @@ export function buildObjectContext(
         period,
         damping,
         currentAngle: initialAngle,
+      },
+    };
+  }
+
+  // Check if there are stamped learning cards on the board
+  const learningCardShape = allShapes.find((s) => s.type === 'learning-card');
+  if (learningCardShape) {
+    const props = learningCardShape.props as any;
+    const cardTitle = (props.title as string)?.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim() || 'Learning Concept';
+    return {
+      id: learningCardShape.id,
+      type: 'formula',
+      title: cardTitle,
+      recognizedFormula: {
+        rawText: props.formula || cardTitle,
+        normalizedFormula: props.formula || cardTitle,
+        topic: (props.category as any) || 'algebra',
+        title: cardTitle,
+        solvedResult: props.takeaway || props.content || '',
+        studyGuide: {
+          intuition: props.content || '',
+          prerequisites: props.steps || [],
+          realWorldApplication: props.takeaway || '',
+        },
+        algebraicSteps: props.steps || [],
+        geometricProofSummary: props.content || '',
+        hasInteractiveAnimation: false,
+      },
+      metadata: {
+        title: cardTitle,
+        formula: props.formula || cardTitle,
+        category: props.category,
+        badge: props.badge,
+        content: props.content,
       },
     };
   }
