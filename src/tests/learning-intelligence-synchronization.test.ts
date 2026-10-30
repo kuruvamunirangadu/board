@@ -18,9 +18,10 @@ import { Workspace } from '../types';
 const mockWorkspace: Workspace = {
   id: 'ws-test-1',
   title: 'Untitled Workspace',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  shapes: {},
+  mode: 'focus',
+  createdAt: Date.now(),
+  updatedAt: Date.now(),
+  version: '1.0',
 };
 
 // ---------------------------------------------------------------------------
@@ -151,3 +152,48 @@ test('Test 5: Mastery state evaluation prevents premature mastery without assess
   // Case E: Student just started lesson (visited 2 steps) -> in_progress
   assert.equal(evaluateMastery(2, false, null), 'in_progress');
 });
+
+// ---------------------------------------------------------------------------
+// Test 6: Acronym queries like "mla stands for" trigger disambiguation clarification
+// ---------------------------------------------------------------------------
+test('Test 6: Acronym queries like "mla stands for" route to honest uncertainty with candidate options', async () => {
+  const orchestrated = await LearningOrchestrator.processTopic('mla stands for');
+
+  assert.equal(orchestrated.routeTaken, 'honest_uncertainty');
+  assert.equal(orchestrated.plan.uncertaintyState?.isUncertain, true);
+  assert.ok(orchestrated.plan.uncertaintyState?.suggestedClarifications);
+  assert.ok(orchestrated.plan.uncertaintyState.suggestedClarifications.length >= 2);
+
+  // Candidate options should include Modern Language Association
+  const hasMLA = orchestrated.plan.uncertaintyState.suggestedClarifications.some((opt) =>
+    opt.toLowerCase().includes('modern language association')
+  );
+  assert.equal(hasMLA, true);
+
+  // Must not claim Douglas Todd Loewen or Carbon Market as the sole definition
+  assert.notEqual(orchestrated.plan.title, 'Todd Loewen');
+  assert.notEqual(orchestrated.plan.title, 'Integrity Council for the Voluntary Carbon Market (ICVCM)');
+});
+
+// ---------------------------------------------------------------------------
+// Test 7: "stands for" does not match "tan" in trigonometry
+// ---------------------------------------------------------------------------
+test('Test 7: Word boundary checking prevents "stands for" from triggering trigonometric curves', () => {
+  const query = 'mla stands for';
+  const lower = query.toLowerCase();
+
+  // Test the new regexes used in UniversalLearningWorkspace and CanvasStampingEngine
+  const isTrigMath =
+    /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(lower) ||
+    /\by\s*=\s*(sin|cos|tan)\b/i.test(lower);
+
+  assert.equal(isTrigMath, false, '"stands for" should not trigger trigonometric curves');
+
+  // Verify that an actual trig query still matches
+  const trigQuery = 'y = tan(x)';
+  const matchesTrig =
+    /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(trigQuery) ||
+    /\by\s*=\s*(sin|cos|tan)\b/i.test(trigQuery);
+  assert.equal(matchesTrig, true, '"y = tan(x)" must match trigonometry');
+});
+

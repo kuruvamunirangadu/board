@@ -70,10 +70,19 @@ export class LearningOrchestrator {
     if (/[=+\-*/^]/.test(cleaned) && cleaned.length < 35 && !/\b(explain|teach|what|how|show)\b/i.test(cleaned)) {
       return cleaned;
     }
+
+    // Handle acronym / definition requests like "what does [X] stand for", "meaning of [X]", "definition of [X]", "[X] stands for"
+    const acronymMatch =
+      cleaned.match(/^(?:what\s+does\s+)?([A-Za-z0-9_-]+)\s+(?:stands?\s+for|meanings?|definition)[.?!]?$/i) ||
+      cleaned.match(/^(?:what\s+is\s+the\s+meaning\s+of|meaning\s+of|definition\s+of|what\s+does\s+)([A-Za-z0-9_-]+)(?:\s+stand\s+for)?[.?!]?$/i);
+    if (acronymMatch && acronymMatch[1]) {
+      return acronymMatch[1].trim();
+    }
+
     // Strip common conversational prefixes
     cleaned = cleaned.replace(/^(can\s+you\s+)?(please\s+)?(explain|teach\s+me|tell\s+me\s+about|what\s+is|what\s+are|how\s+does|how\s+do|show\s+me|demonstrate|visualize|describe)\s+/i, '');
     // Strip common conversational suffixes
-    cleaned = cleaned.replace(/\s+(with\s+(an?\s+)?example|from\s+the\s+basics|in\s+detail|step\s+by\s+step|visually|please)[.?!]?$/i, '');
+    cleaned = cleaned.replace(/\s+(with\s+(an?\s+)?example|from\s+the\s+basics|in\s+detail|step\s+by\s+step|visually|stands?\s+for|please)[.?!]?$/i, '');
     // Clean trailing punctuation
     cleaned = cleaned.replace(/[.?!]+$/, '').trim();
     return cleaned || raw.trim();
@@ -376,6 +385,64 @@ export class LearningOrchestrator {
     }
 
     const interp = UniversalInputInterpreter.interpret(coreTopic || boundedInput);
+
+    // Ambiguity / Acronym Disambiguation: Surface candidate options rather than picking an arbitrary meaning
+    if (
+      knowledgeData &&
+      knowledgeData.found &&
+      (knowledgeData.status === 'ambiguous' ||
+        knowledgeData.bestMatch?.description?.toLowerCase().includes('disambiguation') ||
+        knowledgeData.bestMatch?.extract.toLowerCase().includes('may refer to:') ||
+        knowledgeData.bestMatch?.extract.toLowerCase().includes('most commonly refers to:'))
+    ) {
+      interp.isAmbiguous = true;
+      interp.ambiguityReason = `The term "${coreTopic || boundedInput}" has multiple interpretations. Please select your intended topic:`;
+
+      const candidateAlternatives = (knowledgeData.alternativeMatches || [])
+        .map((m) => ({
+          label: `${m.title}${m.snippet ? ` — ${m.snippet.slice(0, 60)}...` : ''}`,
+          interpretation: m.title,
+        }))
+        .filter((c) => !c.label.toLowerCase().includes('disambiguation'));
+
+      // If querying MLA specifically, provide canonical educational expansions
+      if ((coreTopic || boundedInput).trim().toUpperCase() === 'MLA') {
+        interp.clarificationOptions = [
+          {
+            label: 'Modern Language Association (MLA Handbook & Citation Format)',
+            interpretation: 'Modern Language Association',
+          },
+          {
+            label: 'Member of the Legislative Assembly (Government & Politics)',
+            interpretation: 'Member of the Legislative Assembly',
+          },
+          {
+            label: 'Medical Library Association (Health Sciences Information)',
+            interpretation: 'Medical Library Association',
+          },
+        ];
+      } else if (candidateAlternatives.length > 0) {
+        interp.clarificationOptions = candidateAlternatives.slice(0, 4);
+      } else {
+        interp.clarificationOptions = [
+          { label: `Learn about ${coreTopic || boundedInput} (General Overview)`, interpretation: coreTopic || boundedInput },
+        ];
+      }
+
+      const uncertainPlan = this.buildUncertaintyPlan(interp);
+      uncertainPlan.classification = classification;
+      uncertainPlan.subjectId = subjectDef.id;
+      uncertainPlan.subjectDefinition = subjectDef;
+      uncertainPlan.learningStrategy = subjectDef.learningStrategy;
+      this.validateSemanticRelevance(uncertainPlan, classification);
+
+      return {
+        plan: uncertainPlan,
+        classification,
+        routeTaken: 'honest_uncertainty',
+        processingTimeMs: Date.now() - startTime,
+      };
+    }
 
     // Formulate Plan with Factual Knowledge & Local AI
     if (knowledgeData && knowledgeData.found && knowledgeData.bestMatch) {

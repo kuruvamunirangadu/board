@@ -491,7 +491,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
         lowerTopic.includes('fractions')
       ) {
       } else if (
-        lowerTopic.includes('cos') && !lowerTopic.includes('e^')
+        /\b(cos|cosine)\b/i.test(lowerTopic) && !lowerTopic.includes('e^')
       ) {
         setActiveGoalId('math_cosine_function');
       } else if (
@@ -499,18 +499,21 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
       ) {
         setActiveGoalId('math_exp_cos_curve');
       } else if (
-        lowerTopic.includes('e^x') || lowerTopic.includes('exponential')
+        /\be\^x\b/i.test(lowerTopic) || /\bexponential\b/i.test(lowerTopic)
       ) {
         setActiveGoalId('math_exponential_function');
       } else if (
-        lowerTopic.includes('sin') ||
-        lowerTopic.includes('tan') ||
-        lowerTopic.includes('curve') ||
-        lowerTopic.includes('graph')
+        /\b(sin|sine|tan|tangent|trigonometric)\b/i.test(lowerTopic) ||
+        /\by\s*=\s*(sin|tan|cos)\b/i.test(lowerTopic)
       ) {
         setActiveGoalId('math_trig_functions');
       } else if (orchestrated.plan.conceptId && TRUSTED_CONCEPT_REGISTRY[orchestrated.plan.conceptId]) {
         setActiveGoalId(orchestrated.plan.conceptId);
+      } else {
+        // No matching curriculum dependency goal: clear active goal so unrelated paths do not linger!
+        setActiveGoalId('');
+        setActivePath(null);
+        setShowPathPanel(false);
       }
 
       // Step 6: Check for saved session to resume

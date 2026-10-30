@@ -267,24 +267,25 @@ export class CanvasStampingEngine {
     }
 
     // 5. School Geometry & Coordinate Curves: Function Plotting (y = e^(cos(x)), y = e^x, y = cos(x), y = sin(x), y = mx + c)
+    const isTrigMath =
+      /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(lowerTitle) ||
+      /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(formula) ||
+      /\by\s*=\s*(sin|cos|tan)\b/i.test(lowerTitle) ||
+      /\by\s*=\s*(sin|cos|tan)\b/i.test(formula);
+
     const isCurve =
       lowerTitle.includes('e^(cos(x))') ||
       lowerTitle.includes('e^x') ||
-      lowerTitle.includes('exponential') ||
-      lowerTitle.includes('curve') ||
-      lowerTitle.includes('cos') ||
-      lowerTitle.includes('sin') ||
-      lowerTitle.includes('tan') ||
-      formula.includes('cos') ||
-      formula.includes('sin') ||
+      /\bexponential\b/i.test(lowerTitle) ||
       formula.includes('e^') ||
       formula.includes('e^x') ||
+      isTrigMath ||
       plan.category === 'calculus';
 
     const isLinear =
       plan.category === 'algebra' ||
       plan.category === 'geometry' ||
-      lowerTitle.includes('linear') ||
+      /\blinear\b/i.test(lowerTitle) ||
       lowerTitle.includes('slope') ||
       lowerTitle.includes('y =') ||
       lowerTitle.includes('y=') ||
@@ -298,23 +299,19 @@ export class CanvasStampingEngine {
       } else if (lowerTitle.includes('e^x') || formula.includes('e^x') || lowerTitle.includes('exponential') || formula.includes('exp(x)') || plan.conceptId === 'math_exponential_function') {
         functionExpression = 'e^x';
       } else if (
-        lowerTitle.includes('cos') ||
-        formula.includes('cos') ||
-        lowerTitle.includes('cosine') ||
-        formula.includes('cosine') ||
+        /\b(cos|cosine)\b/i.test(lowerTitle) ||
+        /\b(cos|cosine)\b/i.test(formula) ||
         plan.conceptId === 'math_cosine_function'
       ) {
         functionExpression = 'cos(x)';
       } else if (
-        lowerTitle.includes('sin') ||
-        formula.includes('sin') ||
-        lowerTitle.includes('sine') ||
-        formula.includes('sine') ||
+        /\b(sin|sine)\b/i.test(lowerTitle) ||
+        /\b(sin|sine)\b/i.test(formula) ||
         plan.conceptId === 'calculus_sin_x' ||
         plan.conceptId === 'math_sine_function'
       ) {
         functionExpression = 'sin(x)';
-      } else if (lowerTitle.includes('tan') || formula.includes('tan')) {
+      } else if (/\b(tan|tangent)\b/i.test(lowerTitle) || /\b(tan|tangent)\b/i.test(formula)) {
         functionExpression = 'tan(x)';
       }
 
