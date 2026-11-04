@@ -328,6 +328,23 @@ export class EngineCapabilityRegistry {
       verifiedExamples: ['Water molecule H2O', 'Methane CH4 tetrahedral', 'CO2 carbon dioxide'],
     },
     {
+      id: 'cap_chemberta_molecular_embedding',
+      name: 'Molecular Language Representation & SMILES Analysis (ChemBERTa-2)',
+      domain: 'chemistry',
+      engineType: 'simulation',
+      level: 'verified_and_tested',
+      supportedTasks: ['molecular_embedding', 'smiles_representation', 'masked_token_prediction'],
+      matchPatterns: ['smiles', 'molecular embedding', 'chemberta', 'chemical representation', 'masked smiles', 'ethanol smiles', 'acetic acid smiles'],
+      matchPredicate: (q) =>
+        /\b(smiles|chemberta|molecular embedding|masked smiles)\b/i.test(q) ||
+        /^([CNOPSFClBrIBrHcnops0123456789=+#\-\/\\\[\]()%.@~:]{2,})$/.test(q.trim()),
+      requiredParameters: ['smiles'],
+      expectedOutputCategories: ['384_dimensional_embedding', 'canonical_smiles', 'token_predictions'],
+      supportedVisualizers: ['svg_schematic_fallback'],
+      limitations: ['Pretrained molecular representation foundation; downstream property prediction requires calibrated classifiers.'],
+      verifiedExamples: ['CCO', 'CC(=O)O', 'SMILES molecular embedding'],
+    },
+    {
       id: 'cap_3d_geometry_polyhedra',
       name: '3D Platonic Solids, Polyhedra & Euler Invariants',
       domain: 'mathematics',

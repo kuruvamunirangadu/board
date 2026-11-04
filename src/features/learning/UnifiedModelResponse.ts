@@ -124,6 +124,47 @@ export class UnifiedModelResponseFactory {
   }
 
   /**
+   * Factory for responses originating from the Chemistry API (/api/learning/chemistry).
+   */
+  public static fromChemistryApi(
+    data: {
+      subject: string;
+      model: string;
+      canonical_smiles?: string;
+      embedding_dimension?: number;
+      embedding?: number[];
+      task?: string;
+      predictions?: Array<{ token: string; score: number }>;
+      source?: string;
+      verified?: boolean;
+    },
+    latencyMs?: number,
+    capabilityId?: string
+  ): UnifiedModelResponse {
+    const isMasked = data.task === 'masked_token_prediction';
+    const answer = isMasked
+      ? `Predicted ${data.predictions?.length || 0} candidate molecular tokens for masked sequence.`
+      : `Generated ${data.embedding_dimension || data.embedding?.length || 384}-dimensional molecular embedding for canonical SMILES '${data.canonical_smiles || 'molecule'}'.`;
+
+    return {
+      subject: 'chemistry',
+      model: data.model || 'DeepChem/ChemBERTa-77M-MLM',
+      answer,
+      verified: false,
+      source: 'local_model',
+      status: 'success',
+      capabilityId,
+      latencyMs,
+      rawDetails: {
+        canonical_smiles: data.canonical_smiles,
+        dimension: data.embedding_dimension || data.embedding?.length || 384,
+        vectorPreview: data.embedding ? data.embedding.slice(0, 5) : [],
+        predictions: data.predictions,
+      },
+    };
+  }
+
+  /**
    * Factory for responses produced by deterministic engines (e.g. calculation, graphing, simulation, tracer).
    */
   public static fromDeterministicEngine(

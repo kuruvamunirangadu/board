@@ -86,6 +86,22 @@ export class ModelProviderRegistry {
         'nucleotide_representation',
       ],
     },
+    chemistry: {
+      id: 'provider_chemberta',
+      subject: 'chemistry',
+      primaryModel: 'DeepChem/ChemBERTa-77M-MLM',
+      fallbackModel: 'deterministic_molecular_representation',
+      apiEndpoint: '/api/learning/chemistry',
+      maxPredictTokens: 512,
+      temperature: 0.0,
+      timeoutMs: 120000,
+      description: 'DeepChem ChemBERTa-77M-MLM molecular representation and masked token prediction specialist.',
+      supportedTasks: [
+        'molecular_embedding',
+        'smiles_representation',
+        'masked_token_prediction',
+      ],
+    },
   };
 
   /**

@@ -29,6 +29,7 @@ import { DisambiguationContext } from './InputIntelligenceTypes';
 import { POST as handleMathPost } from '@/app/api/learning/math/route';
 import { POST as handleCodePost } from '@/app/api/learning/code/route';
 import { POST as handlePlantGenomicsPost } from '@/app/api/learning/plant-genomics/route';
+import { POST as handleChemistryPost } from '@/app/api/learning/chemistry/route';
 
 export interface RoutingDecision {
   query: string;
@@ -296,7 +297,34 @@ export class SubjectModelRouter {
       };
     }
 
-    // 10. General Knowledge / Biology / Chemistry / History / Non-STEM
+    // 10. Chemistry Specialist Selection (ChemBERTa-2)
+    // Triggers on valid SMILES strings or explicit molecular embedding requests (e.g. "CCO", "CC(=O)O", "SMILES representation").
+    // Does NOT intercept ordinary chemistry concepts like "What is chemical bonding?" or "ionic bond".
+    const isSmilesPattern =
+      /^([CNOPSFClBrIBrHcnops0123456789=+#\-\/\\\[\]()%.@~:]{2,})$/.test(trimmed) &&
+      !/^[a-zA-Z\s]{4,}$/.test(trimmed); // Avoid ordinary English words
+    const isExplicitSmiles =
+      /\b(smiles|chemberta|molecular embedding|masked smiles)\b/i.test(lower);
+
+    if (isSmilesPattern || isExplicitSmiles) {
+      const provider = ModelProviderRegistry.getProvider('chemistry');
+      return {
+        query: trimmed,
+        normalizedQuery: trimmed,
+        subject: 'chemistry',
+        requiresModel: true,
+        targetProvider: provider,
+        targetEngineType: 'simulation',
+        matchedCapabilityId: 'cap_chemberta_molecular_embedding',
+        deterministicEngineAvailable: true,
+        isAmbiguous: false,
+        isMixedSubject: false,
+        secondaryCapabilities: [],
+        actionPlan: 'Route to ChemBERTa-77M-MLM Chemistry service for 384-dimensional molecular sequence embedding.',
+      };
+    }
+
+    // 11. General Knowledge / Biology / Chemistry / History / Non-STEM
     const classification = TopicClassifier.classify(trimmed);
     const domain = classification.domain;
 
@@ -429,6 +457,35 @@ export class SubjectModelRouter {
               'plant_genomics',
               `Deterministic Plant Genomics representation for sequence of length ${sequence.length}.`,
               data.error || 'BOTANIC service offline or unreachable.',
+              Date.now() - startTime
+            );
+          }
+        }
+
+        if (decision.subject === 'chemistry') {
+          // Extract SMILES if surrounded by query words
+          const smiles = decision.query.replace(/^(?:smiles|chemberta|molecular embedding for|embed|molecule)\s+/i, '').trim();
+
+          const req = new NextRequest('http://localhost:3000/api/learning/chemistry', {
+            method: 'POST',
+            body: JSON.stringify({ smiles }),
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          const res = await handleChemistryPost(req);
+          const data = await res.json();
+
+          if (res.status === 200 && (data.embedding || data.predictions)) {
+            return UnifiedModelResponseFactory.fromChemistryApi(
+              data,
+              Date.now() - startTime,
+              decision.matchedCapabilityId
+            );
+          } else {
+            return UnifiedModelResponseFactory.createFallback(
+              'chemistry',
+              `Deterministic molecular representation for SMILES: '${smiles}'.`,
+              data.error || 'Chemistry service offline or unreachable.',
               Date.now() - startTime
             );
           }
