@@ -148,3 +148,4 @@ test('SubjectModelRouter - Does NOT route general chemistry concepts to ChemBERT
   assert.equal(decision.targetEngineType, 'knowledge');
   assert.notEqual(decision.matchedCapabilityId, 'cap_chemberta_molecular_embedding');
 });
+

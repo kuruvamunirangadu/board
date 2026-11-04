@@ -46,14 +46,59 @@ def test_ethanol_embedding():
 def test_fill_mask_success():
     response = client.post(
         "/api/v1/fill-mask",
-        json={"masked_smiles": "C<maskCapsule>O", "top_k": 5},
+        json={"masked_smiles": "C[MASK]O", "top_k": 5},
     )
-    if response.status_code != 200:
-        response = client.post(
-            "/api/v1/fill-mask",
-            json={"masked_smiles": "C[MASK]O", "top_k": 5},
-        )
     assert response.status_code == 200
     data = response.json()
     assert data["task"] == "masked_token_prediction"
     assert len(data["predictions"]) <= 5
+
+def test_molecule_analyze():
+    response = client.post(
+        "/api/v1/molecule/analyze",
+        json={"smiles": "CCO"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["subject"] == "chemistry"
+    assert data["task"] == "molecular_analysis"
+    assert data["canonical_smiles"] == "CCO"
+    assert data["molecular_formula"] == "C2H6O"
+    assert abs(data["molecular_weight"] - 46.069) < 0.1
+    assert data["total_atom_count"] == 9
+    assert data["heavy_atom_count"] == 3
+    assert any(g["name"] == "Alcohol (-OH)" for g in data["functional_groups"])
+    assert data["verified"] is True
+
+def test_molecule_3d():
+    response = client.post(
+        "/api/v1/molecule/3d",
+        json={"smiles": "CCO"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["subject"] == "chemistry"
+    assert data["task"] == "3d_conformer_generation"
+    assert "sdf" in data
+    assert len(data["sdf"]) > 50
+    assert data["verified"] is True
+
+def test_molecule_2d():
+    response = client.post(
+        "/api/v1/molecule/2d",
+        json={"smiles": "CCO"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["subject"] == "chemistry"
+    assert data["task"] == "2d_image_generation"
+    assert data["mime_type"] == "image/png"
+    assert len(data["image_base64"]) > 100
+    assert data["verified"] is True
+
+def test_molecule_invalid_smiles():
+    for endpoint in ["/api/v1/molecule/analyze", "/api/v1/molecule/3d", "/api/v1/molecule/2d"]:
+        response = client.post(endpoint, json={"smiles": "INVALID_MOL_XYZ"})
+        assert response.status_code == 400
+
+

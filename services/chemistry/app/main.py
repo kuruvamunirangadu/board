@@ -1,14 +1,22 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from app.model_service import get_chemberta_service
+from app.molecular_service import analyze_molecule, generate_3d_structure, generate_2d_image
 
 app = FastAPI(
     title="VisiOS ChemBERTa-2 Chemistry Intelligence Service",
     version="1.0.0",
-    description="DeepChem ChemBERTa-77M-MLM molecular representation and masked token service.",
+    description="DeepChem ChemBERTa-77M-MLM molecular representation and RDKit molecular analysis service.",
 )
 
 class MoleculeEmbeddingRequest(BaseModel):
+    smiles: str = Field(
+        min_length=1,
+        max_length=2000,
+        description="SMILES representation of a chemical molecule.",
+    )
+
+class MoleculeRequest(BaseModel):
     smiles: str = Field(
         min_length=1,
         max_length=2000,
@@ -19,7 +27,7 @@ class MaskedMoleculeRequest(BaseModel):
     masked_smiles: str = Field(
         min_length=1,
         max_length=2000,
-        description="SMILES string containing a mask token (<maskCapsule> or <maskCapsule>).",
+        description="SMILES string containing a mask token ([MASK] or <mask>).",
     )
     top_k: int = Field(
         default=5,
@@ -34,9 +42,67 @@ def health():
         "service": "visios-chemistry",
         "status": "available",
         "model": "DeepChem/ChemBERTa-77M-MLM",
-        "task": "molecular_representation",
+        "task": "molecular_representation_and_visualization",
         "commercial_use": False,
     }
+
+@app.post("/api/v1/molecule/analyze")
+def analyze(request: MoleculeRequest):
+    try:
+        data = analyze_molecule(request.smiles)
+        return data
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error),
+        )
+    except Exception as error:
+        print("Molecular analysis error:", str(error))
+        raise HTTPException(
+            status_code=500,
+            detail="Molecular analysis failed.",
+        )
+
+@app.post("/api/v1/molecule/3d")
+def structure_3d(request: MoleculeRequest):
+    try:
+        data = generate_3d_structure(request.smiles)
+        return data
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error),
+        )
+    except Exception as error:
+        print("3D structure generation error:", str(error))
+        raise HTTPException(
+            status_code=500,
+            detail="3D molecular conformer generation failed.",
+        )
+
+@app.post("/api/v1/molecule/2d")
+def image_2d(request: MoleculeRequest):
+    try:
+        image_base64 = generate_2d_image(request.smiles)
+        return {
+            "subject": "chemistry",
+            "task": "2d_image_generation",
+            "smiles": request.smiles,
+            "image_base64": image_base64,
+            "mime_type": "image/png",
+            "verified": True,
+        }
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error),
+        )
+    except Exception as error:
+        print("2D image generation error:", str(error))
+        raise HTTPException(
+            status_code=500,
+            detail="2D molecular image generation failed.",
+        )
 
 @app.post("/api/v1/embedding")
 def generate_embedding(request: MoleculeEmbeddingRequest):
@@ -94,3 +160,4 @@ def fill_mask(request: MaskedMoleculeRequest):
             status_code=500,
             detail="Masked-token prediction failed.",
         )
+

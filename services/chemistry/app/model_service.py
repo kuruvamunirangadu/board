@@ -1,3 +1,7 @@
+import os
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+
 import torch
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 try:
@@ -16,15 +20,23 @@ class ChemBERTaService:
         self.model = None
 
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-            self.model = AutoModelForMaskedLM.from_pretrained(MODEL_ID)
+            self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, local_files_only=True)
+            self.model = AutoModelForMaskedLM.from_pretrained(MODEL_ID, local_files_only=True)
             self.model.to(self.device)
             self.model.eval()
             self.is_real_model = True
-            print(f"[ChemBERTaService] Loaded {MODEL_ID} successfully.")
-        except Exception as e:
-            print(f"[ChemBERTaService] Online model download deferred or failed: {e}")
-            print("[ChemBERTaService] Running in deterministic local molecular representation mode (384-dim).")
+            print(f"[ChemBERTaService] Loaded {MODEL_ID} from local cache successfully.")
+        except Exception:
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+                self.model = AutoModelForMaskedLM.from_pretrained(MODEL_ID)
+                self.model.to(self.device)
+                self.model.eval()
+                self.is_real_model = True
+                print(f"[ChemBERTaService] Loaded {MODEL_ID} successfully.")
+            except Exception as e:
+                print(f"[ChemBERTaService] Online model download deferred or failed: {e}")
+                print("[ChemBERTaService] Running in deterministic local molecular representation mode (384-dim).")
 
     def validate_smiles(self, smiles: str) -> str:
         smiles = smiles.strip()
