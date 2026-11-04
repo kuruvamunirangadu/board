@@ -17,3 +17,7 @@ export * from './LearningPlanValidator';
 export * from './UniversalInputInterpreter';
 export * from './LearningPlanGenerator';
 export * from './LearningSessionPersistence';
+export * from './UnifiedModelResponse';
+export * from './ModelAvailabilityService';
+export * from './ModelProviderRegistry';
+export * from './SubjectModelRouter';
