@@ -193,3 +193,4 @@ test('Test 10: ModelProviderRegistry enforces sequential VRAM queue', async () =
   await Promise.all([task1, task2]);
   assert.deepEqual(executionOrder, [1, 2]);
 });
+

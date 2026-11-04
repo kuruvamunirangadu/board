@@ -70,6 +70,22 @@ export class ModelProviderRegistry {
       description: 'Qwen2.5 0.5B general lightweight semantic baseline.',
       supportedTasks: ['conceptual_overview', 'semantic_summary'],
     },
+    plant_genomics: {
+      id: 'provider_botanic',
+      subject: 'plant_genomics',
+      primaryModel: 'living-models/Botanic1-S',
+      fallbackModel: 'deterministic_genomic_representation',
+      apiEndpoint: '/api/learning/plant-genomics',
+      maxPredictTokens: 1024,
+      temperature: 0.0,
+      timeoutMs: 120000,
+      description: 'Living Models BOTANIC-1 S plant genomic sequence embedding specialist.',
+      supportedTasks: [
+        'sequence_embedding',
+        'plant_genomics',
+        'nucleotide_representation',
+      ],
+    },
   };
 
   /**
@@ -110,3 +126,4 @@ export class ModelProviderRegistry {
     return Object.values(this.providers);
   }
 }
+

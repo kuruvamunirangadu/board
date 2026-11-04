@@ -118,3 +118,4 @@ export class ModelAvailabilityService {
     return status.isServiceAvailable;
   }
 }
+

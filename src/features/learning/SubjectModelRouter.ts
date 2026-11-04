@@ -28,6 +28,7 @@ import { DisambiguationContext } from './InputIntelligenceTypes';
 // Dynamic route handlers for server-side direct execution
 import { POST as handleMathPost } from '@/app/api/learning/math/route';
 import { POST as handleCodePost } from '@/app/api/learning/code/route';
+import { POST as handlePlantGenomicsPost } from '@/app/api/learning/plant-genomics/route';
 
 export interface RoutingDecision {
   query: string;
@@ -270,7 +271,32 @@ export class SubjectModelRouter {
       };
     }
 
-    // 9. General Knowledge / Biology / Chemistry / History / Non-STEM
+    // 9. Plant Genomics Specialist Selection (BOTANIC-1)
+    // Only triggers on genuine DNA sequences or explicit plant genome embedding requests.
+    // Does NOT intercept ordinary biology questions like "What is photosynthesis?" or "nervous system".
+    const isPureDnaSequence = /^[ACGTN\s]{10,}$/i.test(trimmed);
+    const isExplicitGenomics =
+      /\b(botanic|plant genomics|plant genome|dna sequence|nucleotide sequence|sequence embedding)\b/i.test(lower);
+
+    if (isPureDnaSequence || isExplicitGenomics) {
+      const provider = ModelProviderRegistry.getProvider('plant_genomics');
+      return {
+        query: trimmed,
+        normalizedQuery: trimmed,
+        subject: 'plant_genomics',
+        requiresModel: true,
+        targetProvider: provider,
+        targetEngineType: 'simulation',
+        matchedCapabilityId: 'cap_plant_genomics_embedding',
+        deterministicEngineAvailable: true,
+        isAmbiguous: false,
+        isMixedSubject: false,
+        secondaryCapabilities: [],
+        actionPlan: 'Route to BOTANIC-1 S Plant Genomics service for 1,024-dimensional sequence embedding.',
+      };
+    }
+
+    // 10. General Knowledge / Biology / Chemistry / History / Non-STEM
     const classification = TopicClassifier.classify(trimmed);
     const domain = classification.domain;
 
@@ -373,6 +399,36 @@ export class SubjectModelRouter {
               'computer_science',
               `Deterministic Algorithm Resolution for: "${decision.query}". Algorithmic trace structure applied.`,
               data.error || 'Coding model service unavailable.',
+              Date.now() - startTime
+            );
+          }
+        }
+
+        if (decision.subject === 'plant_genomics') {
+          // Extract nucleotide sequence if surrounded by query words
+          const rawMatch = decision.query.match(/[ACGTN]{10,}/i);
+          const sequence = rawMatch ? rawMatch[0] : decision.query.replace(/[^ACGTNacgtn]/g, '');
+
+          const req = new NextRequest('http://localhost:3000/api/learning/plant-genomics', {
+            method: 'POST',
+            body: JSON.stringify({ sequence }),
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          const res = await handlePlantGenomicsPost(req);
+          const data = await res.json();
+
+          if (res.status === 200 && data.embedding) {
+            return UnifiedModelResponseFactory.fromBotanicApi(
+              data,
+              Date.now() - startTime,
+              decision.matchedCapabilityId
+            );
+          } else {
+            return UnifiedModelResponseFactory.createFallback(
+              'plant_genomics',
+              `Deterministic Plant Genomics representation for sequence of length ${sequence.length}.`,
+              data.error || 'BOTANIC service offline or unreachable.',
               Date.now() - startTime
             );
           }

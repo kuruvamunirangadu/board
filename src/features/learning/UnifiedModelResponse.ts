@@ -12,6 +12,7 @@ export type ModelSubject =
   | 'general'
   | 'biology'
   | 'chemistry'
+  | 'plant_genomics'
   | 'multimodal'
   | 'clarification';
 
@@ -92,6 +93,37 @@ export class UnifiedModelResponseFactory {
   }
 
   /**
+   * Factory for responses originating from the Plant Genomics API (/api/learning/plant-genomics).
+   */
+  public static fromBotanicApi(
+    data: {
+      subject: string;
+      model: string;
+      embedding_dimension: number;
+      embedding: number[];
+      source: string;
+      verified?: boolean;
+    },
+    latencyMs?: number,
+    capabilityId?: string
+  ): UnifiedModelResponse {
+    return {
+      subject: 'plant_genomics',
+      model: data.model || 'living-models/Botanic1-S',
+      answer: `Generated ${data.embedding_dimension || data.embedding?.length || 1024}-dimensional plant genomic sequence embedding.`,
+      verified: false,
+      source: 'local_model',
+      status: 'success',
+      capabilityId,
+      latencyMs,
+      rawDetails: {
+        dimension: data.embedding_dimension || data.embedding?.length || 1024,
+        vectorPreview: data.embedding ? data.embedding.slice(0, 5) : [],
+      },
+    };
+  }
+
+  /**
    * Factory for responses produced by deterministic engines (e.g. calculation, graphing, simulation, tracer).
    */
   public static fromDeterministicEngine(
@@ -155,3 +187,4 @@ export class UnifiedModelResponseFactory {
     };
   }
 }
+
