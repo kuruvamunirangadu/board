@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 const CHEMISTRY_URL = process.env.CHEMISTRY_SERVICE_URL ?? "http://127.0.0.1:8200";
 
 interface ChemistryRequestBody {
-  action?: "embedding" | "analyze" | "3d" | "2d" | "fill-mask";
+  action?: "embedding" | "analyze" | "3d" | "2d" | "fill-mask" | "functional-groups";
   smiles?: string;
   masked_smiles?: string;
   top_k?: number;
@@ -70,6 +70,9 @@ export async function POST(request: NextRequest) {
     payload = { smiles };
 
     switch (action) {
+      case "functional-groups":
+        targetEndpoint = `${CHEMISTRY_URL}/api/v1/molecule/functional-groups`;
+        break;
       case "analyze":
         targetEndpoint = `${CHEMISTRY_URL}/api/v1/molecule/analyze`;
         break;

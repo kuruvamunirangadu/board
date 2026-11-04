@@ -181,3 +181,4 @@ test('Molecular Studio API - Rejects invalid SMILES for 2d with 400', async () =
     assert.equal(res.status, 503);
   }
 });
+

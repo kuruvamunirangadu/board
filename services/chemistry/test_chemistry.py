@@ -101,4 +101,69 @@ def test_molecule_invalid_smiles():
         response = client.post(endpoint, json={"smiles": "INVALID_MOL_XYZ"})
         assert response.status_code == 400
 
+def test_functional_groups_7_molecules():
+    molecules = [
+        ("CCO", "alcohol"),
+        ("CC(=O)O", "carboxylic_acid"),
+        ("CC(=O)C", "ketone"),
+        ("CCOC(=O)C", "ester"),
+        ("CC(=O)N", "amide"),
+        ("c1ccccc1", "aromatic_ring"),
+        ("CC#N", "nitrile"),
+    ]
+    for smiles, expected_id in molecules:
+        response = client.post("/api/v1/molecule/functional-groups", json={"smiles": smiles})
+        assert response.status_code == 200, f"Failed for {smiles}: {response.text}"
+        data = response.json()
+        assert data["subject"] == "chemistry"
+        assert data["task"] == "functional_group_recognition"
+        group_ids = [g["id"] for g in data["detected_groups"]]
+        assert expected_id in group_ids, f"Expected {expected_id} in {group_ids} for {smiles}"
+        assert data["verified"] is True
+        assert len(data["highlighted_atom_indices"]) > 0
+
+def test_functional_groups_acetic_acid_detail():
+    response = client.post("/api/v1/molecule/functional-groups", json={"smiles": "CC(=O)O"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["functional_group_count"] == 1
+    grp = data["detected_groups"][0]
+    assert grp["id"] == "carboxylic_acid"
+    assert grp["name"] == "Carboxylic Acid"
+    assert grp["occurrences"] == 1
+    assert len(grp["matches"]) == 1
+    assert "atom_indices" in grp["matches"][0]
+    assert "atom_symbols" in grp["matches"][0]
+    assert data["highlighted_atom_indices"] == grp["matches"][0]["atom_indices"]
+
+def test_functional_groups_multiple_occurrences():
+    # Ethylene glycol has two -OH groups
+    response = client.post("/api/v1/molecule/functional-groups", json={"smiles": "OCCO"})
+    assert response.status_code == 200
+    data = response.json()
+    alcohol_grp = next(g for g in data["detected_groups"] if g["id"] == "alcohol")
+    assert alcohol_grp["occurrences"] == 2
+    assert len(alcohol_grp["matches"]) == 2
+
+def test_functional_groups_multi_group_molecule():
+    # Aspirin: ester, carboxylic acid, aromatic ring
+    response = client.post("/api/v1/molecule/functional-groups", json={"smiles": "CC(=O)Oc1ccccc1C(=O)O"})
+    assert response.status_code == 200
+    data = response.json()
+    group_ids = {g["id"] for g in data["detected_groups"]}
+    assert "carboxylic_acid" in group_ids
+    assert "ester" in group_ids
+    assert "aromatic_ring" in group_ids
+
+def test_functional_groups_invalid_smiles():
+    response = client.post("/api/v1/molecule/functional-groups", json={"smiles": "NOT_A_VALID_SMILES"})
+    assert response.status_code == 422
+    data = response.json()
+    assert "Invalid SMILES notation" in data["detail"]
+
+def test_functional_groups_empty_smiles():
+    response = client.post("/api/v1/molecule/functional-groups", json={"smiles": "   "})
+    assert response.status_code == 422
+
+
 

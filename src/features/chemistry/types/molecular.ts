@@ -3,6 +3,34 @@ export interface FunctionalGroupMatch {
   count: number;
 }
 
+export interface FunctionalGroupMatchDetail {
+  atom_indices: number[];
+  atom_symbols: string[];
+}
+
+export interface FunctionalGroupDetection {
+  id: string;
+  name: string;
+  description: string;
+  example: string;
+  significance: string;
+  occurrences: number;
+  matches: FunctionalGroupMatchDetail[];
+}
+
+export interface FunctionalGroupRecognitionResult {
+  subject: "chemistry";
+  task: "functional_group_recognition";
+  input_smiles: string;
+  canonical_smiles: string;
+  molecular_formula: string;
+  functional_group_count: number;
+  total_occurrences: number;
+  highlighted_atom_indices: number[];
+  detected_groups: FunctionalGroupDetection[];
+  verified: boolean;
+}
+
 export interface MolecularAnalysisResult {
   subject: "chemistry";
   task: "molecular_analysis";

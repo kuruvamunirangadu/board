@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from app.model_service import get_chemberta_service
 from app.molecular_service import analyze_molecule, generate_3d_structure, generate_2d_image
+from app.functional_group_service import recognize_functional_groups
 
 app = FastAPI(
     title="VisiOS ChemBERTa-2 Chemistry Intelligence Service",
@@ -20,6 +21,13 @@ class MoleculeRequest(BaseModel):
     smiles: str = Field(
         min_length=1,
         max_length=2000,
+        description="SMILES representation of a chemical molecule.",
+    )
+
+class FunctionalGroupRequest(BaseModel):
+    smiles: str = Field(
+        min_length=1,
+        max_length=4000,
         description="SMILES representation of a chemical molecule.",
     )
 
@@ -45,6 +53,19 @@ def health():
         "task": "molecular_representation_and_visualization",
         "commercial_use": False,
     }
+
+@app.post("/api/v1/molecule/functional-groups")
+def analyze_functional_groups(request: FunctionalGroupRequest):
+    try:
+        return recognize_functional_groups(request.smiles)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    except Exception as exc:
+        print("Functional group analysis error:", str(exc))
+        raise HTTPException(
+            status_code=500,
+            detail="Functional group analysis failed.",
+        )
 
 @app.post("/api/v1/molecule/analyze")
 def analyze(request: MoleculeRequest):
