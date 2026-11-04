@@ -33,38 +33,55 @@ export interface LinearFunctionPlotterProps {
 function evaluateFunction(expr: string, x: number): number {
   try {
     const clean = expr.toLowerCase().replace(/\s+/g, '');
-    if (clean.includes('e^(cos(x))') || clean.includes('e^cos(x)') || clean.includes('exp(cos(x))')) {
-      return Math.exp(Math.cos(x));
-    }
-    if (clean.includes('e^(sin(x))') || clean.includes('e^sin(x)') || clean.includes('exp(sin(x))')) {
-      return Math.exp(Math.sin(x));
-    }
-    if (clean.includes('cos(x)') || clean.includes('cosx') || clean.includes('cos x') || clean === 'cos') return Math.cos(x);
-    if (clean.includes('sin(x)') || clean.includes('sinx') || clean.includes('sin x') || clean === 'sin') return Math.sin(x);
-    if (clean.includes('tan(x)') || clean.includes('tanx') || clean.includes('tan x') || clean === 'tan') return Math.tan(x);
-    if (clean.includes('x^2') || clean.includes('x²')) return x * x;
-    if (clean.includes('x^3') || clean.includes('x³')) return x * x * x;
-    if (clean.includes('1/x')) return x !== 0 ? 1 / x : 0;
-    if (clean.includes('sqrt(x)')) return x >= 0 ? Math.sqrt(x) : 0;
-    if (clean.includes('e^x') || clean.includes('exp(x)') || clean === 'ex') return Math.exp(x);
 
-    // Dynamic tokenized parser for standard mathematical expressions
+    // Single-term transcendental shortcuts (ONLY when not part of a compound expression)
+    if (!clean.includes('+') && !clean.includes('-') && !clean.includes('*') && !clean.includes('/')) {
+      if (clean === 'e^(cos(x))' || clean === 'e^cos(x)' || clean === 'exp(cos(x))') return Math.exp(Math.cos(x));
+      if (clean === 'e^(sin(x))' || clean === 'e^sin(x)' || clean === 'exp(sin(x))') return Math.exp(Math.sin(x));
+      if (clean === 'cos(x)' || clean === 'cosx' || clean === 'cos') return Math.cos(x);
+      if (clean === 'sin(x)' || clean === 'sinx' || clean === 'sin') return Math.sin(x);
+      if (clean === 'tan(x)' || clean === 'tanx' || clean === 'tan') return Math.tan(x);
+      if (clean === 'cot(x)' || clean === 'cotx' || clean === 'cot') return Math.tan(x) !== 0 ? 1 / Math.tan(x) : 0;
+      if (clean === 'x^2' || clean === 'x²') return x * x;
+      if (clean === 'x^3' || clean === 'x³') return x * x * x;
+      if (clean === '1/x') return x !== 0 ? 1 / x : 0;
+      if (clean === 'sqrt(x)') return x >= 0 ? Math.sqrt(x) : 0;
+      if (clean === 'e^x' || clean === 'exp(x)') return Math.exp(x);
+    }
+
+    // Dynamic tokenized parser for standard and compound mathematical expressions
     const sanitized = clean
       .replace(/^y=/, '')
-      .replace(/cos\(x\)/g, `Math.cos(${x})`)
-      .replace(/cosx/g, `Math.cos(${x})`)
-      .replace(/sin\(x\)/g, `Math.sin(${x})`)
-      .replace(/sinx/g, `Math.sin(${x})`)
-      .replace(/tan\(x\)/g, `Math.tan(${x})`)
-      .replace(/tanx/g, `Math.tan(${x})`)
-      .replace(/exp\(([^)]+)\)/g, 'Math.exp($1)')
-      .replace(/e\^\(([^)]+)\)/g, 'Math.exp($1)')
-      .replace(/x\^2/g, `Math.pow(${x}, 2)`)
-      .replace(/x/g, `(${x})`);
+      .replace(/^f\(x\)=/, '')
+      .replace(/[²]/g, '^2')
+      .replace(/[³]/g, '^3')
+      .replace(/tan\^2\s*\(\s*x\s*\)/g, '(T(x)*T(x))')
+      .replace(/cot\^2\s*\(\s*x\s*\)/g, '(1/(T(x)*T(x)))')
+      .replace(/sin\^2\s*\(\s*x\s*\)/g, '(S(x)*S(x))')
+      .replace(/cos\^2\s*\(\s*x\s*\)/g, '(C(x)*C(x))')
+      .replace(/sec\^2\s*\(\s*x\s*\)/g, '(1/(C(x)*C(x)))')
+      .replace(/csc\^2\s*\(\s*x\s*\)/g, '(1/(S(x)*S(x)))')
+      .replace(/cot\s*\(\s*x\s*\)/g, '(1/T(x))')
+      .replace(/sec\s*\(\s*x\s*\)/g, '(1/C(x))')
+      .replace(/csc\s*\(\s*x\s*\)/g, '(1/S(x))')
+      .replace(/tan\s*\(\s*x\s*\)/g, 'T(x)')
+      .replace(/sin\s*\(\s*x\s*\)/g, 'S(x)')
+      .replace(/cos\s*\(\s*x\s*\)/g, 'C(x)')
+      .replace(/exp\s*\(\s*x\s*\)/g, 'E(x)')
+      .replace(/e\^x/g, 'E(x)')
+      .replace(/x\^2/g, '(x*x)')
+      .replace(/x\^3/g, '(x*x*x)')
+      .replace(/(\d+)x/g, (_m, d) => `${d}*x`);
 
     // Strictly validate tokens before running Function to prevent arbitrary execution
-    if (/^[0-9xMath\.\+\-\*\/\(\)\s,]+$/.test(sanitized)) {
-      const val = new Function('Math', `return ${sanitized}`)(Math);
+    if (/^[0-9xTSCE\.\+\-\*\/\(\)\s,]+$/.test(sanitized)) {
+      const val = new Function('T', 'S', 'C', 'E', 'x', `return ${sanitized}`)(
+        Math.tan,
+        Math.sin,
+        Math.cos,
+        Math.exp,
+        x
+      );
       return typeof val === 'number' && !isNaN(val) && isFinite(val) ? val : 0;
     }
     return 0;

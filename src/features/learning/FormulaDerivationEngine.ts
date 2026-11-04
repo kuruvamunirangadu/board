@@ -251,6 +251,49 @@ export class FormulaDerivationEngine {
       }
 
       // 4. Pythagorean: c = √(a² + b²)
+      case 'trigonometry_tan2_cot2': {
+        const x = params.x ?? Math.PI / 4;
+        const tanVal = Math.tan(x);
+        const tan2 = tanVal * tanVal;
+        const cot2 = tan2 !== 0 ? 1 / tan2 : 1;
+        const val = tan2 + cot2;
+        return {
+          primaryResult: Number(val.toFixed(4)),
+          formattedOutput: `f(${x.toFixed(3)}) = tan²(${x.toFixed(3)}) + cot²(${x.toFixed(3)}) = ${val.toFixed(4)}`,
+          units: 'function value',
+          isDimensionallyConsistent: true,
+          stepDetails: [
+            `Evaluated at angle x = ${x.toFixed(3)} rad`,
+            `tan(x) = ${tanVal.toFixed(4)} ⇒ tan²(x) = ${tan2.toFixed(4)}`,
+            `cot(x) = 1/tan(x) ⇒ cot²(x) = ${cot2.toFixed(4)}`,
+            `Sum f(x) = tan²(x) + cot²(x) = ${val.toFixed(4)}`,
+            `Canonical identity: f(x) = 4csc²(2x) - 2`,
+            `Minimum value: f(x) ≥ 2 (by AM-GM inequality, attained at x = π/4 + nπ/2)`,
+            `Domain restriction: x ≠ nπ/2 (where n ∈ ℤ)`,
+            `Period: T = π/2`,
+          ],
+        };
+      }
+
+      case 'trigonometry_sin2_cos2': {
+        const x = params.x ?? 1.0;
+        const s = Math.sin(x);
+        const c = Math.cos(x);
+        return {
+          primaryResult: 1,
+          formattedOutput: `sin²(${x.toFixed(2)}) + cos²(${x.toFixed(2)}) = ${s.toFixed(3)}² + ${c.toFixed(3)}² = 1`,
+          units: 'identity value',
+          isDimensionallyConsistent: true,
+          stepDetails: [
+            `Angle x = ${x.toFixed(2)} rad`,
+            `sin(x) = ${s.toFixed(4)} ⇒ sin²(x) = ${(s * s).toFixed(4)}`,
+            `cos(x) = ${c.toFixed(4)} ⇒ cos²(x) = ${(c * c).toFixed(4)}`,
+            `Sum sin²(x) + cos²(x) = 1.0000`,
+            `Holds identically for all real angles x by Pythagorean circle theorem.`,
+          ],
+        };
+      }
+
       case 'geometry_pythagoras':
       case 'math_pythagorean_theorem': {
         const a = params.a ?? 3;
@@ -510,6 +553,99 @@ export class FormulaDerivationEngine {
     }
 
     switch (conceptId) {
+      case 'trigonometry_tan2_cot2': {
+        return {
+          summary: 'Derivation of the identity tan²(x) + cot²(x) = 4csc²(2x) - 2 and minimum value analysis',
+          steps: [
+            {
+              stepNumber: 1,
+              expression: 'f(x) = \\tan^2(x) + \\cot^2(x)',
+              explanation: 'Initial mathematical expression representing sum of squared tangent and cotangent',
+              rationale: 'Problem statement',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 2,
+              expression: 'f(x) = \\tan^2(x) + \\frac{1}{\\tan^2(x)}',
+              explanation: 'Express cotangent in terms of tangent using reciprocal identity cot(x) = 1/tan(x)',
+              rationale: 'Reciprocal identity',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 3,
+              expression: 'f(x) = \\frac{\\sin^2(x)}{\\cos^2(x)} + \\frac{\\cos^2(x)}{\\sin^2(x)} = \\frac{\\sin^4(x) + \\cos^4(x)}{\\sin^2(x)\\cos^2(x)}',
+              explanation: 'Convert to quotient form using sine and cosine over common denominator sin²(x)cos²(x)',
+              rationale: 'Quotient identities and fraction arithmetic',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 4,
+              expression: '\\sin^4(x) + \\cos^4(x) = (\\sin^2(x) + \\cos^2(x))^2 - 2\\sin^2(x)\\cos^2(x) = 1 - 2\\sin^2(x)\\cos^2(x)',
+              explanation: 'Deconstruct numerator via algebraic completion of squares with Pythagorean identity sin²(x) + cos²(x) = 1',
+              rationale: 'Pythagorean identity',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 5,
+              expression: '\\sin(2x) = 2\\sin(x)\\cos(x) \\implies \\sin^2(x)\\cos^2(x) = \\frac{\\sin^2(2x)}{4}',
+              explanation: 'Apply double-angle identity sin(2x) = 2sin(x)cos(x) to express cross-term',
+              rationale: 'Double angle formula',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 6,
+              expression: 'f(x) = \\frac{1 - 2\\cdot \\frac{\\sin^2(2x)}{4}}{\\frac{\\sin^2(2x)}{4}} = \\frac{4 - 2\\sin^2(2x)}{\\sin^2(2x)} = 4\\csc^2(2x) - 2',
+              explanation: 'Substitute double-angle term and simplify to obtain canonical identity 4csc²(2x) - 2',
+              rationale: 'Algebraic simplification',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 7,
+              expression: '\\text{Domain: } x \\neq \\frac{n\\pi}{2} \\; (n \\in \\mathbb{Z}), \\quad \\text{Period: } \\frac{\\pi}{2}, \\quad \\min f(x) = 2 \\text{ at } x = \\frac{\\pi}{4} + \\frac{n\\pi}{2}',
+              explanation: 'By the AM-GM inequality, tan²(x) + cot²(x) ≥ 2√(tan²(x)·cot²(x)) = 2. Equality holds when tan²(x) = 1',
+              rationale: 'AM-GM Inequality and domain boundary restrictions',
+              verificationStatus: 'formally_verified',
+            },
+          ],
+        };
+      }
+
+      case 'trigonometry_sin2_cos2': {
+        return {
+          summary: 'Proof of the Fundamental Pythagorean Identity: sin²(x) + cos²(x) = 1',
+          steps: [
+            {
+              stepNumber: 1,
+              expression: '\\sin(x) = \\frac{y}{r}, \\quad \\cos(x) = \\frac{x}{r}',
+              explanation: 'Define circular sine and cosine ratios on a circle of radius r with point (x, y)',
+              rationale: 'Unit circle definitions',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 2,
+              expression: 'x^2 + y^2 = r^2',
+              explanation: 'Apply the Pythagorean theorem to the right triangle formed by coordinates (x, y)',
+              rationale: 'Pythagorean theorem',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 3,
+              expression: '\\frac{x^2}{r^2} + \\frac{y^2}{r^2} = \\frac{r^2}{r^2} = 1',
+              explanation: 'Divide both sides of the equation by r²',
+              rationale: 'Algebraic division',
+              verificationStatus: 'formally_verified',
+            },
+            {
+              stepNumber: 4,
+              expression: '\\sin^2(x) + \\cos^2(x) = 1',
+              explanation: 'Substitute circular function definitions to yield the fundamental Pythagorean identity for all real x',
+              rationale: 'Identity conclusion',
+              verificationStatus: 'formally_verified',
+            },
+          ],
+        };
+      }
+
       case 'algebra_cube_sum': {
         const exp = BinomialExpansionEngine.expand('a', '+', 'b', 3);
         return {

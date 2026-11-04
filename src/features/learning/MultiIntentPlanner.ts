@@ -155,7 +155,11 @@ export class MultiIntentPlanner {
           domain: interpreted.domain,
           resolvedParameters: interpreted.resolvedParameters,
           ...(interpreted.mathParsing
-            ? { mathExpression: interpreted.mathParsing.normalizedSyntax }
+            ? {
+                mathExpression: interpreted.mathParsing.normalizedSyntax,
+                functionExpression: interpreted.mathParsing.functionExpression,
+                mathType: interpreted.mathParsing.mathType,
+              }
             : {}),
         },
         dependsOnStepId,

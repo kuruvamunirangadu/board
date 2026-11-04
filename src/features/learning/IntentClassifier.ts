@@ -363,7 +363,10 @@ export class IntentClassifier {
       case 'fraction': return 'cap_rational_fractions';
       case 'binomial': return 'cap_polynomial_identities';
       case 'pythagorean': return 'cap_euclidean_geometry';
-      default: return null;
+      case 'trigonometric': return 'cap_harmonic_curves';
+      case 'polynomial': return 'cap_harmonic_curves';
+      case 'calculus': return 'cap_harmonic_curves';
+      default: return 'cap_harmonic_curves';
     }
   }
 

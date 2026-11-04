@@ -2,6 +2,7 @@ import { InputInterpretation, VariableDescriptor, InputCategory } from './types'
 import { BinomialExpansionEngine } from './BinomialExpansionEngine';
 import { UniversalProblemSolver } from './UniversalProblemSolver';
 import { DomainKnowledgeEngine } from './DomainKnowledgeEngine';
+import { MathInputNormalizer } from './MathInputNormalizer';
 
 export class UniversalInputInterpreter {
   /**
@@ -86,6 +87,180 @@ export class UniversalInputInterpreter {
         isAmbiguous: false,
         confidence: 0.99,
       };
+    }
+
+    // 0C. Unified Mathematical Expression Normalization & Interpretation
+    const mathNorm = MathInputNormalizer.normalize(trimmed);
+    if (mathNorm.isMathematical && mathNorm.isValid) {
+      if (mathNorm.mathType === 'trigonometric') {
+        const isTan2Cot2 = /tan\^2.*cot\^2|cot\^2.*tan\^2/i.test(mathNorm.normalizedSyntax);
+        const isSin2Cos2 = /sin\^2.*cos\^2|cos\^2.*sin\^2/i.test(mathNorm.normalizedSyntax);
+
+        if (isTan2Cot2) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: 'f(x) = tan^2(x) + cot^2(x) = 4csc^2(2x) - 2',
+            category: 'calculus',
+            subject: 'Trigonometric Identities & Periodic Functions',
+            title: 'Trigonometric Identity: tan²(x) + cot²(x)',
+            summary:
+              'Sum of squared tangent and cotangent. Using cot(x) = 1/tan(x), this simplifies to f(x) = tan²(x) + 1/tan²(x) = 4csc²(2x) - 2, with minimum value 2 at x = π/4 + nπ/2 and period π/2.',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angular position along domain x ≠ nπ/2 (n ∈ ℤ).',
+                defaultValue: 0.785,
+                min: -3.14,
+                max: 3.14,
+                step: 0.05,
+              },
+            ],
+            prerequisites: [
+              'Trigonometric Ratios (tan, cot)',
+              'Pythagorean Trig Identities',
+              'Double Angle Formulas (sin 2x)',
+              'AM-GM Inequality (Minimum Value 2)',
+            ],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        if (isSin2Cos2) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: 'sin^2(x) + cos^2(x) = 1',
+            category: 'calculus',
+            subject: 'Fundamental Pythagorean Trigonometric Identity',
+            title: 'Pythagorean Identity: sin²(x) + cos²(x) = 1',
+            summary:
+              'Fundamental Pythagorean trigonometric identity derived directly from the unit circle (x² + y² = 1), holding identically for all real angles x.',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Angular position along the unit circle.',
+                defaultValue: 1.0,
+                min: -6.28,
+                max: 6.28,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Unit Circle Geometry', 'Pythagorean Theorem', 'Trigonometric Ratios'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        const func = mathNorm.functionExpression || trimmed;
+        return {
+          originalInput: rawInput,
+          normalizedInput: mathNorm.normalizedSyntax,
+          category: 'calculus',
+          subject: 'Trigonometric Curves & Harmonic Functions',
+          title: `Trigonometric Curve: ${func}`,
+          summary: `Continuous Cartesian curve plotting ${func} with periodic domain and slope analysis.`,
+          variables: [
+            {
+              symbol: 'x',
+              name: 'Angle / Phase',
+              unit: 'radians',
+              description: 'Independent variable along the Cartesian plane.',
+              defaultValue: 1.0,
+              min: -6.28,
+              max: 6.28,
+              step: 0.1,
+            },
+          ],
+          prerequisites: ['Trigonometric Functions', 'Periodic Waveforms', 'Cartesian Coordinates'],
+          isAmbiguous: false,
+          confidence: 0.98,
+        };
+      }
+
+      if (mathNorm.mathType === 'polynomial') {
+        const func = mathNorm.functionExpression || trimmed;
+        return {
+          originalInput: rawInput,
+          normalizedInput: mathNorm.normalizedSyntax,
+          category: 'algebra',
+          subject: 'Polynomial Functions & Curves',
+          title: `Polynomial Function: ${func}`,
+          summary: `Continuous polynomial function f(x) = ${func} with real domain and root behavior.`,
+          variables: [
+            {
+              symbol: 'x',
+              name: 'Coordinate x',
+              unit: 'units',
+              description: 'Independent variable x.',
+              defaultValue: 0,
+              min: -10,
+              max: 10,
+              step: 0.5,
+            },
+          ],
+          prerequisites: ['Polynomial Equations', 'Factoring & Roots', 'Cartesian Graphing'],
+          isAmbiguous: false,
+          confidence: 0.98,
+        };
+      }
+
+      if (mathNorm.mathType === 'calculus') {
+        const func = mathNorm.functionExpression || trimmed;
+        return {
+          originalInput: rawInput,
+          normalizedInput: mathNorm.normalizedSyntax,
+          category: 'calculus',
+          subject: 'Differential Calculus & Derivatives',
+          title: `Derivative: ${mathNorm.normalizedSyntax}`,
+          summary: `Calculus derivative operation computing instantaneous rate of change of ${func}.`,
+          variables: [
+            {
+              symbol: 'x',
+              name: 'Variable x',
+              unit: 'radians',
+              description: 'Independent variable x.',
+              defaultValue: 1.0,
+              min: -6.28,
+              max: 6.28,
+              step: 0.1,
+            },
+          ],
+          prerequisites: ['Differentiation Rules', 'Derivative as Slope', 'Limits'],
+          isAmbiguous: false,
+          confidence: 0.98,
+        };
+      }
+
+      if (mathNorm.mathType === 'linear_equation' && !trimmed.toLowerCase().includes('y=')) {
+        const func = mathNorm.functionExpression || trimmed;
+        return {
+          originalInput: rawInput,
+          normalizedInput: mathNorm.normalizedSyntax,
+          category: 'algebra',
+          subject: 'Coordinate Geometry & Linear Functions',
+          title: `Linear Function: ${mathNorm.normalizedSyntax}`,
+          summary: `Linear function with slope ${mathNorm.parameters.slope ?? 2} and y-intercept ${mathNorm.parameters.intercept ?? 0}.`,
+          variables: [
+            {
+              symbol: 'x',
+              name: 'Coordinate x',
+              unit: 'units',
+              description: 'Independent variable x.',
+              defaultValue: 0,
+              min: -10,
+              max: 10,
+              step: 0.5,
+            },
+          ],
+          prerequisites: ['Coordinate Plane', 'Linear Equations', 'Slope & Intercept'],
+          isAmbiguous: false,
+          confidence: 0.98,
+        };
+      }
     }
 
     const clean = trimmed.replace(/\s+/g, ' ');

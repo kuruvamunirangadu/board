@@ -118,6 +118,9 @@ export class LearningPlanGenerator {
     if (domainMatch) return domainMatch.conceptId;
 
     const raw = interpretation.originalInput.toLowerCase();
+    const title = (interpretation.title || '').toLowerCase();
+    if ((raw.includes('tan^2') && raw.includes('cot^2')) || (raw.includes('tan²') && raw.includes('cot²')) || title.includes('tan²(x) + cot²(x)')) return 'trigonometry_tan2_cot2';
+    if ((raw.includes('sin^2') && raw.includes('cos^2')) || (raw.includes('sin²') && raw.includes('cos²')) || title.includes('sin²(x) + cos²(x)')) return 'trigonometry_sin2_cos2';
     if (raw.includes('density') || raw.includes('mass / volume') || raw.includes('mass/volume') || raw.includes('m / v') || raw.includes('m/v') || raw.includes('ρ = m/v')) return 'physics_density';
     if (raw.includes('f = ma') || raw.includes('f=ma') || raw.includes('newton')) return 'physics_f_ma';
     if (raw.includes('v = u + at') || raw.includes('v=u+at')) return 'physics_kinematics_v_u_at';

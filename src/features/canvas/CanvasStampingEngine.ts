@@ -8,6 +8,7 @@
 import { Editor, createShapeId, TLShape, TLShapeId } from 'tldraw';
 import { LearningPlan } from '@/features/learning/types';
 import { toRichText } from '@/lib/tldraw-utils';
+import { MathInputNormalizer } from '@/features/learning/MathInputNormalizer';
 import { ILearningCardShape } from '@/components/canvas/LearningCardShapeUtil';
 import { IGeometryShape } from '@/components/canvas/GeometryShapeUtil';
 import { ISimulationShape } from '@/components/canvas/SimulationShapeUtil';
@@ -294,7 +295,13 @@ export class CanvasStampingEngine {
 
     if ((isCurve || isLinear) && !lowerTitle.includes('triangle') && !lowerTitle.includes('pythagor') && !lowerTitle.includes('fraction')) {
       let functionExpression: string | undefined = undefined;
-      if (lowerTitle.includes('e^(cos(x))') || formula.includes('e^(cos(x))') || formula.includes('e^cos(x)')) {
+
+      // 1. First check if the expression was normalized by MathInputNormalizer to preserve complete expression
+      const rawCandidate = formula || plan.title.replace(/^[✨📐👁️🧪🧠\s]+/, '');
+      const mathNorm = MathInputNormalizer.normalize(rawCandidate);
+      if (mathNorm.isMathematical && mathNorm.isValid && mathNorm.functionExpression) {
+        functionExpression = mathNorm.functionExpression;
+      } else if (lowerTitle.includes('e^(cos(x))') || formula.includes('e^(cos(x))') || formula.includes('e^cos(x)')) {
         functionExpression = 'e^(cos(x))';
       } else if (lowerTitle.includes('e^x') || formula.includes('e^x') || lowerTitle.includes('exponential') || formula.includes('exp(x)') || plan.conceptId === 'math_exponential_function') {
         functionExpression = 'e^x';

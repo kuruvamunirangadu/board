@@ -33,8 +33,9 @@ export interface NormalizedMathExpression {
   isMathematical: boolean;
   rawExpression: string;
   normalizedSyntax: string;
-  mathType?: 'linear_equation' | 'fraction' | 'binomial' | 'pythagorean' | 'trigonometric' | 'quadratic' | 'system' | 'malformed';
-  parameters: Record<string, number | string>;
+  functionExpression?: string;
+  mathType?: 'linear_equation' | 'fraction' | 'binomial' | 'pythagorean' | 'trigonometric' | 'quadratic' | 'polynomial' | 'calculus' | 'system' | 'malformed';
+  parameters: Record<string, number | string | boolean>;
   isValid: boolean;
   validationError?: string;
   intentHint?: StudentIntent;

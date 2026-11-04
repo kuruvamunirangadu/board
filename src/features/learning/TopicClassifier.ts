@@ -17,6 +17,7 @@ import {
 } from './types';
 import { BinomialExpansionEngine } from './BinomialExpansionEngine';
 import { DomainKnowledgeEngine } from './DomainKnowledgeEngine';
+import { MathInputNormalizer } from './MathInputNormalizer';
 
 export class TopicClassifier {
   /**
@@ -74,6 +75,20 @@ export class TopicClassifier {
           sym === 'E'
             ? ['E = mc² (Mass-Energy Equivalence)', 'E = h·ν (Planck Equation)', 'KE = ½mv² (Kinetic Energy)']
             : [`F = ma (Newton's 2nd Law)`, `F = -kx (Hooke's Law)`],
+      };
+    }
+
+    // 0C. Valid Mathematical Expression Check (Trigonometric, Polynomials, Equations, Derivatives)
+    const mathNorm = MathInputNormalizer.normalize(clean);
+    if (mathNorm.isMathematical && mathNorm.isValid) {
+      return {
+        originalQuery: clean,
+        domain: 'mathematics',
+        intent: mathNorm.intentHint === 'derive_formula' ? 'derivation' : 'formula_explanation',
+        engine: 'math',
+        confidence: 0.98,
+        requiresClarification: false,
+        reason: `The query is a structured ${mathNorm.mathType || 'mathematical'} expression.`,
       };
     }
 

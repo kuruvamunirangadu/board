@@ -101,10 +101,19 @@ export class VisualizationPlanner {
         lower.includes('sine') ||
         lower.includes('tan(x)') ||
         lower.includes('tanx') ||
+        lower.includes('cot') ||
+        lower.includes('sec') ||
+        lower.includes('csc') ||
+        lower.includes('tan^') ||
+        lower.includes('sin^') ||
+        lower.includes('cos^') ||
+        lower.includes('x^2') ||
+        lower.includes('x²') ||
         lower.includes('e^x') ||
         lower.includes('exp(x)') ||
         lower.includes('exponential') ||
         lower.includes('curve') ||
+        interpretation.category === 'calculus' ||
         (lower.includes('e^') && (lower.includes('cos') || lower.includes('sin')))
       )
     ) {

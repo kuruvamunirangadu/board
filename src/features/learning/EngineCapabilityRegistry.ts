@@ -110,7 +110,7 @@ export class EngineCapabilityRegistry {
       supportedTasks: ['wave_function_plotting', 'derivative_slope_probe', 'periodicity_analysis'],
       matchPatterns: ['y = sin(x)', 'y = cos(x)', 'y=cos', 'y=sin', 'exp(x)', 'e^x', 'harmonic curve'],
       matchPredicate: (q) =>
-        (q.includes('sin') || q.includes('cos') || q.includes('tan') || q.includes('e^')) &&
+        (q.includes('sin') || q.includes('cos') || q.includes('tan') || q.includes('cot') || q.includes('sec') || q.includes('csc') || q.includes('e^') || MathInputNormalizer.normalize(q).isMathematical) &&
         !q.includes('law of cosine'),
       requiredParameters: ['x'],
       expectedOutputCategories: ['function_curve', 'instantaneous_tangent', 'extrema'],
