@@ -23,16 +23,20 @@ import {
 export interface LinearFunctionPlotterProps {
   initialSlope?: number;
   initialIntercept?: number;
+  initialQuadraticCoefficient?: number;
   interceptSymbol?: 'c' | 'b';
   equationTitle?: string;
   functionExpression?: string;
+  isQuadratic?: boolean;
   onStampToCanvas?: () => void;
   isCompact?: boolean;
 }
 
 function evaluateFunction(expr: string, x: number): number {
   try {
-    const clean = expr.toLowerCase().replace(/\s+/g, '');
+    let clean = expr.toLowerCase().replace(/\s+/g, '');
+    // Strip equation prefix
+    clean = clean.replace(/^y=/, '').replace(/^f\(x\)=/, '');
 
     // Single-term transcendental shortcuts (ONLY when not part of a compound expression)
     if (!clean.includes('+') && !clean.includes('-') && !clean.includes('*') && !clean.includes('/')) {
@@ -40,12 +44,14 @@ function evaluateFunction(expr: string, x: number): number {
       if (clean === 'e^(sin(x))' || clean === 'e^sin(x)' || clean === 'exp(sin(x))') return Math.exp(Math.sin(x));
       if (clean === 'cos(x)' || clean === 'cosx' || clean === 'cos') return Math.cos(x);
       if (clean === 'sin(x)' || clean === 'sinx' || clean === 'sin') return Math.sin(x);
-      if (clean === 'tan(x)' || clean === 'tanx' || clean === 'tan') return Math.tan(x);
-      if (clean === 'cot(x)' || clean === 'cotx' || clean === 'cot') return Math.tan(x) !== 0 ? 1 / Math.tan(x) : 0;
+      if (clean === 'tan(x)' || clean === 'tanx' || clean === 'tan') return Math.abs(Math.cos(x)) > 1e-7 ? Math.tan(x) : NaN;
+      if (clean === 'cot(x)' || clean === 'cotx' || clean === 'cot') return Math.abs(Math.sin(x)) > 1e-7 ? Math.cos(x) / Math.sin(x) : NaN;
+      if (clean === 'sec(x)' || clean === 'secx' || clean === 'sec') return Math.abs(Math.cos(x)) > 1e-7 ? 1 / Math.cos(x) : NaN;
+      if (clean === 'csc(x)' || clean === 'cscx' || clean === 'csc') return Math.abs(Math.sin(x)) > 1e-7 ? 1 / Math.sin(x) : NaN;
       if (clean === 'x^2' || clean === 'x²') return x * x;
       if (clean === 'x^3' || clean === 'x³') return x * x * x;
-      if (clean === '1/x') return x !== 0 ? 1 / x : 0;
-      if (clean === 'sqrt(x)') return x >= 0 ? Math.sqrt(x) : 0;
+      if (clean === '1/x') return x !== 0 ? 1 / x : NaN;
+      if (clean === 'sqrt(x)') return x >= 0 ? Math.sqrt(x) : NaN;
       if (clean === 'e^x' || clean === 'exp(x)') return Math.exp(x);
     }
 
@@ -93,9 +99,11 @@ function evaluateFunction(expr: string, x: number): number {
 export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = ({
   initialSlope = 2,
   initialIntercept = 1,
+  initialQuadraticCoefficient = 1,
   interceptSymbol = 'c',
   equationTitle,
   functionExpression,
+  isQuadratic = false,
   onStampToCanvas,
   isCompact = false,
 }) => {
@@ -128,25 +136,32 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
   }, [functionExpression]);
 
   const isCurve = useMemo(() => {
+    if (isQuadratic) return true;
     if (!activeExpr) return false;
     const lower = activeExpr.toLowerCase();
     return (
       lower.includes('cos') ||
       lower.includes('sin') ||
       lower.includes('tan') ||
+      lower.includes('cot') ||
+      lower.includes('sec') ||
+      lower.includes('csc') ||
       lower.includes('^') ||
       lower.includes('e^') ||
       lower.includes('exp(')
     );
-  }, [activeExpr]);
+  }, [activeExpr, isQuadratic]);
 
   // Derived math
   const calculatedY = useMemo(() => {
+    if (isQuadratic) {
+      return Math.round(((initialQuadraticCoefficient * probeX * probeX) + (slope * probeX) + intercept) * 100) / 100;
+    }
     if (isCurve && activeExpr) {
       return Math.round(evaluateFunction(activeExpr, probeX) * 100) / 100;
     }
     return Math.round((slope * probeX + intercept) * 100) / 100;
-  }, [slope, intercept, probeX, isCurve, activeExpr]);
+  }, [slope, intercept, probeX, isCurve, activeExpr, isQuadratic, initialQuadraticCoefficient]);
 
   const xIntercept = useMemo(() => {
     if (isCurve) return null;
@@ -166,24 +181,40 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
   const toSvgY = (y: number) => originY - y * scale;
   const fromSvgX = (svgX: number) => (svgX - originX) / scale;
 
-  // Compute curve path if active
+  // Compute curve path if active (with vertical asymptote detection)
   const curvePath = useMemo(() => {
     if (!isCurve || !activeExpr) return null;
     let d = '';
-    const step = 0.1;
+    const step = 0.05;
+    let prevY: number | null = null;
+    let segmentStarted = false;
+
     for (let x = -8.5; x <= 8.5; x += step) {
       const y = evaluateFunction(activeExpr, x);
-      if (isNaN(y) || !isFinite(y)) continue;
+      if (isNaN(y) || !isFinite(y)) {
+        segmentStarted = false;
+        prevY = null;
+        continue;
+      }
+
+      // Detect asymptote jump across discontinuity
+      if (prevY !== null && Math.abs(y - prevY) > 8 && Math.sign(y) !== Math.sign(prevY)) {
+        segmentStarted = false;
+      }
+
       const clampedY = Math.max(-12, Math.min(12, y));
       const sx = toSvgX(x);
       const sy = toSvgY(clampedY);
-      if (!d) {
-        d = `M ${sx.toFixed(1)} ${sy.toFixed(1)}`;
+
+      if (!segmentStarted) {
+        d += ` M ${sx.toFixed(1)} ${sy.toFixed(1)}`;
+        segmentStarted = true;
       } else {
         d += ` L ${sx.toFixed(1)} ${sy.toFixed(1)}`;
       }
+      prevY = y;
     }
-    return d;
+    return d.trim();
   }, [isCurve, activeExpr]);
 
   // Compute line endpoints across visible canvas [-8, 8]
@@ -264,7 +295,7 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
             </span>
             <div className="text-[10px] text-slate-400 font-mono">
               {isCurve
-                ? `Transcendental & Trigonometric Function Plotter`
+                ? isQuadratic ? 'Quadratic Function Plotter' : `Transcendental & Trigonometric Function Plotter`
                 : `Slope-Intercept Form: y = m·x + ${interceptSymbol}`}
             </div>
           </div>
@@ -273,7 +304,9 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
         {/* Live Equation Badge */}
         <div className="flex items-center gap-2">
           <div className="px-2.5 py-1 rounded-lg bg-indigo-950/80 border border-indigo-500/40 font-mono text-xs text-indigo-300 font-bold">
-            {isCurve
+            {isQuadratic
+              ? `y = ${initialQuadraticCoefficient}x² ${slope >= 0 ? '+' : '−'} ${Math.abs(slope)}x ${intercept >= 0 ? '+' : '−'} ${Math.abs(intercept)}`
+              : isCurve
               ? activeExpr?.startsWith('y')
                 ? activeExpr
                 : `y = ${activeExpr}`
@@ -416,8 +449,8 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
             />
           )}
 
-          {/* Key Intercept Points */}
-          {showIntercepts && (
+          {/* Key Intercept Points (Linear Mode Only) */}
+          {!isCurve && showIntercepts && (
             <>
               {/* Y-Intercept: (0, c) */}
               <circle
@@ -503,15 +536,19 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
         {/* Floating Quick Legend */}
         <div className="absolute bottom-2 left-2 flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-800 text-[10px]">
           <span className="flex items-center gap-1 text-indigo-400">
-            <span className="w-2.5 h-0.5 bg-indigo-500 rounded" /> Line
+            <span className="w-2.5 h-0.5 bg-indigo-500 rounded" /> {isQuadratic ? 'Parabola' : isCurve ? 'Curve' : 'Line'}
           </span>
-          <span className="flex items-center gap-1 text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Y-Int
-          </span>
-          {xIntercept !== null && (
-            <span className="flex items-center gap-1 text-amber-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> X-Int
-            </span>
+          {!isCurve && (
+            <>
+              <span className="flex items-center gap-1 text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Y-Int
+              </span>
+              {xIntercept !== null && (
+                <span className="flex items-center gap-1 text-amber-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> X-Int
+                </span>
+              )}
+            </>
           )}
           <span className="flex items-center gap-1 text-cyan-400">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" /> Probe
@@ -798,7 +835,13 @@ export const LinearFunctionPlotterView: React.FC<LinearFunctionPlotterProps> = (
         <p className="text-slate-300 leading-relaxed text-[11px]">
           {isCurve ? (
             <>
-              • <strong>Periodic Oscillation & Curve Extrema:</strong> The function traces a continuous curve along the coordinate plane with bounded amplitude and symmetric periodicity.
+              {isQuadratic ? (
+                <>• <strong>Roots are x-intercepts:</strong> For y = x² − 5x + 6, factoring gives (x − 2)(x − 3), so the parabola crosses y = 0 at x = 2 and x = 3.
+                <br />
+                • <strong>Turning point:</strong> The vertex is the minimum of this upward-opening parabola; its x-coordinate is the midpoint of the roots.</>
+              ) : (
+                <>• <strong>Periodic Oscillation & Curve Extrema:</strong> The function traces a continuous curve along the coordinate plane with bounded amplitude and symmetric periodicity.</>
+              )}
               <br />
               • <strong>Instantaneous Behavior:</strong> At any coordinate probe point x = {probeX}, the probe displays the instantaneous value y = {calculatedY}. Derivatives dy/dx provide the instantaneous tangent slope along the curve.
             </>

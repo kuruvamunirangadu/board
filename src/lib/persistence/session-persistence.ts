@@ -149,6 +149,7 @@ export class SessionPersistenceAdapter {
       simulationState: raw.simulationState || undefined,
       experimentLabState: raw.experimentLabState || undefined,
       workspaceId: raw.workspaceId,
+      learningWorkspace: raw.learningWorkspace,
     };
   }
 
@@ -185,6 +186,7 @@ export class SessionPersistenceAdapter {
       simulationState: session.simulationState,
       experimentLabState: session.experimentLabState,
       workspaceId: session.workspaceId,
+      learningWorkspace: session.learningWorkspace,
     };
 
     if (this.isIndexedDBAvailable) {

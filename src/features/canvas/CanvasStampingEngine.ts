@@ -40,6 +40,8 @@ export interface GeometryStampConfig {
   numerator?: number;
   denominator?: number;
   functionExpression?: string;
+  isQuadratic?: boolean;
+  quadraticCoefficient?: number;
   algorithmId?: string;
   experimentId?: string;
 }
@@ -267,12 +269,12 @@ export class CanvasStampingEngine {
       };
     }
 
-    // 5. School Geometry & Coordinate Curves: Function Plotting (y = e^(cos(x)), y = e^x, y = cos(x), y = sin(x), y = mx + c)
+    // 5. School Geometry & Coordinate Curves: Function Plotting (y = e^(cos(x)), y = e^x, y = cos(x), y = sin(x), y = cot(x), y = mx + c)
     const isTrigMath =
-      /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(lowerTitle) ||
-      /\b(cos|sine|sin|tan|tangent|cosine)\b/i.test(formula) ||
-      /\by\s*=\s*(sin|cos|tan)\b/i.test(lowerTitle) ||
-      /\by\s*=\s*(sin|cos|tan)\b/i.test(formula);
+      /\b(cos|sine|sin|tan|tangent|cosine|cot|cotangent|sec|secant|csc|cosecant)\b/i.test(lowerTitle) ||
+      /\b(cos|sine|sin|tan|tangent|cosine|cot|cotangent|sec|secant|csc|cosecant)\b/i.test(formula) ||
+      /\by\s*=\s*(sin|cos|tan|cot|sec|csc)\b/i.test(lowerTitle) ||
+      /\by\s*=\s*(sin|cos|tan|cot|sec|csc)\b/i.test(formula);
 
     const isCurve =
       lowerTitle.includes('e^(cos(x))') ||
@@ -284,6 +286,8 @@ export class CanvasStampingEngine {
       plan.category === 'calculus';
 
     const isLinear =
+      lowerTitle.includes('quadratic') ||
+      lowerTitle.includes('parabola') ||
       plan.category === 'algebra' ||
       plan.category === 'geometry' ||
       /\blinear\b/i.test(lowerTitle) ||
@@ -297,17 +301,49 @@ export class CanvasStampingEngine {
       let functionExpression: string | undefined = undefined;
 
       // 1. First check if the expression was normalized by MathInputNormalizer to preserve complete expression
-      const rawCandidate = formula || plan.title.replace(/^[✨📐👁️🧪🧠\s]+/, '');
+      const cleanTitleExpr = plan.title
+        .replace(/^[✨📐👁️🧪🧠\s]+/, '')
+        .replace(/^Trigonometric (?:Function|Curve):\s*/i, '')
+        .replace(/^Polynomial Function:\s*/i, '')
+        .replace(/^Linear Function:\s*/i, '')
+        .trim();
+      const rawCandidate = formula || cleanTitleExpr;
       const mathNorm = MathInputNormalizer.normalize(rawCandidate);
       if (mathNorm.isMathematical && mathNorm.isValid && mathNorm.functionExpression) {
         functionExpression = mathNorm.functionExpression;
+      } else if (lowerTitle.includes('quadratic') || lowerTitle.includes('parabola')) {
+        const coefficient = (symbol: string, fallback: number) =>
+          plan.variables.find((variable) => variable.symbol === symbol)?.defaultValue ?? fallback;
+        const a = coefficient('a', 1);
+        const b = coefficient('b', -5);
+        const c = coefficient('c', 6);
+        functionExpression = `${a}*x^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}*x ${c < 0 ? '-' : '+'} ${Math.abs(c)}`;
       } else if (lowerTitle.includes('e^(cos(x))') || formula.includes('e^(cos(x))') || formula.includes('e^cos(x)')) {
         functionExpression = 'e^(cos(x))';
       } else if (lowerTitle.includes('e^x') || formula.includes('e^x') || lowerTitle.includes('exponential') || formula.includes('exp(x)') || plan.conceptId === 'math_exponential_function') {
         functionExpression = 'e^x';
       } else if (
+        /\b(cot|cotangent)\b/i.test(lowerTitle) ||
+        /\b(cot|cotangent)\b/i.test(formula) ||
+        plan.conceptId === 'trigonometry_cot_x'
+      ) {
+        functionExpression = 'cot(x)';
+      } else if (
+        /\b(sec|secant)\b/i.test(lowerTitle) ||
+        /\b(sec|secant)\b/i.test(formula) ||
+        plan.conceptId === 'trigonometry_sec_x'
+      ) {
+        functionExpression = 'sec(x)';
+      } else if (
+        /\b(csc|cosecant)\b/i.test(lowerTitle) ||
+        /\b(csc|cosecant)\b/i.test(formula) ||
+        plan.conceptId === 'trigonometry_csc_x'
+      ) {
+        functionExpression = 'csc(x)';
+      } else if (
         /\b(cos|cosine)\b/i.test(lowerTitle) ||
         /\b(cos|cosine)\b/i.test(formula) ||
+        plan.conceptId === 'trigonometry_cos_x' ||
         plan.conceptId === 'math_cosine_function'
       ) {
         functionExpression = 'cos(x)';
@@ -318,7 +354,11 @@ export class CanvasStampingEngine {
         plan.conceptId === 'math_sine_function'
       ) {
         functionExpression = 'sin(x)';
-      } else if (/\b(tan|tangent)\b/i.test(lowerTitle) || /\b(tan|tangent)\b/i.test(formula)) {
+      } else if (
+        /\b(tan|tangent)\b/i.test(lowerTitle) ||
+        /\b(tan|tangent)\b/i.test(formula) ||
+        plan.conceptId === 'trigonometry_tan_x'
+      ) {
         functionExpression = 'tan(x)';
       }
 
@@ -349,6 +389,8 @@ export class CanvasStampingEngine {
           slope,
           intercept,
           functionExpression,
+          isQuadratic: lowerTitle.includes('quadratic') || lowerTitle.includes('parabola'),
+          quadraticCoefficient: lowerTitle.includes('quadratic') || lowerTitle.includes('parabola') ? 1 : undefined,
         },
       };
     }
@@ -568,6 +610,8 @@ export class CanvasStampingEngine {
           numerator: geoConfig.numerator ?? 3,
           denominator: geoConfig.denominator ?? 4,
           functionExpression: geoConfig.functionExpression,
+          isQuadratic: geoConfig.isQuadratic,
+          quadraticCoefficient: geoConfig.quadraticCoefficient,
           algorithmId: geoConfig.algorithmId,
           experimentId: geoConfig.experimentId,
         },

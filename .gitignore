@@ -3,6 +3,7 @@ node_modules/
 
 # Next.js generated files
 .next/
+.next-*/
 out/
 
 # Package manager and tool caches

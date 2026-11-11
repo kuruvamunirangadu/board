@@ -23,6 +23,8 @@ export type IGeometryShape = TLBaseShape<
     numerator: number;
     denominator: number;
     functionExpression?: string;
+    isQuadratic?: boolean;
+    quadraticCoefficient?: number;
     algorithmId?: string;
     experimentId?: string;
   }
@@ -43,6 +45,8 @@ export class GeometryShapeUtil extends BaseBoxShapeUtil<IGeometryShape> {
     numerator: T.number,
     denominator: T.number,
     functionExpression: T.optional(T.string),
+    isQuadratic: T.optional(T.boolean),
+    quadraticCoefficient: T.optional(T.number),
     algorithmId: T.optional(T.string),
     experimentId: T.optional(T.string),
   };
@@ -101,6 +105,8 @@ export class GeometryShapeUtil extends BaseBoxShapeUtil<IGeometryShape> {
                 initialIntercept={props.intercept ?? 1}
                 equationTitle={props.title}
                 functionExpression={props.functionExpression}
+                isQuadratic={props.isQuadratic}
+                initialQuadraticCoefficient={props.quadraticCoefficient}
                 isCompact={true}
               />
             )}

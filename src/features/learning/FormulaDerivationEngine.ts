@@ -275,6 +275,43 @@ export class FormulaDerivationEngine {
         };
       }
 
+      case 'trigonometry_cot_x': {
+        const x = params.x ?? 1.0;
+        const s = Math.sin(x);
+        const c = Math.cos(x);
+        const cotVal = Math.abs(s) > 1e-7 ? c / s : NaN;
+        return {
+          primaryResult: isNaN(cotVal) ? 0 : cotVal,
+          formattedOutput: `cot(${x.toFixed(2)}) = ${isNaN(cotVal) ? 'undefined' : cotVal.toFixed(4)}`,
+          units: 'ratio',
+          isDimensionallyConsistent: true,
+          stepDetails: [
+            `Angle x = ${x.toFixed(2)} rad`,
+            `cos(x) = ${c.toFixed(4)}, sin(x) = ${s.toFixed(4)}`,
+            `cot(x) = cos(x) / sin(x) = ${isNaN(cotVal) ? 'undefined (asymptote)' : cotVal.toFixed(4)}`,
+            `Vertical asymptotes at x = nπ (n ∈ ℤ)`,
+          ],
+        };
+      }
+
+      case 'trigonometry_tan_x': {
+        const x = params.x ?? 0.5;
+        const s = Math.sin(x);
+        const c = Math.cos(x);
+        const tanVal = Math.abs(c) > 1e-7 ? s / c : NaN;
+        return {
+          primaryResult: isNaN(tanVal) ? 0 : tanVal,
+          formattedOutput: `tan(${x.toFixed(2)}) = ${isNaN(tanVal) ? 'undefined' : tanVal.toFixed(4)}`,
+          units: 'ratio',
+          isDimensionallyConsistent: true,
+          stepDetails: [
+            `Angle x = ${x.toFixed(2)} rad`,
+            `sin(x) = ${s.toFixed(4)}, cos(x) = ${c.toFixed(4)}`,
+            `tan(x) = sin(x) / cos(x) = ${isNaN(tanVal) ? 'undefined (asymptote)' : tanVal.toFixed(4)}`,
+          ],
+        };
+      }
+
       case 'trigonometry_sin2_cos2': {
         const x = params.x ?? 1.0;
         const s = Math.sin(x);

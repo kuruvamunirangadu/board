@@ -27,15 +27,17 @@ class ChemBERTaService:
             self.is_real_model = True
             print(f"[ChemBERTaService] Loaded {MODEL_ID} from local cache successfully.")
         except Exception:
-            try:
-                self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-                self.model = AutoModelForMaskedLM.from_pretrained(MODEL_ID)
-                self.model.to(self.device)
-                self.model.eval()
-                self.is_real_model = True
-                print(f"[ChemBERTaService] Loaded {MODEL_ID} successfully.")
-            except Exception as e:
-                print(f"[ChemBERTaService] Online model download deferred or failed: {e}")
+            if os.environ.get("VISIOS_ALLOW_MODEL_DOWNLOAD", "0") == "1":
+                try:
+                    self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+                    self.model = AutoModelForMaskedLM.from_pretrained(MODEL_ID)
+                    self.model.to(self.device)
+                    self.model.eval()
+                    self.is_real_model = True
+                    print(f"[ChemBERTaService] Loaded {MODEL_ID} successfully.")
+                except Exception as e:
+                    print(f"[ChemBERTaService] Model download failed: {e}")
+            if not self.is_real_model:
                 print("[ChemBERTaService] Running in deterministic local molecular representation mode (384-dim).")
 
     def validate_smiles(self, smiles: str) -> str:

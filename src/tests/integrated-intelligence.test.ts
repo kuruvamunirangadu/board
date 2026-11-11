@@ -172,8 +172,8 @@ export async function runIntegratedIntelligenceTests(): Promise<boolean> {
       'Summary extract contains encyclopedic content'
     );
     assert(
-      data.attribution?.source?.includes('Wikipedia'),
-      'Attribution acknowledges Wikimedia Foundation'
+      data.attribution?.source === 'VisiOS Offline Knowledge Catalog (editorial summary)',
+      'Offline fallback attribution identifies the VisiOS editorial catalog'
     );
   } catch (e: any) {
     assert(false, 'Successful Query Alan Turing', e.message);
@@ -248,7 +248,7 @@ export async function runIntegratedIntelligenceTests(): Promise<boolean> {
       typeof firstResult.title === 'string' &&
         typeof firstResult.extract === 'string' &&
         firstResult.url.startsWith('https://') &&
-        firstResult.source === 'Wikipedia' &&
+        firstResult.source === 'VisiOS Offline Knowledge Catalog' &&
         postData.error === null,
       'Normalized result conforms to Step 2 schema (title, extract, url, source, error: null)'
     );

@@ -49,7 +49,11 @@ export const LearningIntelligencePanel: React.FC<LearningIntelligencePanelProps>
     };
   }, [editor, workspace]);
 
-  const activeInput =
+  // A selected generated learning card is an output of the current lesson, not
+  // a new topic to submit to the orchestrator. Keep the workspace input intact.
+  const activeInput = (context?.metadata?.generatedLearningCard || context?.type === 'shape')
+    ? ''
+    :
     context?.recognizedFormula?.rawText ||
     context?.recognizedFormula?.normalizedFormula ||
     (context?.type === 'formula' ? context.title : null) ||

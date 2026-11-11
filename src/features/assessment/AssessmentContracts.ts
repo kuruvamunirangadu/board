@@ -89,6 +89,7 @@ export interface AssessmentSessionState {
   consecutiveIncorrect: number;
   isCompleted: boolean;
   activeMisconceptions: string[];
+  currentQuestion?: AssessmentQuestion;
   updatedAt: string;
 }
 

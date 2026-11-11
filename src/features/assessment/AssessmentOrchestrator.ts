@@ -58,7 +58,9 @@ export class AssessmentOrchestrator {
       AssessmentPersistence.saveSession(session);
     }
 
-    const nextQuestion = this.generateValidatedQuestion(conceptId, session.currentDifficulty);
+    const nextQuestion = session.currentQuestion || this.generateValidatedQuestion(conceptId, session.currentDifficulty);
+    session.currentQuestion = nextQuestion;
+    AssessmentPersistence.saveSession(session);
     return { session, nextQuestion };
   }
 

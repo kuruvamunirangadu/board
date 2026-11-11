@@ -102,6 +102,10 @@ import { InteractiveTopicKnowledgeGraphView } from '@/components/learning/Intera
 import { CanvasStampingEngine } from '@/features/canvas/CanvasStampingEngine';
 import { VisualLearningDiagnosticsEngine } from '@/features/diagnostics/VisualLearningDiagnosticsEngine';
 import { VisualLearningDiagnosticsPanel } from '@/components/diagnostics/VisualLearningDiagnosticsPanel';
+import { LearningSessionService, LearningWorkspacePatch } from '@/features/learning-workspace/services/LearningSessionService';
+import { LearningSession, LearningWorkspaceState } from '@/features/learning-workspace/types/LearningSession';
+import { sessionPersistence } from '@/lib/persistence/session-persistence';
+import { AssessmentPanel } from '@/features/adaptive-learning/components/AssessmentPanel';
 
 interface UniversalLearningWorkspaceProps {
   editor: Editor | null;
@@ -117,7 +121,15 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
   onSelectTopic,
 }) => {
   const [currentInput, setCurrentInput] = useState(activeInput);
+  const currentInputRef = useRef(activeInput);
   const [searchInput, setSearchInput] = useState('');
+  const [followUpInput, setFollowUpInput] = useState('');
+  const [isAnsweringFollowUp, setIsAnsweringFollowUp] = useState(false);
+  const [followUpError, setFollowUpError] = useState<string | null>(null);
+  const [learningWorkspace, setLearningWorkspace] = useState<LearningWorkspaceState | null>(null);
+  const [quickPractice, setQuickPractice] = useState<number | null>(null);
+  const [quickPracticeResult, setQuickPracticeResult] = useState<{ isCorrect: boolean; score: number } | null>(null);
+  const [completedPracticeIds, setCompletedPracticeIds] = useState<string[]>([]);
   const [plan, setPlan] = useState<LearningPlan>(() =>
     LearningPlanGenerator.generatePlan(activeInput || 'Binary Search')
   );
@@ -162,6 +174,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [sessionHistory, setSessionHistory] = useState<SavedLearningSessionState[]>([]);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [unifiedSessionHistory, setUnifiedSessionHistory] = useState<LearningSession[]>([]);
 
   // Step 7: Adaptive Learning Path & Concept Dependencies State
   const [showPathPanel, setShowPathPanel] = useState<boolean>(true);
@@ -192,6 +205,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
     LearningSessionPersistenceService.listHistory().then((history) => {
       setSessionHistory(history);
     });
+    LearningSessionService.list().then(setUnifiedSessionHistory);
 
     return () => {
       unsubscribe();
@@ -376,6 +390,115 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
     }
   };
 
+  const updateLearningWorkspace = async (patch: LearningWorkspacePatch) => {
+    const topicForSession = currentInputRef.current.trim() || currentInput.trim();
+    if (!topicForSession) return;
+    const current = learningWorkspace || {
+      status: 'active' as const,
+      context: {
+        currentConcept: plan.title,
+        previousQuestions: [],
+        completedActivities: [],
+        canvasShapeIds: stampedCardShapeIdsRef.current,
+        followUpAnswers: [],
+      },
+      progress: { completedConcepts: completedSteps.length, totalConcepts: 8 },
+    };
+    const next: LearningWorkspaceState = {
+      ...current,
+      ...patch,
+      context: { ...current.context, ...patch.context },
+      progress: { ...current.progress, ...patch.progress },
+    };
+    setLearningWorkspace(next);
+    await LearningSessionService.update(topicForSession, next);
+    triggerAutoSave(true, { learningWorkspace: next });
+  };
+
+  const handleFollowUpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const question = followUpInput.trim();
+    if (!question || isAnsweringFollowUp || !currentInput.trim()) return;
+    setIsAnsweringFollowUp(true);
+    setFollowUpError(null);
+    try {
+      const selectedIds = editor ? editor.getSelectedShapeIds().map(String) : [];
+      const selectedDetails = editor
+        ? editor.getSelectedShapes().map((shape: any) => {
+            const props = shape.props || {};
+            return [props.title, props.formula, props.equation, props.functionExpression, props.topic, props.text]
+              .filter(Boolean)
+              .join(' | ');
+          }).filter(Boolean)
+        : [];
+      const contextualQuestion = `${plan.title}. ${question}${selectedDetails.length ? ` Selected canvas content: ${selectedDetails.join('; ')}` : ''}`;
+      const result = await LearningOrchestrator.processTopic(contextualQuestion);
+      const answer = result.plan.overview || result.plan.motivation || result.plan.title;
+      const topicForSession = currentInputRef.current.trim() || currentInput;
+      const existingSession = await LearningSessionService.get(topicForSession);
+      const previous = existingSession?.learningWorkspace?.context.followUpAnswers || learningWorkspace?.context.followUpAnswers || [];
+      const nextAnswers = [...previous, { question, answer, createdAt: Date.now() }].slice(-30);
+      const next: LearningWorkspaceState = {
+        status: existingSession?.learningWorkspace?.status || 'active',
+        context: {
+          currentConcept: plan.title,
+          previousQuestions: [...(existingSession?.learningWorkspace?.context.previousQuestions || learningWorkspace?.context.previousQuestions || []), question].slice(-30),
+          completedActivities: Array.from(new Set([...(existingSession?.learningWorkspace?.context.completedActivities || learningWorkspace?.context.completedActivities || []), 'follow_up'])),
+          canvasShapeIds: Array.from(new Set([...(existingSession?.learningWorkspace?.context.canvasShapeIds || learningWorkspace?.context.canvasShapeIds || []), ...selectedIds, ...stampedCardShapeIdsRef.current])),
+          followUpAnswers: nextAnswers,
+        },
+        progress: learningWorkspace?.progress || { completedConcepts: completedSteps.length, totalConcepts: 8 },
+      };
+      setLearningWorkspace(next);
+      setFollowUpInput('');
+      await LearningSessionService.update(topicForSession, next);
+      await sessionPersistence.recordLearningActivity(LearningSessionPersistenceService.getStableSessionId(currentInput), {
+        sessionId: LearningSessionPersistenceService.getStableSessionId(currentInput),
+        activityType: 'concept_explained',
+        title: question,
+        metadata: { conceptName: plan.title, details: answer },
+      });
+      triggerAutoSave(true, { learningWorkspace: next });
+    } catch {
+      setFollowUpError('Could not answer that follow-up. Please try again.');
+    } finally {
+      setIsAnsweringFollowUp(false);
+    }
+  };
+
+  const handleQuickPracticeAnswer = async (questionIndex: number, optionIndex: number) => {
+    const question = plan.practiceQuestions[questionIndex];
+    if (!question || quickPracticeResult) return;
+    const isCorrect = optionIndex === question.correctIndex;
+    const score = isCorrect ? 100 : 0;
+    setQuickPracticeResult({ isCorrect, score });
+    setCompletedPracticeIds((ids) => Array.from(new Set([...ids, question.id])));
+    const completedActivities = Array.from(new Set([...(learningWorkspace?.context.completedActivities || []), `practice:${question.id}`]));
+    await updateLearningWorkspace({
+      context: { completedActivities },
+      progress: { quizScore: score, completedConcepts: Math.max(completedSteps.length, completedActivities.filter((a) => a.startsWith('lesson_step:')).length + 1) },
+      status: learningWorkspace?.status === 'paused' ? 'paused' : learningWorkspace?.status === 'completed' ? 'completed' : 'active',
+    });
+    const sessionId = LearningSessionPersistenceService.getStableSessionId(currentInputRef.current || currentInput);
+    const currentSession = await sessionPersistence.getSession(sessionId);
+    const oldAttemptCount = currentSession?.activities?.filter((activity) => activity.activityType === 'knowledge_check_attempt').length || 0;
+    const oldScore = currentSession?.practiceAttempts?.totalScore || 0;
+    await sessionPersistence.updateSession(sessionId, {
+      practiceAttempts: {
+        ...currentSession?.practiceAttempts,
+        multipleChoice: { selectedIndex: optionIndex, isCorrect, score, explanation: question.explanation, attemptedAt: Date.now() },
+        totalScore: Math.round((oldScore * oldAttemptCount + score) / (oldAttemptCount + 1)),
+      },
+    });
+    await sessionPersistence.recordLearningActivity(LearningSessionPersistenceService.getStableSessionId(currentInput), {
+      sessionId: LearningSessionPersistenceService.getStableSessionId(currentInput),
+      activityType: 'knowledge_check_attempt',
+      title: question.question,
+      metadata: { conceptName: plan.title, isCorrect, score, details: question.explanation },
+    });
+    LearningSessionPersistenceService.listHistory().then(setSessionHistory);
+  };
+
   // Unified topic processor with session resume and auto-save
   const applyTopic = async (topic: string) => {
     if (!topic || !topic.trim()) return;
@@ -398,6 +521,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
       }
     }
 
+    currentInputRef.current = effectiveTopic;
     setCurrentInput(effectiveTopic);
 
     try {
@@ -604,7 +728,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
         setCompletedSteps(['concept_meaning']);
 
         // Auto-save initial baseline session
-        LearningSessionPersistenceService.saveImmediate({
+        await LearningSessionPersistenceService.saveImmediate({
           topic,
           domain: orchestrated.plan.subject,
           conceptId: orchestrated.plan.conceptId,
@@ -615,10 +739,43 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
           simulationParameters: orchestrated.plan.defaultExperimentState.parameters,
           activeRenderer: orchestrated.plan.visualizationPlan?.rendererType,
           experimentLabState: null,
-        }).then(() => {
-          LearningSessionPersistenceService.listHistory().then(setSessionHistory);
         });
+        LearningSessionPersistenceService.listHistory().then(setSessionHistory);
       }
+
+      const unifiedSession = await LearningSessionService.ensure(
+        effectiveTopic,
+        orchestrated.plan.conceptId,
+        orchestrated.plan.subject
+      );
+      if (unifiedSession?.learningWorkspace) {
+        setCompletedPracticeIds(unifiedSession.learningWorkspace.context.completedActivities
+          .filter((activity) => activity.startsWith('practice:'))
+          .map((activity) => activity.slice('practice:'.length)));
+        setLearningWorkspace(unifiedSession.learningWorkspace);
+        const resumedState = {
+          ...unifiedSession.learningWorkspace,
+          context: { ...unifiedSession.learningWorkspace.context, currentConcept: orchestrated.plan.title },
+          progress: {
+            ...unifiedSession.learningWorkspace.progress,
+            completedConcepts: Math.max(unifiedSession.learningWorkspace.progress.completedConcepts, 1),
+            totalConcepts: 8,
+          },
+        };
+        setLearningWorkspace(resumedState);
+        await LearningSessionService.update(effectiveTopic, resumedState);
+      } else {
+        setCompletedPracticeIds([]);
+        const initialState: LearningWorkspaceState = {
+        status: unifiedSession?.learningWorkspace?.status || 'active',
+          context: { currentConcept: orchestrated.plan.title, previousQuestions: [], completedActivities: [], canvasShapeIds: [], followUpAnswers: [] },
+          progress: { completedConcepts: 1, totalConcepts: 8 },
+        };
+        setLearningWorkspace(initialState);
+        await LearningSessionService.update(effectiveTopic, initialState);
+      }
+      setQuickPractice(null);
+      setQuickPracticeResult(null);
 
       if (lowerTopic.includes('binary search')) {
         setBsState(BinarySearchEngine.createInitialState(BinarySearchEngine.DEFAULT_ARRAY, 23));
@@ -631,7 +788,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
     } catch (e: any) {
       console.warn('LearningOrchestrator failed to process topic:', e);
       setErrorMessage(
-        `Processing notice: Unable to generate learning plan for "${topic}". Your previous workspace content has been preserved.`
+        `Processing notice: Unable to generate learning plan for "${effectiveTopic}". Your previous workspace content has been preserved.`
       );
     } finally {
       if (requestIdRef.current === currentRequestId) {
@@ -659,6 +816,13 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
 
     if (activeInput && activeInput.trim()) {
       applyTopic(activeInput.trim());
+    } else {
+      LearningSessionPersistenceService.listHistory().then((history) => {
+        const mostRecent = history
+          .filter((session) => !session.isCompleted)
+          .sort((a, b) => (b.lastOpenedAt || b.updatedAt || 0) - (a.lastOpenedAt || a.updatedAt || 0))[0];
+        if (mostRecent) applyTopic(mostRecent.primaryTopic);
+      });
     }
   }, []);
 
@@ -666,12 +830,14 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
     e.preventDefault();
     if (!searchInput.trim() || isProcessing) return;
     const cleanSearch = searchInput.trim();
+    currentInputRef.current = cleanSearch;
     setSearchInput('');
     applyTopic(cleanSearch);
   };
 
   const handleQuickTopic = (topic: string) => {
     if (isProcessing) return;
+    currentInputRef.current = topic;
     applyTopic(topic);
   };
 
@@ -703,6 +869,11 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
     if (q) {
       const fb = PracticeEvaluationEngine.evaluateMultipleChoice(q, index);
       setPracticeFeedback(fb);
+      updateLearningWorkspace({
+        status: fb.isCorrect && fb.score >= 70 ? 'completed' : 'active',
+        context: { completedActivities: Array.from(new Set([...(learningWorkspace?.context.completedActivities || []), 'quiz'])) },
+        progress: { quizScore: fb.score },
+      });
       triggerAutoSave(true, {
         practiceFeedback: {
           selectedIndex: index,
@@ -749,6 +920,10 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
       const newCompleted = Array.from(new Set([...completedSteps, nextStep]));
       setGuidedStep(nextStep);
       setCompletedSteps(newCompleted);
+      updateLearningWorkspace({
+        context: { completedActivities: Array.from(new Set([...(learningWorkspace?.context.completedActivities || []), `lesson_step:${nextStep}`])) },
+        progress: { completedConcepts: newCompleted.length },
+      });
       triggerAutoSave(true, { guidedStep: nextStep, completedSteps: newCompleted });
     }
   };
@@ -808,6 +983,11 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
   // Stamp full learning suite onto whiteboard canvas with readable cards and live geometry
   const handleStampToCanvas = () => {
     if (!editor) return;
+    const topicForSession = currentInputRef.current.trim() || currentInput.trim() || activeInput.trim();
+    if (!topicForSession) {
+      setErrorMessage('Enter a topic before adding its learning suite to the canvas.');
+      return;
+    }
     try {
       const createdIds = CanvasStampingEngine.stampLearningSuite(editor, plan, {
         replacePrevious: true,
@@ -816,6 +996,22 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
       });
 
       stampedCardShapeIdsRef.current = createdIds.map((id) => String(id));
+      const currentWorkspace = learningWorkspace || {
+        status: 'active' as const,
+        context: { currentConcept: plan.title, previousQuestions: [], completedActivities: [], canvasShapeIds: [], followUpAnswers: [] },
+        progress: { completedConcepts: completedSteps.length, totalConcepts: 8 },
+      };
+      const nextWorkspace = {
+        ...currentWorkspace,
+        context: {
+          ...currentWorkspace.context,
+          canvasShapeIds: Array.from(new Set([...(currentWorkspace.context.canvasShapeIds || []), ...stampedCardShapeIdsRef.current])),
+          completedActivities: Array.from(new Set([...(currentWorkspace.context.completedActivities || []), 'canvas_stamped'])),
+        },
+      };
+      setLearningWorkspace(nextWorkspace);
+      void LearningSessionService.update(topicForSession, nextWorkspace);
+      triggerAutoSave(true, { learningWorkspace: nextWorkspace });
       setStampedSuccess(true);
       setTimeout(() => setStampedSuccess(false), 2500);
     } catch (e) {
@@ -842,6 +1038,52 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
           Explore
         </button>
       </form>
+
+      <section className="rounded-xl border border-slate-800 bg-slate-950/70 p-3 space-y-3" aria-label="Unified learning session">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wider text-cyan-400 font-bold">Learning session</div>
+            <div className="text-xs text-slate-200 truncate">{learningWorkspace?.context.currentConcept || plan.title}</div>
+          </div>
+          <div className="flex gap-1">
+            <button type="button" onClick={() => updateLearningWorkspace({ status: learningWorkspace?.status === 'paused' ? 'active' : 'paused' })} className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-200">
+              {learningWorkspace?.status === 'paused' ? 'Resume' : 'Pause'}
+            </button>
+            <button type="button" onClick={() => updateLearningWorkspace({ status: 'completed' })} className="px-2 py-1 rounded bg-emerald-900/70 hover:bg-emerald-800 text-[10px] text-emerald-200">Complete</button>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 text-[10px] text-slate-400">
+          <span className="capitalize">{learningWorkspace?.status || 'active'}</span>
+          <span>·</span>
+          <span>{learningWorkspace?.progress.completedConcepts ?? completedSteps.length}/8 activities</span>
+          <span>·</span>
+          <span>{learningWorkspace?.context.canvasShapeIds.length ?? 0} linked canvas shapes</span>
+          {learningWorkspace?.progress.quizScore !== undefined && <span>· Quiz {learningWorkspace.progress.quizScore}%</span>}
+        </div>
+        <form onSubmit={handleFollowUpSubmit} className="flex gap-1.5">
+          <input value={followUpInput} onChange={(e) => setFollowUpInput(e.target.value)} placeholder={editor?.getSelectedShapeIds().length ? 'Ask about this selection…' : 'Ask a follow-up about this topic…'} className="min-w-0 flex-1 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-2 text-[11px] text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-500" />
+          <button disabled={!followUpInput.trim() || isAnsweringFollowUp} className="rounded-lg bg-cyan-700 hover:bg-cyan-600 disabled:opacity-50 px-3 text-[10px] font-bold text-white">{isAnsweringFollowUp ? 'Thinking…' : 'Ask'}</button>
+        </form>
+        {followUpError && <div className="text-[10px] text-rose-300">{followUpError}</div>}
+        {(learningWorkspace?.context.followUpAnswers || []).slice(-2).reverse().map((item, index) => (
+          <article key={`${item.createdAt}-${index}`} className="rounded-lg border border-slate-800 bg-slate-900/70 p-2.5 space-y-1">
+            <div className="text-[10px] font-semibold text-cyan-200">{item.question}</div>
+            <div className="text-[10px] leading-relaxed text-slate-300">{item.answer}</div>
+          </article>
+        ))}
+        <div className="flex items-center justify-between gap-2 border-t border-slate-800 pt-2">
+          <span className="text-[10px] text-slate-400">Topic practice</span>
+          <button type="button" onClick={() => { const next = plan.practiceQuestions.findIndex((question) => !completedPracticeIds.includes(question.id)); setQuickPractice(next >= 0 ? next : 0); setQuickPracticeResult(null); }} disabled={!plan.practiceQuestions.length} className="px-2 py-1 rounded bg-indigo-700/70 hover:bg-indigo-600 disabled:opacity-50 text-[10px] text-white">Generate practice</button>
+        </div>
+        {quickPractice !== null && plan.practiceQuestions[quickPractice] && (() => {
+          const question = plan.practiceQuestions[quickPractice];
+          return <div className="rounded-lg border border-indigo-500/30 bg-indigo-950/30 p-2.5 space-y-2">
+            <div className="text-[11px] text-slate-100">{question.question}</div>
+            <div className="grid gap-1">{question.options.map((option, index) => <button key={`${question.id}-${index}`} type="button" disabled={quickPracticeResult !== null} onClick={() => handleQuickPracticeAnswer(quickPractice, index)} className="rounded-md border border-slate-700 bg-slate-900 px-2 py-1.5 text-left text-[10px] text-slate-200 hover:border-cyan-500 disabled:opacity-70">{option}</button>)}</div>
+            {quickPracticeResult && <div className={`text-[10px] ${quickPracticeResult.isCorrect ? 'text-emerald-300' : 'text-amber-300'}`}>{quickPracticeResult.isCorrect ? 'Correct — progress saved.' : 'Not quite. Review the explanation in the Master tab.'}</div>}
+          </div>;
+        })()}
+      </section>
 
       {/* Whiteboard Synchronization Status Indicator */}
       {(() => {
@@ -966,6 +1208,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
           <button
             onClick={() => {
               LearningSessionPersistenceService.listHistory().then(setSessionHistory);
+              LearningSessionService.list().then(setUnifiedSessionHistory);
               setShowHistoryModal(true);
             }}
             className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-cyan-500 text-slate-300 hover:text-white transition-colors"
@@ -2044,6 +2287,8 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                       lowerTitle.includes('cos') ||
                       lowerTitle.includes('sin') ||
                       lowerTitle.includes('tan') ||
+                      lowerTitle.includes('quadratic') ||
+                      lowerTitle.includes('parabola') ||
                       plan.conceptId === 'math_exp_cos_curve' ||
                       plan.conceptId === 'math_exponential_function' ||
                       plan.conceptId === 'calculus_sin_x' ||
@@ -2063,9 +2308,12 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                       else if (lowerTitle.includes('cos') || lowerTitle.includes('cosine') || plan.conceptId === 'math_cosine_function') functionExpression = 'cos(x)';
                       else if (lowerTitle.includes('sin') || lowerTitle.includes('sine') || plan.conceptId === 'calculus_sin_x' || plan.conceptId === 'math_sine_function') functionExpression = 'sin(x)';
                       else if (lowerTitle.includes('tan') || lowerTitle.includes('tangent')) functionExpression = 'tan(x)';
+                      else if (lowerTitle.includes('quadratic') || lowerTitle.includes('parabola')) functionExpression = 'x^2 - 5*x + 6';
 
                       return (
-                        <LinearFunctionPlotterView
+                      <LinearFunctionPlotterView
+                          isQuadratic={lowerTitle.includes('quadratic') || lowerTitle.includes('parabola')}
+                          initialQuadraticCoefficient={1}
                           initialSlope={experimentState.parameters.m ?? 2}
                           initialIntercept={experimentState.parameters.c ?? 1}
                           equationTitle={plan.title}
@@ -2324,6 +2572,33 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                     </div>
                   </div>
                 )}
+
+                <AssessmentPanel
+                  key={`adaptive-assessment-${plan.conceptId}`}
+                  conceptId={plan.conceptId}
+                  topic={plan.title}
+                  onRecommendedTopic={(query) => applyTopic(query)}
+                  onProgress={({ score, question, isCorrect, recommendation }) => {
+                    const topicForSession = currentInputRef.current.trim() || currentInput.trim();
+                    const completedActivities = Array.from(new Set([...(learningWorkspace?.context.completedActivities || []), 'adaptive_assessment']));
+                    void updateLearningWorkspace({
+                      context: { completedActivities },
+                      progress: { quizScore: score, completedConcepts: Math.max(completedSteps.length, learningWorkspace?.progress.completedConcepts || 0) },
+                    });
+                    const stableSessionId = LearningSessionPersistenceService.getStableSessionId(topicForSession);
+                    void sessionPersistence.recordLearningActivity(stableSessionId, {
+                      sessionId: stableSessionId,
+                      activityType: 'knowledge_check_attempt',
+                      title: question,
+                      metadata: {
+                        conceptName: plan.title,
+                        isCorrect,
+                        score,
+                        details: recommendation?.title || 'Adaptive assessment answer recorded',
+                      },
+                    }).then(() => LearningSessionPersistenceService.listHistory().then(setSessionHistory));
+                  }}
+                />
 
                 {/* Practice Multiple-Choice Quiz with Formative Evaluation */}
                 {plan.practiceQuestions.length > 0 && (
@@ -3109,6 +3384,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                 </div>
               ) : (
                 sessionHistory.map((s) => {
+                  const unified = unifiedSessionHistory.find((session) => session.id === s.id);
                   const isCurrent = s.primaryTopic.toLowerCase() === currentInput.toLowerCase();
                   const isConfirming = deleteConfirmId === s.id;
                   const stepNum = ([
@@ -3142,6 +3418,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                                 Active
                               </span>
                             )}
+                            {unified?.learningWorkspace && <span className="px-1.5 py-0.2 rounded bg-cyan-950/60 text-cyan-200 text-[9px] border border-cyan-700/40">ULW {unified.learningWorkspace.status}</span>}
                             {s.isCompleted ? (
                               <span className="flex items-center gap-0.5 px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-300 text-[9px] font-semibold border border-emerald-500/30">
                                 <CheckCircle className="w-2.5 h-2.5" />
@@ -3164,6 +3441,7 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                                 minute: '2-digit',
                               })}
                             </span>
+                            {unified?.learningWorkspace && <span>{unified.learningWorkspace.context.completedActivities.length} activities · {unified.learningWorkspace.context.canvasShapeIds.length} canvas links{unified.learningWorkspace.progress.quizScore !== undefined ? ` · Quiz ${unified.learningWorkspace.progress.quizScore}%` : ''}</span>}
                             {s.practiceAttempts?.totalScore !== undefined && s.practiceAttempts.totalScore > 0 && (
                               <span className="text-amber-300 font-mono">
                                 Practice: {s.practiceAttempts.totalScore} pts
@@ -3203,10 +3481,12 @@ export const UniversalLearningWorkspace: React.FC<UniversalLearningWorkspaceProp
                               <span className="text-[9px] text-rose-200 px-1 font-medium">Delete?</span>
                               <button
                                 onClick={async () => {
+                                  if (unified) await LearningSessionService.delete(s.id);
                                   await LearningSessionPersistenceService.deleteSession(s.id);
                                   setDeleteConfirmId(null);
                                   const updated = await LearningSessionPersistenceService.listHistory();
                                   setSessionHistory(updated);
+                                  setUnifiedSessionHistory(await LearningSessionService.list());
                                 }}
                                 className="px-1.5 py-0.5 rounded bg-rose-600 hover:bg-rose-500 text-white text-[9px] font-bold"
                               >

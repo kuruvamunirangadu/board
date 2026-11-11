@@ -1,5 +1,6 @@
 import torch
 from transformers import AutoModel, AutoTokenizer
+import os
 
 MODEL_ID = "living-models/Botanic1-S"
 
@@ -14,18 +15,31 @@ class BotanicService:
             self.tokenizer = AutoTokenizer.from_pretrained(
                 MODEL_ID,
                 trust_remote_code=True,
+                local_files_only=True,
             )
             self.model = AutoModel.from_pretrained(
                 MODEL_ID,
                 trust_remote_code=True,
+                local_files_only=True,
             )
             self.model.to(self.device)
             self.model.eval()
             self.is_real_model = True
             print("[BotanicService] Loaded official Botanic1-S model weights successfully.")
         except Exception as e:
-            print(f"[BotanicService] Live model weights not yet downloaded or accessible: {e}.")
-            print("[BotanicService] Operating in local deterministic genomic representation mode (1024-dim).")
+            if os.environ.get("VISIOS_ALLOW_MODEL_DOWNLOAD", "0") == "1":
+                try:
+                    self.tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+                    self.model = AutoModel.from_pretrained(MODEL_ID, trust_remote_code=True)
+                    self.model.to(self.device)
+                    self.model.eval()
+                    self.is_real_model = True
+                    print("[BotanicService] Loaded official Botanic1-S model weights successfully.")
+                except Exception as download_error:
+                    print(f"[BotanicService] Model download failed: {download_error}.")
+            if not self.is_real_model:
+                print(f"[BotanicService] Local model weights unavailable: {e}.")
+                print("[BotanicService] Operating in local deterministic genomic representation mode (1024-dim).")
 
     @torch.inference_mode()
     def embed(self, sequence: str) -> list[float]:

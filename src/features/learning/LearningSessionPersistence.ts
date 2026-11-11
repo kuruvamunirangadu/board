@@ -44,6 +44,7 @@ export interface AutoSavePayload {
   experimentLabState?: ExperimentSessionState | null;
   whatIfComparison?: any;
   workspaceId?: string;
+  learningWorkspace?: LearningSession['learningWorkspace'];
 }
 
 export class LearningSessionPersistenceService {
@@ -176,6 +177,7 @@ export class LearningSessionPersistenceService {
         },
         experimentLabState: payload.experimentLabState ?? undefined,
         whatIfComparison: payload.whatIfComparison ?? undefined,
+        ...(payload.learningWorkspace ? { learningWorkspace: payload.learningWorkspace } : {}),
       };
 
       const saved = await sessionPersistence.saveOrUpdateLearningSession(sessionRecord);

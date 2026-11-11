@@ -220,6 +220,8 @@ export type TargetEngine =
 
 export interface TopicClassificationResult {
   originalQuery: string;
+  /** Semantic action inferred from the learner's input, when available. */
+  primaryIntent?: string;
   domain: TopicDomain;
   intent: TopicIntent;
   engine: TargetEngine;

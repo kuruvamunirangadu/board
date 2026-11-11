@@ -16,6 +16,7 @@
  * 13. Assessment session interruption and state restoration.
  * 14. Invalid generated content blocked before presentation.
  * 15. Integration with Phase 4 knowledge model: updates mastery cleanly without conflicting duplicate scores.
+ * 16. Browser reload hydrates active assessment state and preserves other saved sessions on update.
  */
 
 import { test } from 'node:test';
@@ -346,5 +347,67 @@ test('Test 15: Assessment results update Phase 4 knowledge model without conflic
   assert.equal(updatedMastery.totalAttempts, 2);
   assert.equal(updatedMastery.correctAttempts, 2);
   assert.equal(updatedMastery.consecutiveCorrect, 2);
+});
+
+// ---------------------------------------------------------------------------
+// Test 16: Browser reload hydrates sessions before resuming or saving
+// ---------------------------------------------------------------------------
+
+test('Test 16: Browser reload restores active assessments and preserves saved sessions on update', () => {
+  const storage = new Map<string, string>();
+  const localStorage = {
+    getItem: (key: string) => storage.get(key) ?? null,
+    setItem: (key: string, value: string) => storage.set(key, value),
+    removeItem: (key: string) => storage.delete(key),
+  };
+  const globalWithWindow = globalThis as typeof globalThis & { window?: unknown };
+  const priorWindow = Object.getOwnPropertyDescriptor(globalWithWindow, 'window');
+
+  Object.defineProperty(globalWithWindow, 'window', {
+    configurable: true,
+    value: { localStorage },
+  });
+
+  try {
+    AssessmentPersistence.clear();
+    const studentId = `student_reload_${Date.now()}`;
+    const conceptId = 'algebra_quadratic';
+    const session = {
+      sessionId: `session_reload_${Date.now()}`,
+      studentId,
+      conceptId,
+      currentDifficulty: 3 as const,
+      questionsAnswered: 1,
+      correctAnswers: 1,
+      attempts: [],
+      consecutiveCorrect: 1,
+      consecutiveIncorrect: 0,
+      isCompleted: false,
+      activeMisconceptions: [],
+      currentQuestion: QuestionGenerator.generate('algebra_quadratic', 2),
+      updatedAt: new Date().toISOString(),
+    };
+
+    // Seed only durable browser state to model a fresh page with an empty in-memory cache.
+    storage.set('visios_assessment_sessions', JSON.stringify([[session.sessionId, session]]));
+    const restored = AssessmentPersistence.findActiveSession(studentId, conceptId);
+    assert.equal(restored?.sessionId, session.sessionId);
+    assert.equal(restored?.questionsAnswered, 1);
+    const resumed = new AssessmentOrchestrator().startOrResumeSession(studentId, conceptId, 1);
+    assert.equal(resumed.nextQuestion.id, session.currentQuestion.id, 'Reload should restore the exact pending question');
+
+    const secondSession = {
+      ...session,
+      sessionId: `session_additional_${Date.now()}`,
+      conceptId: `${conceptId}_other`,
+    };
+    AssessmentPersistence.saveSession(secondSession as any);
+    const savedEntries = JSON.parse(storage.get('visios_assessment_sessions') || '[]');
+    assert.equal(savedEntries.length, 2, 'Saving a session must retain sessions loaded from storage');
+  } finally {
+    AssessmentPersistence.clear();
+    if (priorWindow) Object.defineProperty(globalWithWindow, 'window', priorWindow);
+    else delete (globalWithWindow as any).window;
+  }
 });
 

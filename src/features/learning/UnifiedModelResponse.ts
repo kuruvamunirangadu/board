@@ -40,6 +40,31 @@ export interface UnifiedModelResponse {
 }
 
 export class UnifiedModelResponseFactory {
+  /** Response from the deterministic SymPy/NumPy/SciPy math service. */
+  public static fromScientificMath(data: {
+    operation: string;
+    result: unknown;
+    plot?: { x: number[]; y: (number | null)[]; image_base64: string };
+  }, latencyMs?: number, capabilityId?: string): UnifiedModelResponse {
+    const result = typeof data.result === 'string' || Array.isArray(data.result)
+      ? (Array.isArray(data.result) ? data.result.join(', ') : data.result)
+      : JSON.stringify(data.result);
+    return {
+      subject: 'mathematics',
+      model: 'SymPy + NumPy + SciPy',
+      answer: data.operation === 'plot'
+        ? `Generated a numerical graph with ${data.plot?.x.length ?? 0} samples.`
+        : `${data.operation}: ${result}`,
+      verified: true,
+      source: 'deterministic_engine',
+      status: 'success',
+      engineId: 'scientific-math-service',
+      capabilityId,
+      latencyMs,
+      rawDetails: data,
+    };
+  }
+
   /**
    * Factory for responses originating from the Mathematics API (/api/learning/math).
    */

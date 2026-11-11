@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from app.model_service import get_chemberta_service
 from app.molecular_service import analyze_molecule, generate_3d_structure, generate_2d_image
 from app.functional_group_service import recognize_functional_groups
 
@@ -16,14 +15,12 @@ class MoleculeEmbeddingRequest(BaseModel):
         max_length=2000,
         description="SMILES representation of a chemical molecule.",
     )
-
 class MoleculeRequest(BaseModel):
     smiles: str = Field(
         min_length=1,
         max_length=2000,
         description="SMILES representation of a chemical molecule.",
     )
-
 class FunctionalGroupRequest(BaseModel):
     smiles: str = Field(
         min_length=1,
@@ -53,7 +50,6 @@ def health():
         "task": "molecular_representation_and_visualization",
         "commercial_use": False,
     }
-
 @app.post("/api/v1/molecule/functional-groups")
 def analyze_functional_groups(request: FunctionalGroupRequest):
     try:
@@ -66,7 +62,6 @@ def analyze_functional_groups(request: FunctionalGroupRequest):
             status_code=500,
             detail="Functional group analysis failed.",
         )
-
 @app.post("/api/v1/molecule/analyze")
 def analyze(request: MoleculeRequest):
     try:
@@ -100,7 +95,6 @@ def structure_3d(request: MoleculeRequest):
             status_code=500,
             detail="3D molecular conformer generation failed.",
         )
-
 @app.post("/api/v1/molecule/2d")
 def image_2d(request: MoleculeRequest):
     try:
@@ -128,6 +122,9 @@ def image_2d(request: MoleculeRequest):
 @app.post("/api/v1/embedding")
 def generate_embedding(request: MoleculeEmbeddingRequest):
     try:
+        # Keep the large ML runtime out of app startup and chemistry-only endpoints.
+        from app.model_service import get_chemberta_service
+
         service = get_chemberta_service()
         canonical = service.validate_smiles(request.smiles)
         embedding = service.embed(request.smiles)
@@ -156,6 +153,8 @@ def generate_embedding(request: MoleculeEmbeddingRequest):
 @app.post("/api/v1/fill-mask")
 def fill_mask(request: MaskedMoleculeRequest):
     try:
+        from app.model_service import get_chemberta_service
+
         service = get_chemberta_service()
         predictions = service.predict_masked_token(
             request.masked_smiles,

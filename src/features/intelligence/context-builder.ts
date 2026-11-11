@@ -120,29 +120,17 @@ export function buildObjectContext(
       const cardTitle = (props.title as string)?.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim() || 'Learning Concept';
       return {
         id: shape.id,
-        type: 'formula',
+        // Generated cards are outputs of the current lesson, not fresh user input.
+        // Treating them as formulas lets their step headings hijack session context.
+        type: 'shape',
         title: cardTitle,
-        recognizedFormula: {
-          rawText: props.formula || cardTitle,
-          normalizedFormula: props.formula || cardTitle,
-          topic: (props.category as any) || 'algebra',
-          title: cardTitle,
-          solvedResult: props.takeaway || props.content || '',
-          studyGuide: {
-            intuition: props.content || '',
-            prerequisites: props.steps || [],
-            realWorldApplication: props.takeaway || '',
-          },
-          algebraicSteps: props.steps || [],
-          geometricProofSummary: props.content || '',
-          hasInteractiveAnimation: false,
-        },
         metadata: {
           title: cardTitle,
           formula: props.formula || cardTitle,
           category: props.category,
           badge: props.badge,
           content: props.content,
+          generatedLearningCard: true,
         },
       };
     }
@@ -293,29 +281,15 @@ export function buildObjectContext(
     const cardTitle = (props.title as string)?.replace(/^[✨📐👁️🧪🧠\s]+/, '').trim() || 'Learning Concept';
     return {
       id: learningCardShape.id,
-      type: 'formula',
+      type: 'shape',
       title: cardTitle,
-      recognizedFormula: {
-        rawText: props.formula || cardTitle,
-        normalizedFormula: props.formula || cardTitle,
-        topic: (props.category as any) || 'algebra',
-        title: cardTitle,
-        solvedResult: props.takeaway || props.content || '',
-        studyGuide: {
-          intuition: props.content || '',
-          prerequisites: props.steps || [],
-          realWorldApplication: props.takeaway || '',
-        },
-        algebraicSteps: props.steps || [],
-        geometricProofSummary: props.content || '',
-        hasInteractiveAnimation: false,
-      },
       metadata: {
         title: cardTitle,
         formula: props.formula || cardTitle,
         category: props.category,
         badge: props.badge,
         content: props.content,
+        generatedLearningCard: true,
       },
     };
   }

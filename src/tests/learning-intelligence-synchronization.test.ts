@@ -11,6 +11,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { LearningOrchestrator } from '../features/learning/LearningOrchestrator';
+import { UniversalInputInterpreter } from '../features/learning/UniversalInputInterpreter';
+import { BoardFeedParser } from '../features/intelligence/board-feed-parser';
 import { buildObjectContext } from '../features/intelligence/context-builder';
 import { Workspace } from '../types';
 
@@ -83,9 +85,28 @@ test('Test 3: Context builder extracts concept title from selected learning-card
   } as any;
 
   const context = buildObjectContext(mockEditor, mockWorkspace);
-  assert.equal(context.type, 'formula');
+  assert.equal(context.type, 'shape');
   assert.equal(context.title, 'Database Isolation Levels');
-  assert.equal(context.recognizedFormula?.rawText, 'Database Isolation Levels');
+  assert.equal(context.metadata?.generatedLearningCard, true);
+});
+
+test('Quadratic board text preserves coefficients and does not become a generic polynomial topic', async () => {
+  const text = 'Quadratic equations: x² − 5x + 6 = 0';
+  const recognized = BoardFeedParser.matchFormulaString(text);
+  assert.ok(recognized);
+  assert.match(recognized.rawText, /Quadratic equations: y = 1x\^2 - 5x \+ 6/);
+  assert.match(recognized.solvedResult, /2 or 3/);
+
+  const interpretation = UniversalInputInterpreter.interpret(recognized.rawText);
+  assert.equal(interpretation.variables.find((variable) => variable.symbol === 'a')?.defaultValue, 1);
+  assert.equal(interpretation.variables.find((variable) => variable.symbol === 'b')?.defaultValue, -5);
+  assert.equal(interpretation.variables.find((variable) => variable.symbol === 'c')?.defaultValue, 6);
+  assert.match(interpretation.summary, /roots 2 and 3/);
+
+  const plan = (await LearningOrchestrator.processTopic(recognized.rawText)).plan;
+  assert.equal(plan.conceptId, 'algebra_quadratic');
+  assert.equal(plan.variables.find((variable) => variable.symbol === 'b')?.defaultValue, -5);
+  assert.doesNotMatch(plan.title, /Polynomial Function/);
 });
 
 // ---------------------------------------------------------------------------
@@ -111,8 +132,9 @@ test('Test 4: Context builder detects board learning-card when no shapes are sel
   } as any;
 
   const context = buildObjectContext(mockEditor, mockWorkspace);
-  assert.equal(context.type, 'formula');
+  assert.equal(context.type, 'shape');
   assert.equal(context.title, 'Binary Search Algorithm');
+  assert.equal(context.metadata?.generatedLearningCard, true);
 });
 
 // ---------------------------------------------------------------------------

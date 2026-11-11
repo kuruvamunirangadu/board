@@ -104,6 +104,17 @@ export interface LearningSession {
   responseId?: string;
   capabilityId?: string;
   engineId?: string;
+  learningWorkspace?: {
+    status: 'active' | 'paused' | 'completed';
+    context: {
+      currentConcept: string;
+      previousQuestions: string[];
+      completedActivities: string[];
+      canvasShapeIds: string[];
+      followUpAnswers: Array<{ question: string; answer: string; createdAt: number }>;
+    };
+    progress: { completedConcepts: number; totalConcepts: number; quizScore?: number };
+  };
 }
 
 export interface MetricDiff {

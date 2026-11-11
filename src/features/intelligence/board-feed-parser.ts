@@ -428,6 +428,55 @@ export class BoardFeedParser {
   public static matchFormulaString(str: string): RecognizedFormula | null {
     if (!str) return null;
 
+    // Prefer a concrete quadratic equation over the generic registry entry so the
+    // coefficients survive routing into the deterministic learning engines.
+    const normalizedText = str
+      .replace(/[−–—]/g, '-')
+      .replace(/[²³⁴⁵]/g, (power) => `^${'²³⁴⁵'.indexOf(power) + 2}`);
+    const hasQuadraticContext = /\b(quadratic|parabola|parabolic)\b/i.test(normalizedText);
+    const concreteQuadratic = normalizedText.match(
+      /(?:^|[^\w.])([+-]?\d*\.?\d*)\s*\*?\s*x\s*\^\s*2\s*([+-])\s*(\d*\.?\d*)\s*\*?\s*x\s*([+-])\s*(\d*\.?\d*)\s*=\s*0\b/i
+    );
+    if (concreteQuadratic) {
+      const [, aRaw, bSign, bRaw, cSign, cRaw] = concreteQuadratic;
+      const coefficient = (raw: string, sign = '+') => {
+        const magnitude = raw === '' ? 1 : Number(raw);
+        return magnitude * (sign === '-' ? -1 : 1);
+      };
+      const a = coefficient(aRaw);
+      const b = coefficient(bRaw, bSign);
+      const c = coefficient(cRaw, cSign);
+      if (a !== 0 && [a, b, c].every(Number.isFinite)) {
+        const discriminant = b * b - 4 * a * c;
+        const roots = discriminant >= 0
+          ? [(-b - Math.sqrt(discriminant)) / (2 * a), (-b + Math.sqrt(discriminant)) / (2 * a)]
+          : [];
+        const format = (value: number) => Number.isInteger(value) ? String(value) : String(Number(value.toFixed(6)));
+        const equation = `y = ${format(a)}x^2 ${b < 0 ? '-' : '+'} ${format(Math.abs(b))}x ${c < 0 ? '-' : '+'} ${format(Math.abs(c))}`;
+        return {
+          ...KNOWN_FORMULA_REGISTRY[9],
+          rawText: `Quadratic equations: ${equation} = 0`,
+          normalizedFormula: equation,
+          title: hasQuadraticContext ? `Quadratic Equation: ${equation}` : equation,
+          solvedResult: roots.length ? `x = ${roots.map(format).join(' or ')}` : 'No real roots',
+          studyGuide: {
+            ...KNOWN_FORMULA_REGISTRY[9].studyGuide,
+            intuition: `For ${equation} = 0, the discriminant is ${format(discriminant)}${roots.length ? `, giving x-intercepts at ${roots.map(format).join(' and ')}` : ', so the parabola has no real x-intercepts'}.`,
+          },
+          algebraicSteps: [
+            `1. Identify a = ${format(a)}, b = ${format(b)}, and c = ${format(c)}.`,
+            `2. Compute the discriminant: Δ = b² − 4ac = ${format(discriminant)}.`,
+            ...(roots.length
+              ? [`3. Apply the quadratic formula: x = (−b ± √Δ) / (2a) = ${roots.map(format).join(' or ')}.`, `4. The graph crosses the x-axis at (${roots.map((root) => `${format(root)}, 0`).join(') and (')}).`]
+              : ['3. Since Δ < 0, there are no real roots and the graph does not cross the x-axis.']),
+          ],
+          geometricProofSummary: `The graph of ${equation} is a parabola${roots.length ? ` with x-intercepts ${roots.map(format).join(' and ')}` : ' with no real x-intercepts'}.`,
+          defaultParams: { a, b, c },
+          hasInteractiveAnimation: true,
+        };
+      }
+    }
+
     // Check subject-aware domain knowledge engine (Functions, Curves, Algorithms, Science)
     const domainMatch = DomainKnowledgeEngine.match(str);
     if (domainMatch) {

@@ -62,6 +62,7 @@ export class LearningPlanGenerator {
       capabilityLevel,
       disclosures,
 
+
       // 1. Understand
       overview: interpretation.summary,
       motivation: this.getMotivation(conceptId, interpretation.title),
@@ -121,6 +122,11 @@ export class LearningPlanGenerator {
     const title = (interpretation.title || '').toLowerCase();
     if ((raw.includes('tan^2') && raw.includes('cot^2')) || (raw.includes('tan²') && raw.includes('cot²')) || title.includes('tan²(x) + cot²(x)')) return 'trigonometry_tan2_cot2';
     if ((raw.includes('sin^2') && raw.includes('cos^2')) || (raw.includes('sin²') && raw.includes('cos²')) || title.includes('sin²(x) + cos²(x)')) return 'trigonometry_sin2_cos2';
+    if (/\b(cot|cotangent|cot_x|cot\(x\))\b/i.test(raw) || title.includes('cot(x)')) return 'trigonometry_cot_x';
+    if (/\b(sec|secant|sec_x|sec\(x\))\b/i.test(raw) || title.includes('sec(x)')) return 'trigonometry_sec_x';
+    if (/\b(csc|cosecant|csc_x|csc\(x\))\b/i.test(raw) || title.includes('csc(x)')) return 'trigonometry_csc_x';
+    if (/\b(tan|tangent|tan_x|tan\(x\))\b/i.test(raw) || title.includes('tan(x)')) return 'trigonometry_tan_x';
+    if (/\b(cos|cosine|cos_x|cos\(x\))\b/i.test(raw) || title.includes('cos(x)')) return 'trigonometry_cos_x';
     if (raw.includes('density') || raw.includes('mass / volume') || raw.includes('mass/volume') || raw.includes('m / v') || raw.includes('m/v') || raw.includes('ρ = m/v')) return 'physics_density';
     if (raw.includes('f = ma') || raw.includes('f=ma') || raw.includes('newton')) return 'physics_f_ma';
     if (raw.includes('v = u + at') || raw.includes('v=u+at')) return 'physics_kinematics_v_u_at';
@@ -143,8 +149,8 @@ export class LearningPlanGenerator {
     if (raw.includes('(a+b)^3') || raw.includes('(a+b)³') || raw.includes('cube of sum') || raw.includes('cube of a sum')) return 'algebra_cube_sum';
     if (raw.includes('(a-b)^3') || raw.includes('(a-b)³') || raw.includes('cube of diff') || raw.includes('cube of a diff')) return 'algebra_cube_diff';
     if (raw.includes('(a+b)^2') || raw.includes('a^2+2ab+b^2') || raw.includes('square of sum') || raw.includes('(a+b)²')) return 'algebra_square_sum';
-    if (raw.includes('a^2+b^2-2ab') || raw.includes('(a-b)^2')) return 'algebra_square_diff';
     if (raw.includes('quadratic') || raw.includes('ax^2+bx+c')) return 'algebra_quadratic';
+    if (raw.includes('a^2+b^2-2ab') || raw.includes('(a-b)^2')) return 'algebra_square_diff';
     if (raw.includes('binary search')) return 'algo_binary_search';
     if (raw.includes('pendulum')) return 'physics_pendulum';
     return `concept_${interpretation.category}_${Date.now()}`;
@@ -183,6 +189,16 @@ export class LearningPlanGenerator {
         return 'Provides the fundamental metric of distance in Euclidean 2D and 3D space, powering navigation, construction, and graphics engines.';
       case 'trigonometry_law_of_cosines':
         return 'Generalizes the Pythagorean theorem to any arbitrary triangle, forming the geometric foundation of celestial navigation, surveying, and 3D computer graphics.';
+      case 'trigonometry_cot_x':
+        return 'The cotangent function y = cot(x) = cos(x)/sin(x) = 1/tan(x) is fundamental to wave propagation, antenna radiation impedance, harmonic analysis, and surveying triangulation.';
+      case 'trigonometry_tan_x':
+        return 'The tangent function y = tan(x) = sin(x)/cos(x) represents the geometric slope of a line with angle x, foundational for calculus rates of change, optics refraction, and projective geometry.';
+      case 'trigonometry_cos_x':
+        return 'The cosine function models horizontal harmonic displacement on the unit circle, essential in AC power alternating currents, Fourier series, and quantum wave mechanics.';
+      case 'trigonometry_sec_x':
+        return 'The secant function y = sec(x) = 1/cos(x) governs navigation course calculations, hyperbolic coordinate projections (Mercator projection), and acoustic ray tracing.';
+      case 'trigonometry_csc_x':
+        return 'The cosecant function y = csc(x) = 1/sin(x) represents reciprocal vertical harmonic displacement, vital in celestial mechanics, wave diffraction, and antenna beam patterns.';
       default:
         return `Introduced to formalize relationships and predict observable outcomes in ${title}.`;
     }
@@ -378,6 +394,20 @@ export class LearningPlanGenerator {
     }
 
     switch (conceptId) {
+      case 'algebra_quadratic':
+        return [{
+          title: 'Solve a Quadratic by Factoring',
+          problemStatement: 'Solve x² − 5x + 6 = 0 and connect the solutions to the graph.',
+          givenValues: { a: 1, b: -5, c: 6 },
+          stepByStepSolution: [
+            '1. Identify a = 1, b = −5, c = 6.',
+            '2. Find two factors of 6 that add to 5: 2 and 3.',
+            '3. Factor: x² − 5x + 6 = (x − 2)(x − 3) = 0.',
+            '4. Set each factor to zero: x = 2 or x = 3.',
+            '5. These roots are the x-intercepts (2, 0) and (3, 0) of the parabola.',
+          ],
+          finalAnswer: 'x = 2 or x = 3; graph intercepts: (2, 0) and (3, 0).',
+        }];
       case 'algebra_cube_sum':
         return [
           {
@@ -516,6 +546,29 @@ export class LearningPlanGenerator {
     }
 
     switch (conceptId) {
+      case 'algebra_quadratic':
+        return [{
+          id: 'quadratic_roots_q1',
+          question: 'For y = x² − 5x + 6, where does the graph intersect the x-axis?',
+          options: ['At x = 2 and x = 3', 'At x = −2 and x = −3', 'At x = 0 only', 'It has no real x-intercepts'],
+          correctIndex: 0,
+          explanation: 'Factor x² − 5x + 6 as (x − 2)(x − 3). The graph intersects the x-axis where y = 0, at x = 2 and x = 3.',
+          hint: 'Find two numbers that multiply to 6 and add to 5.',
+        }, {
+          id: 'quadratic_vertex_q2',
+          question: 'What is the vertex of y = x² − 5x + 6?',
+          options: ['(2.5, −0.25)', '(2.5, 0)', '(−2.5, −0.25)', '(5, 6)'],
+          correctIndex: 0,
+          explanation: 'The vertex x-coordinate is −b/(2a) = 5/2. Substitution gives y = 6.25 − 12.5 + 6 = −0.25.',
+          hint: 'Use x = −b/(2a), then substitute that x into the quadratic.',
+        }, {
+          id: 'quadratic_discriminant_q3',
+          question: 'How many real roots does x² + 4x + 4 = 0 have?',
+          options: ['One repeated real root', 'Two distinct real roots', 'No real roots', 'Infinitely many roots'],
+          correctIndex: 0,
+          explanation: 'The discriminant is b² − 4ac = 16 − 16 = 0, so the equation has one repeated real root.',
+          hint: 'Compute b² − 4ac.',
+        }];
       case 'trigonometry_law_of_cosines':
         return [
           {

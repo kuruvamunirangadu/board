@@ -41,6 +41,18 @@ export class TopicClassifier {
 
     const lower = clean.toLowerCase();
 
+    if (/\b(quadratic|parabola|parabolic)\b/.test(lower)) {
+      return {
+        originalQuery: clean,
+        domain: 'mathematics',
+        intent: 'formula_explanation',
+        engine: 'math',
+        confidence: 0.98,
+        requiresClarification: false,
+        reason: 'The query names a quadratic equation or parabolic function.',
+      };
+    }
+
     // 1. Interactive Simulation Intent (e.g. "simulate a pendulum", "projectile motion", "harmonic motion", "f = ma simulation")
     if (
       lower.includes('pendulum') ||
@@ -126,6 +138,7 @@ export class TopicClassifier {
       /\by\s*=\s*/.test(lower) ||
       /f\s*\(\s*x\s*\)\s*=/i.test(lower) ||
       lower.includes('law of cosine') ||
+      lower.includes('law of cosines') ||
       lower.includes('cosine rule') ||
       lower.includes('density') ||
       lower.includes('pv = nrt') ||
@@ -383,6 +396,7 @@ export class TopicClassifier {
     ) {
       const isLawOfCosines =
         lower.includes('law of cosine') ||
+        lower.includes('law of cosines') ||
         lower.includes('cosine rule') ||
         lower.includes('c^2 = a^2 + b^2 - 2ab') ||
         lower.includes('c^2=a^2+b^2-2ab') ||
@@ -531,6 +545,7 @@ export class TopicClassifier {
       lower.includes('turing') ||
       lower.includes('ada lovelace') ||
       lower.includes('history of') ||
+      /\b(indian prime minister|prime minister of india)\b/i.test(lower) ||
       lower.includes('llp') ||
       lower.includes('ltd') ||
       lower.includes('inc') ||

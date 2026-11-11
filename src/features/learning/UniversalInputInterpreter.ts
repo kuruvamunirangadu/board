@@ -14,6 +14,44 @@ export class UniversalInputInterpreter {
       return this.createEmptyFallback();
     }
 
+    if (/\b(quadratic|parabola|parabolic)\b/i.test(trimmed)) {
+      const normalizedQuadratic = trimmed
+        .replace(/[−–—]/g, '-')
+        .replace(/[²³⁴⁵]/g, (power) => `^${'²³⁴⁵'.indexOf(power) + 2}`);
+      const coefficients = normalizedQuadratic.match(
+        /(?:^|[^\w.])([+-]?\d*\.?\d*)\s*\*?\s*x\s*\^\s*2\s*([+-])\s*(\d*\.?\d*)\s*\*?\s*x\s*([+-])\s*(\d*\.?\d*)\s*=\s*0\b/i
+      );
+      const signedCoefficient = (value: string, sign = '+') =>
+        (value === '' ? 1 : Number(value)) * (sign === '-' ? -1 : 1);
+      const a = coefficients ? signedCoefficient(coefficients[1]) : 1;
+      const b = coefficients ? signedCoefficient(coefficients[3], coefficients[2]) : -5;
+      const c = coefficients ? signedCoefficient(coefficients[5], coefficients[4]) : 6;
+      const format = (value: number) => Number.isInteger(value) ? String(value) : String(Number(value.toFixed(6)));
+      const equation = `y = ${format(a)}x² ${b < 0 ? '−' : '+'} ${format(Math.abs(b))}x ${c < 0 ? '−' : '+'} ${format(Math.abs(c))}`;
+      const discriminant = b * b - 4 * a * c;
+      const roots = discriminant >= 0
+        ? [(-b - Math.sqrt(discriminant)) / (2 * a), (-b + Math.sqrt(discriminant)) / (2 * a)]
+        : [];
+      return {
+        originalInput: rawInput,
+        normalizedInput: coefficients ? equation : 'y = x² − 5x + 6',
+        category: 'algebra',
+        subject: 'Quadratic Equations & Functions',
+        title: coefficients ? `Quadratic Equation: ${equation}` : 'The Quadratic Formula',
+        summary: coefficients
+          ? `${equation} = 0 has discriminant Δ = ${format(discriminant)}${roots.length ? ` and roots ${roots.map(format).join(' and ')}, which are the graph’s x-intercepts.` : ' and no real roots.'}`
+          : 'A quadratic equation has the form ax² + bx + c = 0. Its real roots are the x-intercepts of its parabola; the discriminant determines whether there are two, one, or no real roots.',
+        variables: [
+          { symbol: 'a', name: 'Quadratic coefficient', unit: 'unitless', description: 'Controls opening and width; a ≠ 0.', defaultValue: a, min: -10, max: 10, step: 0.5 },
+          { symbol: 'b', name: 'Linear coefficient', unit: 'unitless', description: 'Controls horizontal vertex position.', defaultValue: b, min: -20, max: 20, step: 1 },
+          { symbol: 'c', name: 'Constant coefficient', unit: 'unitless', description: 'Sets the vertical offset.', defaultValue: c, min: -20, max: 20, step: 1 },
+        ],
+        prerequisites: ['Parabolas', 'Completing the Square', 'Discriminant'],
+        isAmbiguous: false,
+        confidence: 0.99,
+      };
+    }
+
     // 0A. Subject-Aware Domain Knowledge Engine (Computer Science / Data Structures / Chemistry / Biology)
     const domainMatch = DomainKnowledgeEngine.match(trimmed);
     if (domainMatch) {
@@ -156,6 +194,142 @@ export class UniversalInputInterpreter {
         }
 
         const func = mathNorm.functionExpression || trimmed;
+
+        if (/cot/i.test(func)) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: mathNorm.normalizedSyntax,
+            category: 'calculus',
+            subject: 'Trigonometric Curves & Harmonic Functions',
+            title: 'Trigonometric Function: cot(x)',
+            summary:
+              'The cotangent function y = cot(x) = cos(x)/sin(x) = 1/tan(x) is an odd, periodic trigonometric ratio with period π, vertical asymptotes at x = nπ (n ∈ ℤ), and zeros at x = π/2 + nπ.',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angle along domain x ≠ nπ (n ∈ ℤ).',
+                defaultValue: 1.0,
+                min: -6.28,
+                max: 6.28,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Trigonometric Ratios (cot, tan)', 'Unit Circle Geometry', 'Vertical Asymptotes & Periodicity'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        if (/sec/i.test(func)) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: mathNorm.normalizedSyntax,
+            category: 'calculus',
+            subject: 'Trigonometric Curves & Harmonic Functions',
+            title: 'Trigonometric Function: sec(x)',
+            summary:
+              'The secant function y = sec(x) = 1/cos(x) is the reciprocal of cosine with period 2π, domain x ≠ π/2 + nπ, range (-∞, -1] ∪ [1, ∞), and vertical asymptotes at zeros of cosine.',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angle along domain x ≠ π/2 + nπ (n ∈ ℤ).',
+                defaultValue: 0,
+                min: -6.28,
+                max: 6.28,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Reciprocal Trig Ratios', 'Cosine Function', 'Vertical Asymptotes'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        if (/csc/i.test(func)) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: mathNorm.normalizedSyntax,
+            category: 'calculus',
+            subject: 'Trigonometric Curves & Harmonic Functions',
+            title: 'Trigonometric Function: csc(x)',
+            summary:
+              'The cosecant function y = csc(x) = 1/sin(x) is the reciprocal of sine with period 2π, domain x ≠ nπ, range (-∞, -1] ∪ [1, ∞), and vertical asymptotes at zeros of sine.',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angle along domain x ≠ nπ (n ∈ ℤ).',
+                defaultValue: 1.0,
+                min: -6.28,
+                max: 6.28,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Reciprocal Trig Ratios', 'Sine Function', 'Vertical Asymptotes'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        if (/tan/i.test(func)) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: mathNorm.normalizedSyntax,
+            category: 'calculus',
+            subject: 'Trigonometric Curves & Harmonic Functions',
+            title: 'Trigonometric Function: tan(x)',
+            summary:
+              'The tangent function y = tan(x) = sin(x)/cos(x) is an odd, periodic function with period π, vertical asymptotes at x = π/2 + nπ (n ∈ ℤ), and slope m = sec²(x).',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angle along domain x ≠ π/2 + nπ (n ∈ ℤ).',
+                defaultValue: 0.5,
+                min: -3.14,
+                max: 3.14,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Trigonometric Ratios', 'Unit Circle Geometry', 'Slope & Asymptotes'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
+        if (/cos/i.test(func)) {
+          return {
+            originalInput: rawInput,
+            normalizedInput: mathNorm.normalizedSyntax,
+            category: 'calculus',
+            subject: 'Trigonometric Curves & Harmonic Functions',
+            title: 'Trigonometric Function: cos(x)',
+            summary:
+              'The cosine function y = cos(x) represents horizontal displacement on the unit circle, with real domain ℝ, range [-1, 1], fundamental period 2π, and even symmetry cos(-x) = cos(x).',
+            variables: [
+              {
+                symbol: 'x',
+                name: 'Angle / Phase',
+                unit: 'radians',
+                description: 'Input angle in radians.',
+                defaultValue: 0,
+                min: -6.28,
+                max: 6.28,
+                step: 0.1,
+              },
+            ],
+            prerequisites: ['Unit Circle Coordinates', 'Periodic Waveforms', 'Cartesian Graphing'],
+            isAmbiguous: false,
+            confidence: 0.99,
+          };
+        }
+
         return {
           originalInput: rawInput,
           normalizedInput: mathNorm.normalizedSyntax,

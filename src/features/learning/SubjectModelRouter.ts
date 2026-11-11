@@ -30,6 +30,8 @@ import { POST as handleMathPost } from '@/app/api/learning/math/route';
 import { POST as handleCodePost } from '@/app/api/learning/code/route';
 import { POST as handlePlantGenomicsPost } from '@/app/api/learning/plant-genomics/route';
 import { POST as handleChemistryPost } from '@/app/api/learning/chemistry/route';
+import { POST as handleScientificMathPost } from '@/app/api/scientific/math/route';
+import { POST as handleBiologyPost } from '@/app/api/learning/biology/route';
 
 export interface RoutingDecision {
   query: string;
@@ -76,6 +78,25 @@ export class SubjectModelRouter {
     }
 
     const lower = trimmed.toLowerCase();
+
+    if (/\b(quadratic|parabola|parabolic)\b/.test(lower)) {
+      const capability = EngineCapabilityRegistry.resolveCapability(
+        { input: trimmed, requestId: 'router', timestamp: Date.now() } as LearningRequest
+      );
+      return {
+        query: trimmed,
+        normalizedQuery: 'y = ax² + bx + c',
+        subject: 'mathematics',
+        requiresModel: false,
+        targetEngineType: 'math',
+        matchedCapabilityId: capability.capability?.id || 'cap_quadratic_functions',
+        deterministicEngineAvailable: true,
+        isAmbiguous: false,
+        isMixedSubject: false,
+        secondaryCapabilities: [],
+        actionPlan: 'Use the deterministic quadratic derivation and parabola graph engines.',
+      };
+    }
 
     // 1. Ambiguity & Clarification Guard via IntentClassifier and Acronym Detection
     const disambiguationCtx: DisambiguationContext = {
@@ -124,7 +145,8 @@ export class SubjectModelRouter {
     const isHistoricalOrBiographical =
       /\b(who is|who was|history of|biography of|biography|timeline of|life of)\b/i.test(lower) ||
       lower.includes('alan turing') ||
-      lower.includes('ada lovelace');
+      lower.includes('ada lovelace') ||
+      /\b(indian prime minister|prime minister of india)\b/i.test(lower);
 
     if (isHistoricalOrBiographical) {
       return {
@@ -150,13 +172,20 @@ export class SubjectModelRouter {
       (/(y\s*=|f\(x\)\s*=|linear function|slope)/i.test(lower) || MathInputNormalizer.normalize(trimmed).isMathematical);
 
     if (isExplicitPlotting) {
+      const mathNorm = MathInputNormalizer.normalize(trimmed);
+      const isHarmonicOrPoly =
+        mathNorm.mathType === 'trigonometric' ||
+        mathNorm.mathType === 'polynomial' ||
+        mathNorm.mathType === 'calculus' ||
+        /(sin|cos|tan|cot|sec|csc|exp|\^)/i.test(trimmed);
+
       return {
         query: trimmed,
         normalizedQuery: trimmed,
         subject: 'mathematics',
         requiresModel: false,
         targetEngineType: 'math',
-        matchedCapabilityId: 'cap_linear_functions',
+        matchedCapabilityId: isHarmonicOrPoly ? 'cap_harmonic_curves' : 'cap_linear_functions',
         deterministicEngineAvailable: true,
         isAmbiguous: false,
         isMixedSubject: false,
@@ -272,6 +301,26 @@ export class SubjectModelRouter {
       };
     }
 
+    // Deterministic sequence and protein structure analysis (Biopython).
+    const isExplicitSequenceAnalysis =
+      /\b(analy[sz]e|translate|reverse complement|gc content)\b.*\b(dna|rna|sequence)\b/i.test(trimmed) ||
+      /\b(dna|rna|sequence)\b.*\b(analy[sz]e|translate|reverse complement|gc content)\b/i.test(trimmed);
+    if (isExplicitSequenceAnalysis) {
+      return {
+        query: trimmed,
+        normalizedQuery: trimmed,
+        subject: 'biology',
+        requiresModel: false,
+        targetEngineType: 'knowledge',
+        matchedCapabilityId: 'cap_biopython_sequence_analysis',
+        deterministicEngineAvailable: true,
+        isAmbiguous: false,
+        isMixedSubject: false,
+        secondaryCapabilities: [],
+        actionPlan: 'Use Biopython to validate and analyze the requested DNA or RNA sequence.',
+      };
+    }
+
     // 9. Plant Genomics Specialist Selection (BOTANIC-1)
     // Only triggers on genuine DNA sequences or explicit plant genome embedding requests.
     // Does NOT intercept ordinary biology questions like "What is photosynthesis?" or "nervous system".
@@ -379,6 +428,26 @@ export class SubjectModelRouter {
     return await ModelProviderRegistry.executeWithVRAMProtection(async () => {
       try {
         if (decision.subject === 'mathematics') {
+          const mathCommand = decision.query.match(/^\s*(differentiate|derivative(?:\s+of)?|integrate|integral(?:\s+of)?|simplify|solve|plot|graph)(?:\s+of)?\s+(.+)\s*$/i);
+          if (mathCommand) {
+            const verb = mathCommand[1].toLowerCase();
+            const operation = verb.startsWith('different') || verb.startsWith('derivative')
+              ? 'differentiate'
+              : verb.startsWith('integr')
+                ? 'integrate'
+                : verb === 'plot' || verb === 'graph' ? 'plot' : verb;
+            const request = new NextRequest('http://localhost:3000/api/scientific/math', {
+              method: 'POST',
+              body: JSON.stringify({ expression: mathCommand[2], operation }),
+              headers: { 'Content-Type': 'application/json' },
+            });
+            const response = await handleScientificMathPost(request);
+            const data = await response.json();
+            if (response.status === 200 && data.service === 'visios-math') {
+              return UnifiedModelResponseFactory.fromScientificMath(data, Date.now() - startTime, decision.matchedCapabilityId);
+            }
+          }
+
           const req = new NextRequest('http://localhost:3000/api/learning/math', {
             method: 'POST',
             body: JSON.stringify({ question: decision.query }),
@@ -430,6 +499,28 @@ export class SubjectModelRouter {
               Date.now() - startTime
             );
           }
+        }
+
+        if (decision.subject === 'biology' && decision.matchedCapabilityId === 'cap_biopython_sequence_analysis') {
+          const match = decision.query.match(/\b[ACGTUN]{3,}\b/i);
+          const sequence = match?.[0] || decision.query.replace(/[^ACGTUNacgtun]/g, '');
+          const alphabet = /\bRNA\b/i.test(decision.query) || sequence.includes('U') || sequence.includes('u') ? 'RNA' : 'DNA';
+          const req = new NextRequest('http://localhost:3000/api/learning/biology', {
+            method: 'POST',
+            body: JSON.stringify({ operation: 'sequence-analysis', sequence, alphabet }),
+            headers: { 'Content-Type': 'application/json' },
+          });
+          const res = await handleBiologyPost(req);
+          const data = await res.json();
+          if (res.status === 200) {
+            const gcText = typeof data.gc_percent === 'number' ? ` GC content is ${data.gc_percent}%.` : '';
+            return UnifiedModelResponseFactory.fromDeterministicEngine(
+              'biology', 'biopython-sequence-analysis', decision.matchedCapabilityId,
+              `Validated ${data.alphabet} sequence (${data.length} nucleotides).${gcText}${data.translation ? ` Translation: ${data.translation}.` : ''}`,
+              Date.now() - startTime,
+            );
+          }
+          return UnifiedModelResponseFactory.createFallback('biology', 'Sequence analysis could not be completed.', data.error || 'Biology service is unavailable.', Date.now() - startTime);
         }
 
         if (decision.subject === 'plant_genomics') {

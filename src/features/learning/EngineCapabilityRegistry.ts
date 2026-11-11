@@ -57,6 +57,20 @@ export class EngineCapabilityRegistry {
       verifiedExamples: ['(a - b)²', '(a + b)²', '(x + y)^3', 'a² - b²'],
     },
     {
+      id: 'cap_quadratic_functions',
+      name: 'Quadratic Equations & Parabola Graphs',
+      domain: 'mathematics',
+      engineType: 'math',
+      level: 'verified_and_tested',
+      supportedTasks: ['quadratic_formula', 'root_interpretation', 'parabola_plotting'],
+      matchPatterns: ['quadratic', 'parabola', 'parabolic', 'ax^2+bx+c'],
+      requiredParameters: ['a', 'b', 'c'],
+      expectedOutputCategories: ['quadratic_roots', 'parabola', 'x_intercepts'],
+      supportedVisualizers: ['function_coordinate_plotter'],
+      limitations: ['The basic interactive graph uses y = x² − 5x + 6 as a representative example.'],
+      verifiedExamples: ['quadratic equations', 'quadratic formula', 'parabola roots'],
+    },
+    {
       id: 'cap_euclidean_geometry',
       name: 'Euclidean Right Triangle & Pythagorean Proof',
       domain: 'mathematics',
@@ -454,6 +468,11 @@ export class EngineCapabilityRegistry {
       if (docCap) {
         return { capability: docCap, isSupported: true };
       }
+    }
+
+    if (/\b(quadratic|parabola|parabolic)\b/.test(query)) {
+      const quadratic = this.getCapabilityById('cap_quadratic_functions');
+      if (quadratic) return { capability: quadratic, isSupported: true };
     }
 
     // 1. Precise Pattern & Predicate Matching

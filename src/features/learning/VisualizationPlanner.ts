@@ -9,6 +9,19 @@ export class VisualizationPlanner {
     const category = interpretation.category;
     const lower = interpretation.originalInput.toLowerCase();
 
+    if (lower.includes('quadratic') || lower.includes('parabola') || lower.includes('ax^2+bx+c')) {
+      return {
+        rendererType: 'function_coordinate_plotter',
+        title: 'Quadratic Function & Roots Graph',
+        description: 'Interactive parabola y = ax² + bx + c with a probe and visible x-intercepts.',
+        learningObjective: 'Connect the roots of a quadratic equation to the points where its parabola crosses the x-axis.',
+        activeVariables: ['a', 'b', 'c', 'x'],
+        interactionsAvailable: ['Adjust quadratic coefficients', 'Inspect the vertex and x-intercepts', 'Probe points on the parabola'],
+        expectedBehavior: 'The curve is parabolic and crosses the x-axis at real roots.',
+        fallbackAvailable: true,
+      };
+    }
+
     // 1. Newton's 2nd Law: F = ma
     if (category === 'physics' && (lower.includes('f = ma') || lower.includes('f=ma') || lower.includes('newton'))) {
       return {

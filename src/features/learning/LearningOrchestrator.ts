@@ -216,6 +216,26 @@ export class LearningOrchestrator {
     const startTime = Date.now();
     const trimmed = (rawInput || '').trim();
 
+    if (/\b(quadratic|parabola|parabolic)\b/i.test(trimmed)) {
+      const classification: TopicClassificationResult = {
+        originalQuery: trimmed,
+        domain: 'mathematics',
+        intent: 'formula_explanation',
+        engine: 'math',
+        confidence: 0.98,
+        requiresClarification: false,
+        reason: 'The query names a quadratic equation or parabolic function.',
+      };
+      const subjectDef = SubjectRegistry.resolveSubjectForDomain('mathematics');
+      const plan = LearningPlanGenerator.generatePlan(UniversalInputInterpreter.interpret(trimmed));
+      plan.classification = classification;
+      plan.subjectId = subjectDef.id;
+      plan.subjectDefinition = subjectDef;
+      plan.learningStrategy = subjectDef.learningStrategy;
+      this.validateSemanticRelevance(plan, classification);
+      return { plan, classification, routeTaken: 'math_engine', processingTimeMs: Date.now() - startTime };
+    }
+
     // 1. Input Validation
     if (!trimmed) {
       const emptyPlan = LearningPlanGenerator.generatePlan('');
@@ -628,7 +648,7 @@ export class LearningOrchestrator {
 
       basePlan.assumptions = [
         `Historical and factual consensus as documented by ${attribution.source}`,
-        'Content licensed under Creative Commons Attribution-ShareAlike',
+        knowledgeData.attribution.license,
       ];
 
       basePlan.visualizationPlan = {
