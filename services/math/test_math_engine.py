@@ -37,8 +37,25 @@ def test_parser_rejects_code_execution_and_unknown_functions():
 
 def test_api_health_and_validation():
     assert health()["service"] == "visios-math"
+    assert "manim" in health()["libraries"]
     response = analyze_math(MathRequest(expression="x^2", operation="solve"))
     assert response["result"] == ["0"]
     with pytest.raises(HTTPException) as error:
         analyze_math(MathRequest(expression="open('/tmp/x')"))
     assert error.value.status_code == 422
+
+
+def test_manim_scene_generation():
+    from app.main import ManimRequest, generate_manim
+    req = ManimRequest(
+        title="Pythagorean Identity",
+        steps=[
+            {"latex": "sin^2(x) + cos^2(x) = 1", "explanation": "Unit circle Pythagorean identity"},
+        ],
+        scene_name="PythagoreanScene",
+    )
+    result = generate_manim(req)
+    assert result["scene_name"] == "PythagoreanScene"
+    assert "from manim import *" in result["python_script"]
+    assert "sin^2(x)" in result["python_script"]
+    assert result["total_steps"] == 1

@@ -180,4 +180,3 @@ def fill_mask(request: MaskedMoleculeRequest):
             status_code=500,
             detail="Masked-token prediction failed.",
         )
-
